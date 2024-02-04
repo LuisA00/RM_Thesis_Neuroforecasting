@@ -1,0 +1,40 @@
+---
+title: "LMM_NF"
+output: html_document
+date: "2024-02-04"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load libraries
+```{r}
+library(knitr)
+library(rmdformats)
+```
+
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library("MuMIn")
+library(lmtest)
+library(boot)
+```
+
+```{r, echo = FALSE}
+WScore_affect <- lmer(W_score~ scale(A_score) + scale(F_score) + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+summary(WScore_affect)
+r.squaredGLMM(WScore_affect)
+```
+
+Individual view percent ~ Onset neural activity
+
+```{r, echo = FALSE}
+WScore_affect_NAo <- lmer(W_score~ scale(A_score) + scale(F_score) + (NAcc_onset) + (AIns_onset) +
+                            (MPFC_onset) + (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
+summary(WScore_affect_NAo)
+r.squaredGLMM(WScore_affect_NAo)
+```
