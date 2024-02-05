@@ -24,8 +24,20 @@ library(lmtest)
 library(boot)
 ```
 
+Read dataset
+```{r}
+AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation.csv')
+```
+
+
 ```{r, echo = FALSE}
-WScore_affect <- lmer(W_score~ scale(A_score) + scale(F_score) + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+WScore_affect <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+summary(WScore_affect)
+r.squaredGLMM(WScore_affect)
+```
+
+```{r, echo = FALSE}
+WScore_affect <- lmer(W_score~ (Type) + scale(A_score) + scale(F_score) + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
 summary(WScore_affect)
 r.squaredGLMM(WScore_affect)
 ```
@@ -33,8 +45,22 @@ r.squaredGLMM(WScore_affect)
 Individual view percent ~ Onset neural activity
 
 ```{r, echo = FALSE}
-WScore_affect_NAo <- lmer(W_score~ scale(A_score) + scale(F_score) + (NAcc_onset) + (AIns_onset) +
-                            (MPFC_onset) + (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
-summary(WScore_affect_NAo)
-r.squaredGLMM(WScore_affect_NAo)
+WScore_NeuralActivation_onset <- lmer(W_score ~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + (NAcc_onset) + (AIns_onset) + (MPFC_onset) + NAcc_onset : Type + AIns_onset : Type + MPFC_onset : Type +  (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
+summary(WScore_NeuralActivation_onset)
+r.squaredGLMM(WScore_NeuralActivation_onset)
+```
+Individual view percent ~ Middle neural activity
+
+```{r, echo = FALSE}
+WScore_NeuralActivation_middle <- lmer(W_score ~ (Type) +  scale(Pos_arousal) + scale(Neg_arousal) + (NAcc_middle) + (AIns_middle) + (MPFC_middle) + NAcc_middle : Type + AIns_middle : Type + MPFC_middle : Type + (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
+summary(WScore_NeuralActivation_middle)
+r.squaredGLMM(WScore_NeuralActivation_middle)
+```
+
+Individual view percent ~ Offset neural activity
+
+```{r, echo = FALSE}
+WScore_NeuralActivation_offset <- lmer(W_score ~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + (NAcc_offset) + (AIns_offset) + (MPFC_offset) + NAcc_offset : Type + AIns_offset : Type + MPFC_offset : Type + (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
+summary(WScore_NeuralActivation_offset)
+r.squaredGLMM(WScore_NeuralActivation_offset)
 ```
