@@ -12,6 +12,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(knitr)
 library(rmdformats)
+library(ggplot2)
+library(ggpubr)
+library(GGally)
 ```
 
 
@@ -46,6 +49,10 @@ Individual view percent ~ Onset neural activity
 
 ```{r, echo = FALSE}
 WScore_NeuralActivation_onset <- lmer(W_score ~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + (NAcc_onset) + (AIns_onset) + (MPFC_onset) + NAcc_onset : Type + AIns_onset : Type + MPFC_onset : Type +  (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
+```
+
+
+```{r, echo = FALSE}
 summary(WScore_NeuralActivation_onset)
 r.squaredGLMM(WScore_NeuralActivation_onset)
 ```
@@ -55,6 +62,9 @@ Individual view percent ~ Middle neural activity
 WScore_NeuralActivation_middle <- lmer(W_score ~ (Type) +  scale(Pos_arousal) + scale(Neg_arousal) + (NAcc_middle) + (AIns_middle) + (MPFC_middle) + NAcc_middle : Type + AIns_middle : Type + MPFC_middle : Type + (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
 summary(WScore_NeuralActivation_middle)
 r.squaredGLMM(WScore_NeuralActivation_middle)
+
+
+
 ```
 
 Individual view percent ~ Offset neural activity
@@ -63,4 +73,15 @@ Individual view percent ~ Offset neural activity
 WScore_NeuralActivation_offset <- lmer(W_score ~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + (NAcc_offset) + (AIns_offset) + (MPFC_offset) + NAcc_offset : Type + AIns_offset : Type + MPFC_offset : Type + (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
 summary(WScore_NeuralActivation_offset)
 r.squaredGLMM(WScore_NeuralActivation_offset)
+```
+
+
+Individual view percent ~ ISC neural activity
+
+```{r, echo = FALSE}
+WScore_ISC <- lmer(W_score ~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + (NAcc_ISC) + (AIns_ISC) + (MPFC_ISC) + NAcc_ISC : Type + AIns_ISC : Type + MPFC_ISC : Type +  (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
+summary(WScore_ISC)
+r.squaredGLMM(WScore_ISC)
+
+
 ```
