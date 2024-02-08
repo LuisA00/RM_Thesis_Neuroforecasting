@@ -34,7 +34,9 @@ AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_The
 
 # M1: Behavioral data
 ```{r, echo = FALSE}
-M1 <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+M1 <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + 
+             scale(Pos_arousal):Type + scale(Neg_arousal):Type +
+             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
 summary(M1)
 r.squaredGLMM(M1)
 ```
@@ -59,6 +61,7 @@ r.squaredGLMM(M2)
 ```{r, echo = FALSE}
 M3 <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) +  
              scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) + 
+             scale(Pos_arousal):Type + scale(Neg_arousal):Type +
              scale(NAcc_whole):Type + scale(AIns_whole):Type + scale(MPFC_whole):Type + 
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
 summary(M3)
@@ -91,6 +94,7 @@ r.squaredGLMM(M4)
 # M5: Neural ISC + Behavioral data
 ```{r, echo = FALSE}
 M5 <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + 
+             scale(Pos_arousal):Type + scale(Neg_arousal):Type +
              scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) +
              + scale(NAcc_ISC):Type + scale(AIns_ISC):Type + scale(MPFC_ISC):Type +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
@@ -118,6 +122,12 @@ M7 <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) +
 summary(M7)
 r.squaredGLMM(M7)
 ```
+# Compare neural activation middle and ISC models 
+```{r}
+AIC(M1, M5, M7)
+```
+
+
 # M8: Neural ISC + Neural activation (middle) + behavioral data
 ```{r, echo = FALSE}
 M8 <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) +  
