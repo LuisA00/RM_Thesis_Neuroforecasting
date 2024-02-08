@@ -32,56 +32,95 @@ Read dataset
 AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation.csv')
 ```
 
-
+# M1: Behavioral data
 ```{r, echo = FALSE}
-WScore_affect <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
-summary(WScore_affect)
-r.squaredGLMM(WScore_affect)
+M1 <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+summary(M1)
+r.squaredGLMM(M1)
+```
+# M1 Pairs plot 
+```{r}
+W_score <- AllSubs_NeuralActivation %>% pull(W_score)
+A_score <- AllSubs_NeuralActivation %>% pull(A_score)
+F_score <- AllSubs_NeuralActivation %>% pull(F_score)
+
+M1_data <- data.frame(W_score, A_score, F_score) 
+
+#ggpairs(M1_data)
+```
+# M2: Neural activation (whole)
+```{r, echo = FALSE}
+M2 <- lmer(W_score~ (Type) + scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) +
+             + scale(NAcc_whole):Type + scale(AIns_whole):Type + scale(MPFC_whole):Type + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+summary(M2)
+r.squaredGLMM(M2)
+```
+# M3: Neural activation (whole) + Behavioral data
+```{r, echo = FALSE}
+M3 <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) +  
+             scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) + 
+             scale(NAcc_whole):Type + scale(AIns_whole):Type + scale(MPFC_whole):Type + 
+             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+summary(M3)
+r.squaredGLMM(M3)
+AIC(M1, M2, M3)
+```
+# M3 Pairs plot 
+```{r}
+NAcc_whole <- AllSubs_NeuralActivation %>% pull(NAcc_whole)
+AIns_whole <- AllSubs_NeuralActivation %>% pull(AIns_whole)
+MPFC_whole <- AllSubs_NeuralActivation %>% pull(MPFC_whole)
+
+M3_data <- data.frame(W_score, A_score, F_score, NAcc_whole, AIns_whole, MPFC_whole) 
+
+ggpairs(M3_data)
 ```
 
+# M4: Neural ISC 
 ```{r, echo = FALSE}
-WScore_affect <- lmer(W_score~ (Type) + scale(A_score) + scale(F_score) + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
-summary(WScore_affect)
-r.squaredGLMM(WScore_affect)
+M4 <- lmer(W_score~ (Type) + scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) +
+             + scale(NAcc_ISC):Type + scale(AIns_ISC):Type + scale(MPFC_ISC):Type +
+             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+summary(M4)
+r.squaredGLMM(M4)
 ```
 
-Individual view percent ~ Onset neural activity
-
+# M5: Neural ISC + Behavioral data
 ```{r, echo = FALSE}
-WScore_NeuralActivation_onset <- lmer(W_score ~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + (NAcc_onset) + (AIns_onset) + (MPFC_onset) + NAcc_onset : Type + AIns_onset : Type + MPFC_onset : Type +  (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
+M5 <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + 
+             scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) +
+             + scale(NAcc_ISC):Type + scale(AIns_ISC):Type + scale(MPFC_ISC):Type +
+             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+summary(M5)
+r.squaredGLMM(M5)
+AIC(M1, M4, M5)
 ```
-
-
-```{r, echo = FALSE}
-summary(WScore_NeuralActivation_onset)
-r.squaredGLMM(WScore_NeuralActivation_onset)
-```
-Individual view percent ~ Middle neural activity
-
-```{r, echo = FALSE}
-WScore_NeuralActivation_middle <- lmer(W_score ~ (Type) +  scale(Pos_arousal) + scale(Neg_arousal) + (NAcc_middle) + (AIns_middle) + (MPFC_middle) + NAcc_middle : Type + AIns_middle : Type + MPFC_middle : Type + (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
-summary(WScore_NeuralActivation_middle)
-r.squaredGLMM(WScore_NeuralActivation_middle)
-
-
-
-```
-
-Individual view percent ~ Offset neural activity
-
-```{r, echo = FALSE}
-WScore_NeuralActivation_offset <- lmer(W_score ~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + (NAcc_offset) + (AIns_offset) + (MPFC_offset) + NAcc_offset : Type + AIns_offset : Type + MPFC_offset : Type + (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
-summary(WScore_NeuralActivation_offset)
-r.squaredGLMM(WScore_NeuralActivation_offset)
+# Compare just behavioral data vs. (neural activation whole + behavioral data)
+# vs. (neural ISC + behavioral data)
+```{r}
+AIC(M1, M3, M5)
 ```
 
 
-Individual view percent ~ ISC neural activity
-
+# M6: Neural activation (middle)
 ```{r, echo = FALSE}
-WScore_ISC <- lmer(W_score ~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + (NAcc_ISC) + (AIns_ISC) + (MPFC_ISC) + NAcc_ISC : Type + AIns_ISC : Type + MPFC_ISC : Type +  (1|Participant) + (1|Trailer), data=AllSubs_NeuralActivation)
-summary(WScore_ISC)
-r.squaredGLMM(WScore_ISC)
-
+M6 <- lmer(W_score~ (Type) + scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
+             + scale(NAcc_middle):Type + scale(AIns_middle):Type + scale(MPFC_middle):Type + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+summary(M6)
+r.squaredGLMM(M6)
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
