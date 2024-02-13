@@ -99,37 +99,103 @@ M5_C <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +
 summary(M5_C)
 r.squaredGLMM(M5_C)
 ```
-# M6_H: Neural activation (middle)
+# M6_H: Neural activation (onset)
 ```{r, echo = FALSE}
-M6_H <- lmer(W_score~ scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
+M6_H <- lmer(W_score~ scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +
             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M6_H)
 r.squaredGLMM(M6_H)
 ```
-# M6_C: Neural activation (middle)
+
+# M6_C: Neural activation (onset)
 ```{r, echo = FALSE}
-M6_C <- lmer(W_score~ scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
+M6_C <- lmer(W_score~ scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +
             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M6_C)
 r.squaredGLMM(M6_C)
 ```
-# M7_H: Neural activation (middle) + behavioral data
+
+# M7_H: Neural activation (onset) + behavioral data
 ```{r, echo = FALSE}
 M7_H <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +  
-             scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
+             scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M7_H)
 r.squaredGLMM(M7_H)
 ```
-# M7_C: Neural activation (middle) + behavioral data
+
+# M7_C: Neural activation (onset) + behavioral data
 ```{r, echo = FALSE}
 M7_C <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +  
-             scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
+             scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M7_C)
 r.squaredGLMM(M7_C)
 ```
 
+# M8_H: Neural activation (middle)
+```{r, echo = FALSE}
+M8_H <- lmer(W_score~ scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
+summary(M8_H)
+r.squaredGLMM(M8_H)
+```
+# M8_C: Neural activation (middle)
+```{r, echo = FALSE}
+M8_C <- lmer(W_score~ scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
+summary(M8_C)
+r.squaredGLMM(M8_C)
+```
+# M9_H: Neural activation (middle) + behavioral data
+```{r, echo = FALSE}
+M9_H <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +  
+             scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
+             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
+summary(M9_H)
+r.squaredGLMM(M9_H)
+```
+# M9_C: Neural activation (middle) + behavioral data
+```{r, echo = FALSE}
+M9_C <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +  
+             scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
+             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
+summary(M9_C)
+r.squaredGLMM(M9_C)
+```
+# M10_H: Neural activation (offset)
+```{r, echo = FALSE}
+M10_H <- lmer(W_score~ scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
+summary(M10_H)
+r.squaredGLMM(M10_H)
+```
+
+# M10_C: Neural activation (offset)
+```{r, echo = FALSE}
+M10_C <- lmer(W_score~ scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
+summary(M10_C)
+r.squaredGLMM(M10_C)
+```
+
+# M11_H: Neural activation (offset) + behavioral data
+```{r, echo = FALSE}
+M11_H <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +
+            scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
+summary(M11_H)
+r.squaredGLMM(M11_H)
+```
+
+# M11_C: Neural activation (offset) + behavioral data
+```{r, echo = FALSE}
+M11_C <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +
+            scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
+summary(M11_C)
+r.squaredGLMM(M11_C)
+```
 
 # Compare brhavioral and neural models
 ```{r}
