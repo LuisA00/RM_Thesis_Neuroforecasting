@@ -30,11 +30,12 @@ library(boot)
 Read dataset
 ```{r}
 AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation.csv')
+AllSubs_NeuralActivation_pre_flip <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_pre_flip.csv')
 ```
 
 # M1: Behavioral data
 ```{r, echo = FALSE}
-M1 <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + 
+M1 <- lmer(scale(W_score)~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) + 
              scale(Pos_arousal):Type + scale(Neg_arousal):Type +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
 summary(M1)
@@ -77,7 +78,10 @@ NAcc_whole <- AllSubs_NeuralActivation %>% pull(NAcc_whole)
 AIns_whole <- AllSubs_NeuralActivation %>% pull(AIns_whole)
 MPFC_whole <- AllSubs_NeuralActivation %>% pull(MPFC_whole)
 
-M3_data <- data.frame(W_score, A_score, F_score, NAcc_whole, AIns_whole, MPFC_whole) 
+Neg_arousal <- AllSubs_NeuralActivation %>% pull(Neg_arousal)
+Pos_arousal <- AllSubs_NeuralActivation %>% pull(Pos_arousal)
+
+M3_data <- data.frame(W_score, Pos_arousal, Neg_arousal, NAcc_whole, AIns_whole, MPFC_whole) 
 
 ggpairs(M3_data)
 ```
@@ -97,9 +101,10 @@ M5 <- lmer(W_score~ (Type) + scale(Pos_arousal) + scale(Neg_arousal) +
              scale(Pos_arousal):Type + scale(Neg_arousal):Type +
              scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) +
              + scale(NAcc_ISC):Type + scale(AIns_ISC):Type + scale(MPFC_ISC):Type +
-             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_pre_flip)
 summary(M5)
 r.squaredGLMM(M5)
+
 ```
 # Compare just behavioral data vs. (neural activation whole + behavioral data)
 # vs. (neural ISC + behavioral data)

@@ -27,35 +27,35 @@ AllSubs_NeuralActivation_C <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_T
 ```
 # M1_H: Behavioral data
 ```{r, echo = FALSE}
-M1_H <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) + 
+M1_H <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) + 
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M1_H)
 r.squaredGLMM(M1_H)
 ```
 # M1_C: Behavioral data
 ```{r, echo = FALSE}
-M1_C <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) + 
+M1_C <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) + 
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M1_C)
 r.squaredGLMM(M1_C)
 ```
 # M2_H: Neural activation (whole)
 ```{r, echo = FALSE}
-M2_H <- lmer(W_score~ scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) +
+M2_H <- lmer(W_score_scaled~ scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) +
             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M2_H)
 r.squaredGLMM(M2_H)
 ```
 # M2_C: Neural activation (whole)
 ```{r, echo = FALSE}
-M2_C <- lmer(W_score~ scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) +
+M2_C <- lmer(W_score_scaled~ scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) +
             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M2_C)
 r.squaredGLMM(M2_C)
 ```
 # M3_H: Neural activation (whole) + Behavioral data
 ```{r, echo = FALSE}
-M3_H <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +  
+M3_H <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
              scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) + 
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M3_H)
@@ -63,7 +63,7 @@ r.squaredGLMM(M3_H)
 ```
 # M3_C: Neural activation (whole) + Behavioral data
 ```{r, echo = FALSE}
-M3_C <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +  
+M3_C <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
              scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) + 
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M3_C)
@@ -71,21 +71,21 @@ r.squaredGLMM(M3_C)
 ```
 # M4_H: Neural ISC 
 ```{r, echo = FALSE}
-M4_H <- lmer(W_score~ scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) +
+M4_H <- lmer(W_score_scaled~ scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M4_H)
 r.squaredGLMM(M4_H)
 ```
 # M4_C: Neural ISC 
 ```{r, echo = FALSE}
-M4_C <- lmer(W_score~ scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) +
+M4_C <- lmer(W_score_scaled~ scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M4_C)
 r.squaredGLMM(M4_C)
 ```
 # M5_H: Neural ISC + Behavioral data
 ```{r, echo = FALSE}
-M5_H <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) + 
+M5_H <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) + 
              scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M5_H)
@@ -93,7 +93,7 @@ r.squaredGLMM(M5_H)
 ```
 # M5_C: Neural ISC + Behavioral data
 ```{r, echo = FALSE}
-M5_C <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) + 
+M5_C <- lmer(W_score_scaled~ scale(Pos_arousal) + scale(Neg_arousal) + 
              scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M5_C)
@@ -101,7 +101,7 @@ r.squaredGLMM(M5_C)
 ```
 # M6_H: Neural activation (onset)
 ```{r, echo = FALSE}
-M6_H <- lmer(W_score~ scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +
+M6_H <- lmer(W_score_scaled~ scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +
             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M6_H)
 r.squaredGLMM(M6_H)
@@ -109,7 +109,7 @@ r.squaredGLMM(M6_H)
 
 # M6_C: Neural activation (onset)
 ```{r, echo = FALSE}
-M6_C <- lmer(W_score~ scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +
+M6_C <- lmer(W_score_scaled~ scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +
             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M6_C)
 r.squaredGLMM(M6_C)
@@ -117,7 +117,7 @@ r.squaredGLMM(M6_C)
 
 # M7_H: Neural activation (onset) + behavioral data
 ```{r, echo = FALSE}
-M7_H <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +  
+M7_H <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
              scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M7_H)
@@ -126,7 +126,7 @@ r.squaredGLMM(M7_H)
 
 # M7_C: Neural activation (onset) + behavioral data
 ```{r, echo = FALSE}
-M7_C <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +  
+M7_C <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
              scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M7_C)
@@ -135,21 +135,21 @@ r.squaredGLMM(M7_C)
 
 # M8_H: Neural activation (middle)
 ```{r, echo = FALSE}
-M8_H <- lmer(W_score~ scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
+M8_H <- lmer(W_score_scaled~ scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M8_H)
 r.squaredGLMM(M8_H)
 ```
 # M8_C: Neural activation (middle)
 ```{r, echo = FALSE}
-M8_C <- lmer(W_score~ scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
+M8_C <- lmer(W_score_scaled~ scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M8_C)
 r.squaredGLMM(M8_C)
 ```
 # M9_H: Neural activation (middle) + behavioral data
 ```{r, echo = FALSE}
-M9_H <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +  
+M9_H <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
              scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M9_H)
@@ -157,7 +157,7 @@ r.squaredGLMM(M9_H)
 ```
 # M9_C: Neural activation (middle) + behavioral data
 ```{r, echo = FALSE}
-M9_C <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +  
+M9_C <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
              scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M9_C)
@@ -165,7 +165,7 @@ r.squaredGLMM(M9_C)
 ```
 # M10_H: Neural activation (offset)
 ```{r, echo = FALSE}
-M10_H <- lmer(W_score~ scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) +
+M10_H <- lmer(W_score_scaled~ scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) +
             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M10_H)
 r.squaredGLMM(M10_H)
@@ -173,7 +173,7 @@ r.squaredGLMM(M10_H)
 
 # M10_C: Neural activation (offset)
 ```{r, echo = FALSE}
-M10_C <- lmer(W_score~ scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) +
+M10_C <- lmer(W_score_scaled~ scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) +
             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M10_C)
 r.squaredGLMM(M10_C)
@@ -181,7 +181,7 @@ r.squaredGLMM(M10_C)
 
 # M11_H: Neural activation (offset) + behavioral data
 ```{r, echo = FALSE}
-M11_H <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +
+M11_H <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +
             scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) +
             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M11_H)
@@ -190,11 +190,80 @@ r.squaredGLMM(M11_H)
 
 # M11_C: Neural activation (offset) + behavioral data
 ```{r, echo = FALSE}
-M11_C <- lmer(W_score~ scale(Pos_arousal) + scale(Neg_arousal) +
+M11_C <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +
             scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) +
             (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M11_C)
 r.squaredGLMM(M11_C)
+```
+# M12_H: Neural peak (positive) 
+```{r, echo = FALSE}
+M12_H <- lmer(W_score_scaled~ 
+            scale(NAcc_pos_peak) + scale(AIns_pos_peak) + scale(MPFC_pos_peak) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
+summary(M12_H)
+r.squaredGLMM(M12_H)
+```
+# M12_C: Neural peak (positive) 
+```{r, echo = FALSE}
+M12_C <- lmer(W_score_scaled~ 
+            scale(NAcc_pos_peak) + scale(AIns_pos_peak) + scale(MPFC_pos_peak) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
+summary(M12_C)
+r.squaredGLMM(M12_C)
+```
+# M13_H: Neural peak (positive) + behavioral data
+```{r, echo = FALSE}
+M13_H <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +
+            scale(NAcc_pos_peak) + scale(AIns_pos_peak) + scale(MPFC_pos_peak) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
+summary(M13_H)
+r.squaredGLMM(M13_H)
+```
+
+# M13_C: Neural peak (positive) + behavioral data
+```{r, echo = FALSE}
+M13_C <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +
+            scale(NAcc_pos_peak) + scale(AIns_pos_peak) + scale(MPFC_pos_peak) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
+summary(M13_C)
+r.squaredGLMM(M13_C)
+```
+
+# M14_H: Neural peak (negative) 
+```{r, echo = FALSE}
+M14_H <- lmer(W_score_scaled~ 
+            scale(NAcc_neg_peak) + scale(AIns_neg_peak) + scale(MPFC_neg_peak) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
+summary(M14_H)
+r.squaredGLMM(M14_H)
+```
+
+# M14_C: Neural peak (negative) 
+```{r, echo = FALSE}
+M14_C <- lmer(W_score_scaled~ 
+            scale(NAcc_neg_peak) + scale(AIns_neg_peak) + scale(MPFC_neg_peak) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
+summary(M14_C)
+r.squaredGLMM(M14_C)
+```
+
+# M15_H: Neural peak (negative) + behavioral data
+```{r, echo = FALSE}
+M15_H <- lmer(W_score_scaled~ scale(Pos_arousal) + scale(Neg_arousal) +
+            scale(NAcc_neg_peak) + scale(AIns_neg_peak) + scale(MPFC_neg_peak) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
+summary(M15_H)
+r.squaredGLMM(M15_H)
+```
+
+# M15_C: Neural peak (negative) + behavioral data
+```{r, echo = FALSE}
+M15_C <- lmer(W_score_scaled~ scale(Pos_arousal) + scale(Neg_arousal) +
+            scale(NAcc_neg_peak) + scale(AIns_neg_peak) + scale(MPFC_neg_peak) +
+            (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
+summary(M15_C)
+r.squaredGLMM(M15_C)
 ```
 
 # Compare brhavioral and neural models
