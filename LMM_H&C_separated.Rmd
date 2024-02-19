@@ -138,9 +138,12 @@ r.squaredGLMM(M7_H)
 ```{r, echo = FALSE}
 M7_C <- lmer(scale(W_score) ~ scale(Pos_arousal) + scale(Neg_arousal) +  
              scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +
-             #scale(Pos_arousal):scale(NAcc_onset) + scale(Pos_arousal):scale(AIns_onset) +
-             #scale(Pos_arousal):scale(MPFC_onset) + #scale(Neg_arousal):scale(NAcc_onset) +
-             #scale(Neg_arousal):scale(AIns_onset) + scale(Neg_arousal):scale(MPFC_onset) +
+             #(Pos_arousal_scaled):scale(NAcc_onset) + (Pos_arousal_scaled):scale(AIns_onset) +
+             #(Pos_arousal_scaled):scale(MPFC_onset) + (Neg_arousal_scaled):scale(NAcc_onset) +
+             #(Neg_arousal_scaled):scale(AIns_onset) + (Neg_arousal_scaled):scale(MPFC_onset) +
+             #scale(Pos_arousal):scale(NAcc_onset_z) + scale(Pos_arousal):scale(AIns_onset_z) +
+             #scale(Pos_arousal):scale(MPFC_onset_z) + #scale(Neg_arousal):scale(NAcc_onset_z) +
+             #scale(Neg_arousal):scale(AIns_onset_z) + scale(Neg_arousal):scale(MPFC_onset_z) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M7_C)
 r.squaredGLMM(M7_C)
