@@ -55,7 +55,7 @@ r.squaredGLMM(M2_C)
 ```
 # M3_H: Neural activation (whole) + Behavioral data
 ```{r, echo = FALSE}
-M3_H <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
+M3_H <- lmer(scale(W_score)~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
              scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) + 
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M3_H)
@@ -63,7 +63,7 @@ r.squaredGLMM(M3_H)
 ```
 # M3_C: Neural activation (whole) + Behavioral data
 ```{r, echo = FALSE}
-M3_C <- lmer(W_score_scaled~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
+M3_C <- lmer(scale(W_score)~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
              scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) + 
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M3_C)
@@ -87,9 +87,12 @@ r.squaredGLMM(M4_C)
 ```{r, echo = FALSE}
 M5_H <- lmer(scale(W_score)~ scale(Pos_arousal) + scale(Neg_arousal) + 
              scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) +
-             scale(Pos_arousal):scale(NAcc_ISC) + scale(Pos_arousal):scale(AIns_ISC) +
-             scale(Pos_arousal):scale(MPFC_ISC) + scale(Neg_arousal):scale(NAcc_ISC) +
-             scale(Neg_arousal):scale(AIns_ISC) + scale(Neg_arousal):scale(MPFC_ISC) +
+             scale(Pos_arousal):scale(NAcc_ISC) + 
+             scale(Pos_arousal):scale(AIns_ISC) +
+             scale(Pos_arousal):scale(MPFC_ISC) + 
+             scale(Neg_arousal):scale(NAcc_ISC) +
+             scale(Neg_arousal):scale(AIns_ISC) + 
+             scale(Neg_arousal):scale(MPFC_ISC) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_H)
 summary(M5_H)
 r.squaredGLMM(M5_H)
@@ -98,10 +101,12 @@ r.squaredGLMM(M5_H)
 ```{r, echo = FALSE}
 M5_C <- lmer(scale(W_score)~ scale(Pos_arousal) + scale(Neg_arousal) + 
              scale(NAcc_ISC) + scale(AIns_ISC) +  scale(MPFC_ISC) +
-             scale(Pos_arousal):scale(NAcc_ISC) + #scale(Pos_arousal):scale(AIns_ISC) +
+             scale(Pos_arousal):scale(NAcc_ISC) + 
+             #scale(Pos_arousal):scale(AIns_ISC) +
              #scale(Pos_arousal):scale(MPFC_ISC) + 
              scale(Neg_arousal):scale(NAcc_ISC) +
-             #scale(Neg_arousal):scale(AIns_ISC) + scale(Neg_arousal):scale(MPFC_ISC) +
+             #scale(Neg_arousal):scale(AIns_ISC) + 
+             #scale(Neg_arousal):scale(MPFC_ISC) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation_C)
 summary(M5_C)
 r.squaredGLMM(M5_C)

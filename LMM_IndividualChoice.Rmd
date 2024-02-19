@@ -55,9 +55,11 @@ r.squaredGLMM(M2)
 ```{r, echo = FALSE}
 M3 <- lmer(scale(W_score) ~ Type + scale(Pos_arousal) + scale(Neg_arousal) +
              scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) + 
-             Type:scale(Neg_arousal) + #Type:scale(Pos_arousal) + 
-             #Type:scale(NAcc_whole) + Type:scale(AIns_whole) + Type:scale(MPFC_whole) +
-             # Commented out interations are non-significant.
+             Type:scale(Neg_arousal) + 
+             #Type:scale(Pos_arousal) + 
+             #Type:scale(NAcc_whole) + 
+             #Type:scale(AIns_whole) + 
+             #Type:scale(MPFC_whole) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
 summary(M3)
 r.squaredGLMM(M3)
@@ -74,10 +76,16 @@ r.squaredGLMM(M4)
 
 # M5: Neural data onset + behavioral data
 ```{r, echo = FALSE}
-M5 <- lmer(scale(W_score) ~ Type + scale(Pos_arousal) + scale(Neg_arousal) +
-             scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) + 
-             Type:scale(Neg_arousal) + Type:scale(Pos_arousal) + 
-             Type:scale(NAcc_onset) + Type:scale(AIns_onset) + Type:scale(MPFC_onset) +
+# When 'W_score_scaled' NAcc interaction with type is about to become significant.
+M5 <- lmer(scale(W_score_scaled) ~ Type + scale(Pos_arousal) + scale(Neg_arousal) +
+             scale(NAcc_onset) + 
+             scale(AIns_onset) + 
+             scale(MPFC_onset) + 
+             Type:scale(Neg_arousal) + 
+             #Type:scale(Pos_arousal) + 
+             Type:scale(NAcc_onset) + 
+             #Type:scale(AIns_onset) + 
+             #Type:scale(MPFC_onset) +
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
 summary(M5)
 r.squaredGLMM(M5)
@@ -96,8 +104,11 @@ r.squaredGLMM(M6)
 ```{r, echo = FALSE}
 M7 <- lmer(scale(W_score) ~ Type + scale(Pos_arousal) + scale(Neg_arousal) +
              scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) + 
-              Type:scale(Neg_arousal) + Type:scale(Pos_arousal) + 
-              Type:scale(NAcc_offset) + Type:scale(AIns_offset) + Type:scale(MPFC_offset) + 
+             Type:scale(Neg_arousal) + 
+             #Type:scale(Pos_arousal) + 
+             #Type:scale(NAcc_offset) + 
+             Type:scale(AIns_offset) + 
+             #Type:scale(MPFC_offset) + 
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
 summary(M7)
 r.squaredGLMM(M7)
@@ -113,10 +124,14 @@ r.squaredGLMM(M8)
 
 # M9: Neural ISC data + behavioral data
 ```{r, echo = FALSE}
+# Note, when using 'W_score_scaled' instead of 'W_score' results become more significant.
 M9 <- lmer(scale(W_score) ~ Type + scale(Pos_arousal) + scale(Neg_arousal) +
              scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) + 
-             Type:scale(Neg_arousal) + Type:scale(Pos_arousal) +
-             Type:scale(NAcc_ISC) + Type:scale(AIns_ISC) + Type:scale(MPFC_ISC) + 
+             Type:scale(Neg_arousal) + 
+             #Type:scale(Pos_arousal) +
+             Type:scale(NAcc_ISC) + 
+             #Type:scale(AIns_ISC) + 
+             Type:scale(MPFC_ISC) + 
              (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
 summary(M9)
 r.squaredGLMM(M9)
