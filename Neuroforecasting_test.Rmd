@@ -28,7 +28,7 @@ library(boot)
 
 Read dataset
 ```{r}
-AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined.csv')
+AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_clean.csv')
 ```
 
 # M1: Behavioral data 
@@ -46,9 +46,9 @@ r.squaredGLMM(M1)
 ```{r, echo = FALSE}
 M2 <- lm(scale(Domestic.Gross) ~ Type + 
               scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) 
-              #+ Type:scale(NAcc_ISC) 
-              #+ Type:scale(AIns_ISC) 
-              #+ Type:scale(MPFC_ISC) 
+              + Type:scale(NAcc_ISC) 
+              + Type:scale(AIns_ISC) 
+              + Type:scale(MPFC_ISC) 
             , data = AllSubs_NeuralActivation)
 summary(M2)
 r.squaredGLMM(M2)
@@ -57,14 +57,14 @@ r.squaredGLMM(M2)
 # M3: ISC data + behavioral data
 ```{r, echo = FALSE}
 M3 <- lm(scale(Domestic.Gross) ~ Type + scale(Pos_arousal) + scale(Neg_arousal) + 
-             scale(W_score) +
-             scale(NAcc_ISC) 
-             #+ scale(AIns_ISC) 
-             #+ scale(MPFC_ISC) 
+             scale(W_score) 
+             + scale(NAcc_ISC) 
+             + scale(AIns_ISC) 
+             + scale(MPFC_ISC) 
              + Type:scale(NAcc_ISC) 
              #+ Type:scale(AIns_ISC) 
              #+ Type:scale(MPFC_ISC) 
-             + scale(Pos_arousal):scale(NAcc_ISC)
+             #+ scale(Pos_arousal):scale(NAcc_ISC)
              #+ scale(Pos_arousal):scale(AIns_ISC)
              #+ scale(Pos_arousal):scale(MPFC_ISC)
              #+ scale(Neg_arousal):scale(NAcc_ISC)
@@ -91,10 +91,12 @@ r.squaredGLMM(M4)
 # M5: Neural activation onset
 ```{r, echo = FALSE}
 M5 <- lm(scale(Domestic.Gross) ~ Type + scale(Pos_arousal) + scale(Neg_arousal) + 
-             scale(W_score) +
-              scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) 
+             scale(W_score) 
+              + scale(NAcc_onset) 
+              + scale(AIns_onset) 
+              + scale(MPFC_onset) 
               + Type:scale(NAcc_onset) 
-              + Type:scale(AIns_onset) 
+              #+ Type:scale(AIns_onset) 
               + Type:scale(MPFC_onset)
               #+ scale(Pos_arousal_scaled):scale(NAcc_onset) 
               #+ scale(Pos_arousal_scaled):scale(AIns_onset) 
@@ -122,25 +124,59 @@ r.squaredGLMM(M6)
 ```
 # M7: Neural activation offset + behavioral data
 ```{r, echo = FALSE}
-M7 <- lm(scale(Domestic.Gross) ~ Type +  scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) + 
-              #scale(W_score_scaled) +
+M7 <- lm(scale(Domestic.Gross) ~ Type +  scale(Pos_arousal) + scale(Neg_arousal) + 
+              #scale(W_score) +
               scale(NAcc_offset) + 
               scale(AIns_offset) + 
               scale(MPFC_offset) 
               + Type:scale(NAcc_offset) 
               #+ Type:scale(AIns_offset) 
               + Type:scale(MPFC_offset) 
-              #+ scale(Pos_arousal_scaled):scale(NAcc_offset) 
-              #+ scale(Pos_arousal_scaled):scale(AIns_offset) 
-              #+ scale(Pos_arousal_scaled):scale(MPFC_offset) 
-              #+ scale(Neg_arousal_scaled):scale(NAcc_offset) 
-              #+ scale(Neg_arousal_scaled):scale(AIns_offset) 
-              #+ scale(Neg_arousal_scaled):scale(MPFC_offset) 
-              #+ scale(W_score_scaled):scale(NAcc_offset) 
-              #+ scale(W_score_scaled):scale(AIns_offset) 
-              #+ scale(W_score_scaled):scale(MPFC_offset) 
+              #+ scale(Pos_arousal):scale(NAcc_offset) 
+              #+ scale(Pos_arousal):scale(AIns_offset) 
+              #+ scale(Pos_arousal):scale(MPFC_offset) 
+              #+ scale(Neg_arousal):scale(NAcc_offset) 
+              #+ scale(Neg_arousal):scale(AIns_offset) 
+              #+ scale(Neg_arousal):scale(MPFC_offset) 
+              #+ scale(W_score):scale(NAcc_offset) 
+              #+ scale(W_score):scale(AIns_offset) 
+              #+ scale(W_score):scale(MPFC_offset) 
             , data = AllSubs_NeuralActivation)
 summary(M7)
 r.squaredGLMM(M7)
+```
+# M8: Neural activation middle
+```{r, echo = FALSE}
+M8 <- lm(scale(Domestic.Gross) ~ Type + 
+              scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) 
+              + Type:scale(NAcc_middle) 
+              + Type:scale(AIns_middle) 
+              + Type:scale(MPFC_middle) 
+            , data = AllSubs_NeuralActivation)
+summary(M8)
+r.squaredGLMM(M8)
+```
+# M9: Neural activation middle + behavioral data
+```{r, echo = FALSE}
+M9 <- lm(scale(Domestic.Gross) ~ Type +  scale(Pos_arousal) + scale(Neg_arousal) + 
+              scale(W_score) +
+              scale(NAcc_middle) + 
+              scale(AIns_middle) + 
+              scale(MPFC_middle) 
+              #+ Type:scale(NAcc_middle) 
+              #+ Type:scale(AIns_middle) 
+              #+ Type:scale(MPFC_middle) 
+              + scale(Pos_arousal):scale(NAcc_middle) 
+              #+ scale(Pos_arousal):scale(AIns_middle) 
+              #+ scale(Pos_arousal):scale(MPFC_middle) 
+              #+ scale(Neg_arousal):scale(NAcc_middle) 
+              #+ scale(Neg_arousal):scale(AIns_middle) 
+              #+ scale(Neg_arousal):scale(MPFC_middle) 
+              #+ scale(W_score):scale(NAcc_middle) 
+              #+ scale(W_score):scale(AIns_middle) 
+              #+ scale(W_score):scale(MPFC_middle) 
+            , data = AllSubs_NeuralActivation)
+summary(M9)
+r.squaredGLMM(M9)
 ```
 

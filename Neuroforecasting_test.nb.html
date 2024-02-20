@@ -1782,8 +1782,8 @@ library(boot)</code></pre>
 <p>Read dataset</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uIDwtIHJlYWQuY3N2KCcvVXNlcnMvbHVpc2FsdmFyZXovRG9jdW1lbnRzL0dpdEh1Yi9STV9UaGVzaXNfTmV1cm9mb3JlY2FzdGluZy9Qcm9jZXNzZWREYXRhL0FsbFN1YnNfTmV1cmFsQWN0aXZhdGlvbl9BZ2dyZWdhdGVfQ29tYmluZWQuY3N2JylcbmBgYCJ9 -->
-<pre class="r"><code>AllSubs_NeuralActivation &lt;- read.csv(&#39;/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined.csv&#39;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uIDwtIHJlYWQuY3N2KCcvVXNlcnMvbHVpc2FsdmFyZXovRG9jdW1lbnRzL0dpdEh1Yi9STV9UaGVzaXNfTmV1cm9mb3JlY2FzdGluZy9Qcm9jZXNzZWREYXRhL0FsbFN1YnNfTmV1cmFsQWN0aXZhdGlvbl9BZ2dyZWdhdGVfQ29tYmluZWRfY2xlYW4uY3N2JylcbmBgYCJ9 -->
+<pre class="r"><code>AllSubs_NeuralActivation &lt;- read.csv(&#39;/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_clean.csv&#39;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1792,7 +1792,7 @@ library(boot)</code></pre>
 <h1>M1: Behavioral data</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShQb3NfYXJvdXNhbCkgKyBcbiAgICBzY2FsZShOZWdfYXJvdXNhbCkgKyBzY2FsZShXX3Njb3JlKSArIFR5cGU6c2NhbGUoTmVnX2Fyb3VzYWwpICsgXG4gICAgVHlwZTpzY2FsZShQb3NfYXJvdXNhbCkgKyBUeXBlOnNjYWxlKFdfc2NvcmUpLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKVxuXG5SZXNpZHVhbHM6XG4gICAgIE1pbiAgICAgICAxUSAgIE1lZGlhbiAgICAgICAzUSAgICAgIE1heCBcbi0xLjA1Njk2IC0wLjQ4ODg2ICAwLjAxNzUxICAwLjQ0NjA1ICAxLjgwNTc0IFxuXG5Db2VmZmljaWVudHM6XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yIHQgdmFsdWUgUHIoPnx0fCkgIFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAgICAgICAtMi45ODAgICAgICAxLjIyNyAgLTIuNDI5ICAgMC4wMjczICpcblR5cGVob3Jyb3IgICAgICAgICAgICAgICAgICAgICAgIDQuMDM1ICAgICAgMS4zODkgICAyLjkwNiAgIDAuMDEwMyAqXG5zY2FsZShQb3NfYXJvdXNhbCkgICAgICAgICAgICAgIC02Ljk2NSAgICAgIDMuMTY2ICAtMi4yMDAgICAwLjA0MjggKlxuc2NhbGUoTmVnX2Fyb3VzYWwpICAgICAgICAgICAgICAgMy4zNzggICAgICAyLjE0MCAgIDEuNTc5ICAgMC4xMzM5ICBcbnNjYWxlKFdfc2NvcmUpICAgICAgICAgICAgICAgICAgIDkuNzkxICAgICAgNC4yNDQgICAyLjMwNyAgIDAuMDM0OCAqXG5UeXBlaG9ycm9yOnNjYWxlKE5lZ19hcm91c2FsKSAgIC04LjY2NCAgICAgIDQuNDE1ICAtMS45NjIgICAwLjA2NzQgLlxuVHlwZWhvcnJvcjpzY2FsZShQb3NfYXJvdXNhbCkgICAxMC45MTYgICAgICA0LjU1MiAgIDIuMzk4ICAgMC4wMjkwICpcblR5cGVob3Jyb3I6c2NhbGUoV19zY29yZSkgICAgICAtMTUuNzE1ICAgICAgNi4xNDMgIC0yLjU1OCAgIDAuMDIxMSAqXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuUmVzaWR1YWwgc3RhbmRhcmQgZXJyb3I6IDAuODMyIG9uIDE2IGRlZ3JlZXMgb2YgZnJlZWRvbVxuTXVsdGlwbGUgUi1zcXVhcmVkOiAgMC41MTg0LFx0QWRqdXN0ZWQgUi1zcXVhcmVkOiAgMC4zMDc4IFxuRi1zdGF0aXN0aWM6IDIuNDYxIG9uIDcgYW5kIDE2IERGLCAgcC12YWx1ZTogMC4wNjQzOVxuXG4gICAgICAgICAgIFIybSAgICAgICBSMmNcblsxLF0gMC40MjgyMTc0IDAuNDI4MjE3NFxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShQb3NfYXJvdXNhbCkgKyBcbiAgICBzY2FsZShOZWdfYXJvdXNhbCkgKyBzY2FsZShXX3Njb3JlKSArIFR5cGU6c2NhbGUoTmVnX2Fyb3VzYWwpICsgXG4gICAgVHlwZTpzY2FsZShQb3NfYXJvdXNhbCkgKyBUeXBlOnNjYWxlKFdfc2NvcmUpLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKVxuXG5SZXNpZHVhbHM6XG4gICAgIE1pbiAgICAgICAxUSAgIE1lZGlhbiAgICAgICAzUSAgICAgIE1heCBcbi0xLjAzNjA2IC0wLjU4MDg3IC0wLjA5NDExICAwLjQ3MDgzICAxLjgwNTc0IFxuXG5Db2VmZmljaWVudHM6XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yIHQgdmFsdWUgUHIoPnx0fCkgIFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAgICAgICAtMi44NzUgICAgICAxLjIzMCAgLTIuMzM3ICAgMC4wMzI3ICpcblR5cGVob3Jyb3IgICAgICAgICAgICAgICAgICAgICAgIDMuMTQ5ICAgICAgMS41MDAgICAyLjA5OSAgIDAuMDUyMCAuXG5zY2FsZShQb3NfYXJvdXNhbCkgICAgICAgICAgICAgIC02LjY5MSAgICAgIDMuMTQ5ICAtMi4xMjUgICAwLjA0OTYgKlxuc2NhbGUoTmVnX2Fyb3VzYWwpICAgICAgICAgICAgICAgMy4zNTcgICAgICAyLjIwMiAgIDEuNTI1ICAgMC4xNDY5ICBcbnNjYWxlKFdfc2NvcmUpICAgICAgICAgICAgICAgICAgIDkuNzQ3ICAgICAgNC4zNzYgICAyLjIyNyAgIDAuMDQwNiAqXG5UeXBlaG9ycm9yOnNjYWxlKE5lZ19hcm91c2FsKSAgIC0zLjExMyAgICAgIDUuNzQ5ICAtMC41NDEgICAwLjU5NTcgIFxuVHlwZWhvcnJvcjpzY2FsZShQb3NfYXJvdXNhbCkgICAgNS44NjkgICAgICA1LjU2MyAgIDEuMDU1ICAgMC4zMDcwICBcblR5cGVob3Jyb3I6c2NhbGUoV19zY29yZSkgICAgICAgLTkuMzIxICAgICAgNy41MjcgIC0xLjIzOCAgIDAuMjMzNCAgXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuUmVzaWR1YWwgc3RhbmRhcmQgZXJyb3I6IDAuODYxNiBvbiAxNiBkZWdyZWVzIG9mIGZyZWVkb21cbk11bHRpcGxlIFItc3F1YXJlZDogIDAuNDgzNSxcdEFkanVzdGVkIFItc3F1YXJlZDogIDAuMjU3NiBcbkYtc3RhdGlzdGljOiAgMi4xNCBvbiA3IGFuZCAxNiBERiwgIHAtdmFsdWU6IDAuMDk4NFxuXG4gICAgICAgICAgIFIybSAgICAgICBSMmNcblsxLF0gMC4zOTQ0MjIxIDAuMzk0NDIyMVxuIn0= -->
 <pre><code>
 Call:
 lm(formula = scale(Domestic.Gross) ~ Type + scale(Pos_arousal) + 
@@ -1801,27 +1801,27 @@ lm(formula = scale(Domestic.Gross) ~ Type + scale(Pos_arousal) +
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--1.05696 -0.48886  0.01751  0.44605  1.80574 
+-1.03606 -0.58087 -0.09411  0.47083  1.80574 
 
 Coefficients:
                               Estimate Std. Error t value Pr(&gt;|t|)  
-(Intercept)                     -2.980      1.227  -2.429   0.0273 *
-Typehorror                       4.035      1.389   2.906   0.0103 *
-scale(Pos_arousal)              -6.965      3.166  -2.200   0.0428 *
-scale(Neg_arousal)               3.378      2.140   1.579   0.1339  
-scale(W_score)                   9.791      4.244   2.307   0.0348 *
-Typehorror:scale(Neg_arousal)   -8.664      4.415  -1.962   0.0674 .
-Typehorror:scale(Pos_arousal)   10.916      4.552   2.398   0.0290 *
-Typehorror:scale(W_score)      -15.715      6.143  -2.558   0.0211 *
+(Intercept)                     -2.875      1.230  -2.337   0.0327 *
+Typehorror                       3.149      1.500   2.099   0.0520 .
+scale(Pos_arousal)              -6.691      3.149  -2.125   0.0496 *
+scale(Neg_arousal)               3.357      2.202   1.525   0.1469  
+scale(W_score)                   9.747      4.376   2.227   0.0406 *
+Typehorror:scale(Neg_arousal)   -3.113      5.749  -0.541   0.5957  
+Typehorror:scale(Pos_arousal)    5.869      5.563   1.055   0.3070  
+Typehorror:scale(W_score)       -9.321      7.527  -1.238   0.2334  
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 0.832 on 16 degrees of freedom
-Multiple R-squared:  0.5184,    Adjusted R-squared:  0.3078 
-F-statistic: 2.461 on 7 and 16 DF,  p-value: 0.06439
+Residual standard error: 0.8616 on 16 degrees of freedom
+Multiple R-squared:  0.4835,    Adjusted R-squared:  0.2576 
+F-statistic:  2.14 on 7 and 16 DF,  p-value: 0.0984
 
            R2m       R2c
-[1,] 0.4282174 0.4282174</code></pre>
+[1,] 0.3944221 0.3944221</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1830,32 +1830,34 @@ F-statistic: 2.461 on 7 and 16 DF,  p-value: 0.06439
 <h1>M2: ISC data alone</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShOQWNjX0lTQykgKyBcbiAgICBzY2FsZShBSW5zX0lTQykgKyBzY2FsZShNUEZDX0lTQyksIGRhdGEgPSBBbGxTdWJzX05ldXJhbEFjdGl2YXRpb24pXG5cblJlc2lkdWFsczpcbiAgICBNaW4gICAgICAxUSAgTWVkaWFuICAgICAgM1EgICAgIE1heCBcbi0xLjA0NzYgLTAuNzEwOCAgMC4wMDIyICAwLjI0MDEgIDMuNTE1OCBcblxuQ29lZmZpY2llbnRzOlxuICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgXG4oSW50ZXJjZXB0KSAgICAgLTAuMTQ3NzcgICAgMC4yOTM3NyAgLTAuNTAzICAgIDAuNjIxICBcblR5cGVob3Jyb3IgICAgICAgMC4yOTU1MyAgICAwLjQyMDY0ICAgMC43MDMgICAgMC40OTEgIFxuc2NhbGUoTkFjY19JU0MpICAwLjA3NDczICAgIDAuMjE4NjUgICAwLjM0MiAgICAwLjczNiAgXG5zY2FsZShBSW5zX0lTQykgLTAuNDA1ODUgICAgMC4yMjE3OSAgLTEuODMwICAgIDAuMDgzIC5cbnNjYWxlKE1QRkNfSVNDKSAgMC4xMjQ5NyAgICAwLjIyMTk2ICAgMC41NjMgICAgMC41ODAgIFxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cblJlc2lkdWFsIHN0YW5kYXJkIGVycm9yOiAxLjAwNSBvbiAxOSBkZWdyZWVzIG9mIGZyZWVkb21cbk11bHRpcGxlIFItc3F1YXJlZDogIDAuMTY2LFx0QWRqdXN0ZWQgUi1zcXVhcmVkOiAgLTAuMDA5NjE1IFxuRi1zdGF0aXN0aWM6IDAuOTQ1MiBvbiA0IGFuZCAxOSBERiwgIHAtdmFsdWU6IDAuNDU5NVxuXG4gICAgICAgICAgIFIybSAgICAgICBSMmNcblsxLF0gMC4xNDExODA3IDAuMTQxMTgwN1xuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShOQWNjX0lTQykgKyBcbiAgICBzY2FsZShBSW5zX0lTQykgKyBzY2FsZShNUEZDX0lTQykgKyBUeXBlOnNjYWxlKE5BY2NfSVNDKSArIFxuICAgIFR5cGU6c2NhbGUoQUluc19JU0MpICsgVHlwZTpzY2FsZShNUEZDX0lTQyksIGRhdGEgPSBBbGxTdWJzX05ldXJhbEFjdGl2YXRpb24pXG5cblJlc2lkdWFsczpcbiAgICBNaW4gICAgICAxUSAgTWVkaWFuICAgICAgM1EgICAgIE1heCBcbi0wLjk0NzAgLTAuNjI0OSAgMC4wMzIwICAwLjE0NTUgIDMuNDY4NiBcblxuQ29lZmZpY2llbnRzOlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciB0IHZhbHVlIFByKD58dHwpXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAtMC4xOTQxMiAgICAwLjMxNjM1ICAtMC42MTQgICAgMC41NDhcblR5cGVob3Jyb3IgICAgICAgICAgICAgICAgICAwLjMwMzg2ICAgIDAuNDQ2NjYgICAwLjY4MCAgICAwLjUwNlxuc2NhbGUoTkFjY19JU0MpICAgICAgICAgICAgLTAuMTU1ODUgICAgMC4zNDQ4OCAgLTAuNDUyICAgIDAuNjU3XG5zY2FsZShBSW5zX0lTQykgICAgICAgICAgICAtMC4zMDEyMCAgICAwLjQyOTQ1ICAtMC43MDEgICAgMC40OTNcbnNjYWxlKE1QRkNfSVNDKSAgICAgICAgICAgICAwLjE5ODk3ICAgIDAuMzI4NjAgICAwLjYwNSAgICAwLjU1M1xuVHlwZWhvcnJvcjpzY2FsZShOQWNjX0lTQykgIDAuNDU0OTYgICAgMC40OTM2OCAgIDAuOTIyICAgIDAuMzcwXG5UeXBlaG9ycm9yOnNjYWxlKEFJbnNfSVNDKSAtMC4xMDc2NSAgICAwLjUxNjU1ICAtMC4yMDggICAgMC44MzhcblR5cGVob3Jyb3I6c2NhbGUoTVBGQ19JU0MpIC0wLjA2MzU1ICAgIDAuNDk2NjAgIC0wLjEyOCAgICAwLjkwMFxuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogMS4wNjQgb24gMTYgZGVncmVlcyBvZiBmcmVlZG9tXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjIxMyxcdEFkanVzdGVkIFItc3F1YXJlZDogIC0wLjEzMTQgXG5GLXN0YXRpc3RpYzogMC42MTg1IG9uIDcgYW5kIDE2IERGLCAgcC12YWx1ZTogMC43MzM0XG5cbiAgICAgICAgICAgUjJtICAgICAgIFIyY1xuWzEsXSAwLjE1ODQxMjIgMC4xNTg0MTIyXG4ifQ== -->
 <pre><code>
 Call:
 lm(formula = scale(Domestic.Gross) ~ Type + scale(NAcc_ISC) + 
-    scale(AIns_ISC) + scale(MPFC_ISC), data = AllSubs_NeuralActivation)
+    scale(AIns_ISC) + scale(MPFC_ISC) + Type:scale(NAcc_ISC) + 
+    Type:scale(AIns_ISC) + Type:scale(MPFC_ISC), data = AllSubs_NeuralActivation)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--1.0476 -0.7108  0.0022  0.2401  3.5158 
+-0.9470 -0.6249  0.0320  0.1455  3.4686 
 
 Coefficients:
-                Estimate Std. Error t value Pr(&gt;|t|)  
-(Intercept)     -0.14777    0.29377  -0.503    0.621  
-Typehorror       0.29553    0.42064   0.703    0.491  
-scale(NAcc_ISC)  0.07473    0.21865   0.342    0.736  
-scale(AIns_ISC) -0.40585    0.22179  -1.830    0.083 .
-scale(MPFC_ISC)  0.12497    0.22196   0.563    0.580  
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+                           Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)                -0.19412    0.31635  -0.614    0.548
+Typehorror                  0.30386    0.44666   0.680    0.506
+scale(NAcc_ISC)            -0.15585    0.34488  -0.452    0.657
+scale(AIns_ISC)            -0.30120    0.42945  -0.701    0.493
+scale(MPFC_ISC)             0.19897    0.32860   0.605    0.553
+Typehorror:scale(NAcc_ISC)  0.45496    0.49368   0.922    0.370
+Typehorror:scale(AIns_ISC) -0.10765    0.51655  -0.208    0.838
+Typehorror:scale(MPFC_ISC) -0.06355    0.49660  -0.128    0.900
 
-Residual standard error: 1.005 on 19 degrees of freedom
-Multiple R-squared:  0.166, Adjusted R-squared:  -0.009615 
-F-statistic: 0.9452 on 4 and 19 DF,  p-value: 0.4595
+Residual standard error: 1.064 on 16 degrees of freedom
+Multiple R-squared:  0.213, Adjusted R-squared:  -0.1314 
+F-statistic: 0.6185 on 7 and 16 DF,  p-value: 0.7334
 
            R2m       R2c
-[1,] 0.1411807 0.1411807</code></pre>
+[1,] 0.1584122 0.1584122</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1864,36 +1866,37 @@ F-statistic: 0.9452 on 4 and 19 DF,  p-value: 0.4595
 <h1>M3: ISC data + behavioral data</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShQb3NfYXJvdXNhbCkgKyBcbiAgICBzY2FsZShOZWdfYXJvdXNhbCkgKyBzY2FsZShXX3Njb3JlKSArIHNjYWxlKE5BY2NfSVNDKSArIFR5cGU6c2NhbGUoTkFjY19JU0MpICsgXG4gICAgc2NhbGUoUG9zX2Fyb3VzYWwpOnNjYWxlKE5BY2NfSVNDKSwgZGF0YSA9IEFsbFN1YnNfTmV1cmFsQWN0aXZhdGlvbilcblxuUmVzaWR1YWxzOlxuICAgIE1pbiAgICAgIDFRICBNZWRpYW4gICAgICAzUSAgICAgTWF4IFxuLTEuMjk2NyAtMC40MDIyIC0wLjE2NjYgIDAuMzc3NiAgMS45Njg5IFxuXG5Db2VmZmljaWVudHM6XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAgICAgICAgICAtMC43Mjg4ICAgICAwLjQ0OTcgIC0xLjYyMSAgIDAuMTI0NyAgXG5UeXBlaG9ycm9yICAgICAgICAgICAgICAgICAgICAgICAgICAgMS40NDMwICAgICAwLjgwNzcgICAxLjc4NyAgIDAuMDkzMCAuXG5zY2FsZShQb3NfYXJvdXNhbCkgICAgICAgICAgICAgICAgICAgMi41NTUzICAgICAxLjUwMjYgICAxLjcwMSAgIDAuMTA4NCAgXG5zY2FsZShOZWdfYXJvdXNhbCkgICAgICAgICAgICAgICAgICAtMy4yNDU2ICAgICAxLjc3ODYgIC0xLjgyNSAgIDAuMDg2OCAuXG5zY2FsZShXX3Njb3JlKSAgICAgICAgICAgICAgICAgICAgICAtMy4zODQ3ICAgICAyLjE0MjMgIC0xLjU4MCAgIDAuMTMzNyAgXG5zY2FsZShOQWNjX0lTQykgICAgICAgICAgICAgICAgICAgICAtMC42NTA0ICAgICAwLjMwNjAgIC0yLjEyNSAgIDAuMDQ5NSAqXG5UeXBlaG9ycm9yOnNjYWxlKE5BY2NfSVNDKSAgICAgICAgICAgMS4wMDY1ICAgICAwLjQ0NzAgICAyLjI1MiAgIDAuMDM4OCAqXG5zY2FsZShQb3NfYXJvdXNhbCk6c2NhbGUoTkFjY19JU0MpICAtMC4zMzAwICAgICAwLjE4OTMgIC0xLjc0NCAgIDAuMTAwNCAgXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuUmVzaWR1YWwgc3RhbmRhcmQgZXJyb3I6IDAuOTI4NCBvbiAxNiBkZWdyZWVzIG9mIGZyZWVkb21cbk11bHRpcGxlIFItc3F1YXJlZDogIDAuNDAwNCxcdEFkanVzdGVkIFItc3F1YXJlZDogIDAuMTM4IFxuRi1zdGF0aXN0aWM6IDEuNTI2IG9uIDcgYW5kIDE2IERGLCAgcC12YWx1ZTogMC4yMjgyXG5cbiAgICAgICAgICAgUjJtICAgICAgIFIyY1xuWzEsXSAwLjMxNzE2MDkgMC4zMTcxNjA5XG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShQb3NfYXJvdXNhbCkgKyBcbiAgICBzY2FsZShOZWdfYXJvdXNhbCkgKyBzY2FsZShXX3Njb3JlKSArIHNjYWxlKE5BY2NfSVNDKSArIHNjYWxlKEFJbnNfSVNDKSArIFxuICAgIHNjYWxlKE1QRkNfSVNDKSArIFR5cGU6c2NhbGUoTkFjY19JU0MpLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKVxuXG5SZXNpZHVhbHM6XG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMS4yNjc0IC0wLjU4NTYgLTAuMTg4OSAgMC40NDEyICAyLjQwMTUgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAgLTEuMDA4MiAgICAgMC41NTUyICAtMS44MTYgICAwLjA4OTQgLlxuVHlwZWhvcnJvciAgICAgICAgICAgICAgICAgICAxLjg1MzcgICAgIDEuMDA4OCAgIDEuODM4ICAgMC4wODYwIC5cbnNjYWxlKFBvc19hcm91c2FsKSAgICAgICAgICAgMi40MTQ5ICAgICAxLjU5NTggICAxLjUxMyAgIDAuMTUxMCAgXG5zY2FsZShOZWdfYXJvdXNhbCkgICAgICAgICAgLTMuMjE3NSAgICAgMS45OTE0ICAtMS42MTYgICAwLjEyNzAgIFxuc2NhbGUoV19zY29yZSkgICAgICAgICAgICAgIC0zLjI4MjkgICAgIDIuMzI3NCAgLTEuNDExICAgMC4xNzg4ICBcbnNjYWxlKE5BY2NfSVNDKSAgICAgICAgICAgICAtMC41OTIyICAgICAwLjM2ODMgIC0xLjYwOCAgIDAuMTI4NyAgXG5zY2FsZShBSW5zX0lTQykgICAgICAgICAgICAgLTAuMjI0MCAgICAgMC4yMjcxICAtMC45ODcgICAwLjMzOTUgIFxuc2NhbGUoTVBGQ19JU0MpICAgICAgICAgICAgICAwLjM2NjEgICAgIDAuMjQ5NiAgIDEuNDY3ICAgMC4xNjMxICBcblR5cGVob3Jyb3I6c2NhbGUoTkFjY19JU0MpICAgMC44ODAwICAgICAwLjQ4OTMgICAxLjc5OCAgIDAuMDkyMyAuXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuUmVzaWR1YWwgc3RhbmRhcmQgZXJyb3I6IDAuOTYyMiBvbiAxNSBkZWdyZWVzIG9mIGZyZWVkb21cbk11bHRpcGxlIFItc3F1YXJlZDogIDAuMzk2MSxcdEFkanVzdGVkIFItc3F1YXJlZDogIDAuMDc0MDggXG5GLXN0YXRpc3RpYzogIDEuMjMgb24gOCBhbmQgMTUgREYsICBwLXZhbHVlOiAwLjM0NjlcblxuICAgICAgICAgICBSMm0gICAgICAgUjJjXG5bMSxdIDAuMjk5NjM5MyAwLjI5OTYzOTNcbiJ9 -->
 <pre><code>
 Call:
 lm(formula = scale(Domestic.Gross) ~ Type + scale(Pos_arousal) + 
-    scale(Neg_arousal) + scale(W_score) + scale(NAcc_ISC) + Type:scale(NAcc_ISC) + 
-    scale(Pos_arousal):scale(NAcc_ISC), data = AllSubs_NeuralActivation)
+    scale(Neg_arousal) + scale(W_score) + scale(NAcc_ISC) + scale(AIns_ISC) + 
+    scale(MPFC_ISC) + Type:scale(NAcc_ISC), data = AllSubs_NeuralActivation)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--1.2967 -0.4022 -0.1666  0.3776  1.9689 
+-1.2674 -0.5856 -0.1889  0.4412  2.4015 
 
 Coefficients:
-                                   Estimate Std. Error t value Pr(&gt;|t|)  
-(Intercept)                         -0.7288     0.4497  -1.621   0.1247  
-Typehorror                           1.4430     0.8077   1.787   0.0930 .
-scale(Pos_arousal)                   2.5553     1.5026   1.701   0.1084  
-scale(Neg_arousal)                  -3.2456     1.7786  -1.825   0.0868 .
-scale(W_score)                      -3.3847     2.1423  -1.580   0.1337  
-scale(NAcc_ISC)                     -0.6504     0.3060  -2.125   0.0495 *
-Typehorror:scale(NAcc_ISC)           1.0065     0.4470   2.252   0.0388 *
-scale(Pos_arousal):scale(NAcc_ISC)  -0.3300     0.1893  -1.744   0.1004  
+                           Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept)                 -1.0082     0.5552  -1.816   0.0894 .
+Typehorror                   1.8537     1.0088   1.838   0.0860 .
+scale(Pos_arousal)           2.4149     1.5958   1.513   0.1510  
+scale(Neg_arousal)          -3.2175     1.9914  -1.616   0.1270  
+scale(W_score)              -3.2829     2.3274  -1.411   0.1788  
+scale(NAcc_ISC)             -0.5922     0.3683  -1.608   0.1287  
+scale(AIns_ISC)             -0.2240     0.2271  -0.987   0.3395  
+scale(MPFC_ISC)              0.3661     0.2496   1.467   0.1631  
+Typehorror:scale(NAcc_ISC)   0.8800     0.4893   1.798   0.0923 .
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 0.9284 on 16 degrees of freedom
-Multiple R-squared:  0.4004,    Adjusted R-squared:  0.138 
-F-statistic: 1.526 on 7 and 16 DF,  p-value: 0.2282
+Residual standard error: 0.9622 on 15 degrees of freedom
+Multiple R-squared:  0.3961,    Adjusted R-squared:  0.07408 
+F-statistic:  1.23 on 8 and 15 DF,  p-value: 0.3469
 
            R2m       R2c
-[1,] 0.3171609 0.3171609</code></pre>
+[1,] 0.2996393 0.2996393</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1902,7 +1905,7 @@ F-statistic: 1.526 on 7 and 16 DF,  p-value: 0.2282
 <h1>M4: Neural activation onset</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShOQWNjX29uc2V0KSArIFxuICAgIHNjYWxlKEFJbnNfb25zZXQpICsgc2NhbGUoTVBGQ19vbnNldCksIGRhdGEgPSBBbGxTdWJzX05ldXJhbEFjdGl2YXRpb24pXG5cblJlc2lkdWFsczpcbiAgICBNaW4gICAgICAxUSAgTWVkaWFuICAgICAgM1EgICAgIE1heCBcbi0wLjg5NjggLTAuNjczNyAtMC40Mjc0ICAwLjU1MzYgIDMuNTEwMiBcblxuQ29lZmZpY2llbnRzOlxuICAgICAgICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciB0IHZhbHVlIFByKD58dHwpXG4oSW50ZXJjZXB0KSAgICAgICAtMC4xMDY2NiAgICAwLjMzNDQ1ICAtMC4zMTkgICAgMC43NTNcblR5cGVob3Jyb3IgICAgICAgICAwLjIxMzMyICAgIDAuNTAyMTMgICAwLjQyNSAgICAwLjY3Nlxuc2NhbGUoTkFjY19vbnNldCkgLTAuMDI3MjUgICAgMC4yNTkyMyAgLTAuMTA1ICAgIDAuOTE3XG5zY2FsZShBSW5zX29uc2V0KSAgMC4xMTE3MCAgICAwLjI5OTIxICAgMC4zNzMgICAgMC43MTNcbnNjYWxlKE1QRkNfb25zZXQpICAwLjAzMDA4ICAgIDAuMjkxMzcgICAwLjEwMyAgICAwLjkxOVxuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogMS4wODMgb24gMTkgZGVncmVlcyBvZiBmcmVlZG9tXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjAzMTk2LFx0QWRqdXN0ZWQgUi1zcXVhcmVkOiAgLTAuMTcxOCBcbkYtc3RhdGlzdGljOiAwLjE1Njggb24gNCBhbmQgMTkgREYsICBwLXZhbHVlOiAwLjk1NzVcblxuICAgICAgICAgICAgUjJtICAgICAgICBSMmNcblsxLF0gMC4wMjY1NTA3OCAwLjAyNjU1MDc4XG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShOQWNjX29uc2V0KSArIFxuICAgIHNjYWxlKEFJbnNfb25zZXQpICsgc2NhbGUoTVBGQ19vbnNldCksIGRhdGEgPSBBbGxTdWJzX05ldXJhbEFjdGl2YXRpb24pXG5cblJlc2lkdWFsczpcbiAgICBNaW4gICAgICAxUSAgTWVkaWFuICAgICAgM1EgICAgIE1heCBcbi0wLjkxMTYgLTAuNjYxOCAtMC40MjY4ICAwLjUzODQgIDMuNTI1MiBcblxuQ29lZmZpY2llbnRzOlxuICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KVxuKEludGVyY2VwdCkgICAgICAgLTAuMDk5NTgxICAgMC4zMzYwMTUgIC0wLjI5NiAgICAwLjc3MFxuVHlwZWhvcnJvciAgICAgICAgIDAuMTk5MTYzICAgMC41MDU4ODQgICAwLjM5NCAgICAwLjY5OFxuc2NhbGUoTkFjY19vbnNldCkgLTAuMDI2OTQ5ICAgMC4yNTg1MzMgIC0wLjEwNCAgICAwLjkxOFxuc2NhbGUoQUluc19vbnNldCkgIDAuMTE4NTA5ICAgMC4zMDI0MDcgICAwLjM5MiAgICAwLjcwMFxuc2NhbGUoTVBGQ19vbnNldCkgIDAuMDA2MzQzICAgMC4yOTM1MDAgICAwLjAyMiAgICAwLjk4M1xuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogMS4wODQgb24gMTkgZGVncmVlcyBvZiBmcmVlZG9tXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjAyOTk4LFx0QWRqdXN0ZWQgUi1zcXVhcmVkOiAgLTAuMTc0MiBcbkYtc3RhdGlzdGljOiAwLjE0Njggb24gNCBhbmQgMTkgREYsICBwLXZhbHVlOiAwLjk2MjJcblxuICAgICAgICAgICAgUjJtICAgICAgICBSMmNcblsxLF0gMC4wMjQ4OTUyNyAwLjAyNDg5NTI3XG4ifQ== -->
 <pre><code>
 Call:
 lm(formula = scale(Domestic.Gross) ~ Type + scale(NAcc_onset) + 
@@ -1910,22 +1913,22 @@ lm(formula = scale(Domestic.Gross) ~ Type + scale(NAcc_onset) +
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--0.8968 -0.6737 -0.4274  0.5536  3.5102 
+-0.9116 -0.6618 -0.4268  0.5384  3.5252 
 
 Coefficients:
-                  Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept)       -0.10666    0.33445  -0.319    0.753
-Typehorror         0.21332    0.50213   0.425    0.676
-scale(NAcc_onset) -0.02725    0.25923  -0.105    0.917
-scale(AIns_onset)  0.11170    0.29921   0.373    0.713
-scale(MPFC_onset)  0.03008    0.29137   0.103    0.919
+                   Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)       -0.099581   0.336015  -0.296    0.770
+Typehorror         0.199163   0.505884   0.394    0.698
+scale(NAcc_onset) -0.026949   0.258533  -0.104    0.918
+scale(AIns_onset)  0.118509   0.302407   0.392    0.700
+scale(MPFC_onset)  0.006343   0.293500   0.022    0.983
 
-Residual standard error: 1.083 on 19 degrees of freedom
-Multiple R-squared:  0.03196,   Adjusted R-squared:  -0.1718 
-F-statistic: 0.1568 on 4 and 19 DF,  p-value: 0.9575
+Residual standard error: 1.084 on 19 degrees of freedom
+Multiple R-squared:  0.02998,   Adjusted R-squared:  -0.1742 
+F-statistic: 0.1468 on 4 and 19 DF,  p-value: 0.9622
 
             R2m        R2c
-[1,] 0.02655078 0.02655078</code></pre>
+[1,] 0.02489527 0.02489527</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1934,42 +1937,41 @@ F-statistic: 0.1568 on 4 and 19 DF,  p-value: 0.9575
 <h1>M5: Neural activation onset</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShQb3NfYXJvdXNhbCkgKyBcbiAgICBzY2FsZShOZWdfYXJvdXNhbCkgKyBzY2FsZShXX3Njb3JlKSArIHNjYWxlKE5BY2Nfb25zZXQpICsgXG4gICAgc2NhbGUoQUluc19vbnNldCkgKyBzY2FsZShNUEZDX29uc2V0KSArIFR5cGU6c2NhbGUoTkFjY19vbnNldCkgKyBcbiAgICBUeXBlOnNjYWxlKEFJbnNfb25zZXQpICsgVHlwZTpzY2FsZShNUEZDX29uc2V0KSArIHNjYWxlKFBvc19hcm91c2FsKTpzY2FsZShNUEZDX29uc2V0KSwgXG4gICAgZGF0YSA9IEFsbFN1YnNfTmV1cmFsQWN0aXZhdGlvbilcblxuUmVzaWR1YWxzOlxuICAgICBNaW4gICAgICAgMVEgICBNZWRpYW4gICAgICAgM1EgICAgICBNYXggXG4tMS4xMTg5NSAtMC4yNDc5OSAtMC4wMjcxMyAgMC40Mjk3OSAgMS4xMTIxNyBcblxuQ29lZmZpY2llbnRzOlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgIFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAgICAgICAgICAgIC0xLjU4OTk5ICAgIDAuNTE1MTkgIC0zLjA4NiAgMC4wMDk0MyAqKlxuVHlwZWhvcnJvciAgICAgICAgICAgICAgICAgICAgICAgICAgICAyLjc3NjU1ICAgIDAuOTY1OTkgICAyLjg3NCAgMC4wMTM5OCAqIFxuc2NhbGUoUG9zX2Fyb3VzYWwpICAgICAgICAgICAgICAgICAgICAzLjM5MDI4ICAgIDEuNDI4MzUgICAyLjM3NCAgMC4wMzUxNyAqIFxuc2NhbGUoTmVnX2Fyb3VzYWwpICAgICAgICAgICAgICAgICAgIC00LjkwMDMxICAgIDEuNzMxMTkgIC0yLjgzMSAgMC4wMTUxNiAqIFxuc2NhbGUoV19zY29yZSkgICAgICAgICAgICAgICAgICAgICAgIC00LjczNzcxICAgIDIuMDcxMzUgIC0yLjI4NyAgMC4wNDExNCAqIFxuc2NhbGUoTkFjY19vbnNldCkgICAgICAgICAgICAgICAgICAgICAwLjAzMjg2ICAgIDAuMzYzODUgICAwLjA5MCAgMC45Mjk1NCAgIFxuc2NhbGUoQUluc19vbnNldCkgICAgICAgICAgICAgICAgICAgIC0wLjQwNzEyICAgIDAuNDQ0NzkgIC0wLjkxNSAgMC4zNzgwNiAgIFxuc2NhbGUoTVBGQ19vbnNldCkgICAgICAgICAgICAgICAgICAgICAxLjA2MTk0ICAgIDAuNDYxMTAgICAyLjMwMyAgMC4wMzk5OCAqIFxuVHlwZWhvcnJvcjpzY2FsZShOQWNjX29uc2V0KSAgICAgICAgICAwLjI0NDQzICAgIDAuNDMwOTcgICAwLjU2NyAgMC41ODEwNyAgIFxuVHlwZWhvcnJvcjpzY2FsZShBSW5zX29uc2V0KSAgICAgICAgIC0wLjI5NTYyICAgIDAuNTM4MzEgIC0wLjU0OSAgMC41OTI5NiAgIFxuVHlwZWhvcnJvcjpzY2FsZShNUEZDX29uc2V0KSAgICAgICAgIC0xLjQ0MzQwICAgIDAuNTI4MDcgIC0yLjczMyAgMC4wMTgxNSAqIFxuc2NhbGUoUG9zX2Fyb3VzYWwpOnNjYWxlKE1QRkNfb25zZXQpICAwLjY1ODIyICAgIDAuMjA5MjEgICAzLjE0NiAgMC4wMDg0MyAqKlxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cblJlc2lkdWFsIHN0YW5kYXJkIGVycm9yOiAwLjczNzQgb24gMTIgZGVncmVlcyBvZiBmcmVlZG9tXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjcxNjMsXHRBZGp1c3RlZCBSLXNxdWFyZWQ6ICAwLjQ1NjIgXG5GLXN0YXRpc3RpYzogMi43NTQgb24gMTEgYW5kIDEyIERGLCAgcC12YWx1ZTogMC4wNDc4NFxuXG4gICAgICAgICAgIFIybSAgICAgICBSMmNcblsxLF0gMC41Njg0NTAzIDAuNTY4NDUwM1xuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShQb3NfYXJvdXNhbCkgKyBcbiAgICBzY2FsZShOZWdfYXJvdXNhbCkgKyBzY2FsZShXX3Njb3JlKSArIHNjYWxlKE5BY2Nfb25zZXQpICsgXG4gICAgc2NhbGUoQUluc19vbnNldCkgKyBzY2FsZShNUEZDX29uc2V0KSArIFR5cGU6c2NhbGUoTkFjY19vbnNldCkgKyBcbiAgICBUeXBlOnNjYWxlKE1QRkNfb25zZXQpICsgc2NhbGUoUG9zX2Fyb3VzYWwpOnNjYWxlKE1QRkNfb25zZXQpLCBcbiAgICBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKVxuXG5SZXNpZHVhbHM6XG4gICAgIE1pbiAgICAgICAxUSAgIE1lZGlhbiAgICAgICAzUSAgICAgIE1heCBcbi0wLjk5ODY0IC0wLjMzNzYzIC0wLjA3NjAxICAwLjUyMjYyICAxLjE0MDc5IFxuXG5Db2VmZmljaWVudHM6XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciB0IHZhbHVlIFByKD58dHwpICAgXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAgICAgICAgICAgIC0xLjQxMzcgICAgIDAuNTM5MSAgLTIuNjIyICAwLjAyMTA5ICogXG5UeXBlaG9ycm9yICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyLjM2NzEgICAgIDAuOTk3MyAgIDIuMzczICAwLjAzMzcyICogXG5zY2FsZShQb3NfYXJvdXNhbCkgICAgICAgICAgICAgICAgICAgICAyLjkyMjAgICAgIDEuNDc1MyAgIDEuOTgxICAwLjA2OTE5IC4gXG5zY2FsZShOZWdfYXJvdXNhbCkgICAgICAgICAgICAgICAgICAgIC00LjE2MzcgICAgIDEuODAwOSAgLTIuMzEyICAwLjAzNzgwICogXG5zY2FsZShXX3Njb3JlKSAgICAgICAgICAgICAgICAgICAgICAgIC00LjA5MDYgICAgIDIuMTg3NyAgLTEuODcwICAwLjA4NDIwIC4gXG5zY2FsZShOQWNjX29uc2V0KSAgICAgICAgICAgICAgICAgICAgICAwLjEwNjggICAgIDAuMzU3MiAgIDAuMjk5ICAwLjc2OTcxICAgXG5zY2FsZShBSW5zX29uc2V0KSAgICAgICAgICAgICAgICAgICAgIC0wLjQ4NzEgICAgIDAuMzA4MSAgLTEuNTgxICAwLjEzNzg2ICAgXG5zY2FsZShNUEZDX29uc2V0KSAgICAgICAgICAgICAgICAgICAgICAxLjA0NjYgICAgIDAuNDE2MyAgIDIuNTE0ICAwLjAyNTg5ICogXG5UeXBlaG9ycm9yOnNjYWxlKE5BY2Nfb25zZXQpICAgICAgICAgICAwLjEzMzkgICAgIDAuNDIwNyAgIDAuMzE4ICAwLjc1NTM3ICAgXG5UeXBlaG9ycm9yOnNjYWxlKE1QRkNfb25zZXQpICAgICAgICAgIC0xLjQ3NzggICAgIDAuNDgxNiAgLTMuMDY4ICAwLjAwODk4ICoqXG5zY2FsZShQb3NfYXJvdXNhbCk6c2NhbGUoTVBGQ19vbnNldCkgICAwLjYzMjcgICAgIDAuMjEzMiAgIDIuOTY3ICAwLjAxMDkwICogXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuUmVzaWR1YWwgc3RhbmRhcmQgZXJyb3I6IDAuNzgxMyBvbiAxMyBkZWdyZWVzIG9mIGZyZWVkb21cbk11bHRpcGxlIFItc3F1YXJlZDogIDAuNjU0OSxcdEFkanVzdGVkIFItc3F1YXJlZDogIDAuMzg5NSBcbkYtc3RhdGlzdGljOiAyLjQ2OCBvbiAxMCBhbmQgMTMgREYsICBwLXZhbHVlOiAwLjA2NDczXG5cbiAgICAgICAgICAgUjJtICAgICAgIFIyY1xuWzEsXSAwLjUxNzU3MjUgMC41MTc1NzI1XG4ifQ== -->
 <pre><code>
 Call:
 lm(formula = scale(Domestic.Gross) ~ Type + scale(Pos_arousal) + 
     scale(Neg_arousal) + scale(W_score) + scale(NAcc_onset) + 
     scale(AIns_onset) + scale(MPFC_onset) + Type:scale(NAcc_onset) + 
-    Type:scale(AIns_onset) + Type:scale(MPFC_onset) + scale(Pos_arousal):scale(MPFC_onset), 
+    Type:scale(MPFC_onset) + scale(Pos_arousal):scale(MPFC_onset), 
     data = AllSubs_NeuralActivation)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--1.11895 -0.24799 -0.02713  0.42979  1.11217 
+-0.99864 -0.33763 -0.07601  0.52262  1.14079 
 
 Coefficients:
                                      Estimate Std. Error t value Pr(&gt;|t|)   
-(Intercept)                          -1.58999    0.51519  -3.086  0.00943 **
-Typehorror                            2.77655    0.96599   2.874  0.01398 * 
-scale(Pos_arousal)                    3.39028    1.42835   2.374  0.03517 * 
-scale(Neg_arousal)                   -4.90031    1.73119  -2.831  0.01516 * 
-scale(W_score)                       -4.73771    2.07135  -2.287  0.04114 * 
-scale(NAcc_onset)                     0.03286    0.36385   0.090  0.92954   
-scale(AIns_onset)                    -0.40712    0.44479  -0.915  0.37806   
-scale(MPFC_onset)                     1.06194    0.46110   2.303  0.03998 * 
-Typehorror:scale(NAcc_onset)          0.24443    0.43097   0.567  0.58107   
-Typehorror:scale(AIns_onset)         -0.29562    0.53831  -0.549  0.59296   
-Typehorror:scale(MPFC_onset)         -1.44340    0.52807  -2.733  0.01815 * 
-scale(Pos_arousal):scale(MPFC_onset)  0.65822    0.20921   3.146  0.00843 **
+(Intercept)                           -1.4137     0.5391  -2.622  0.02109 * 
+Typehorror                             2.3671     0.9973   2.373  0.03372 * 
+scale(Pos_arousal)                     2.9220     1.4753   1.981  0.06919 . 
+scale(Neg_arousal)                    -4.1637     1.8009  -2.312  0.03780 * 
+scale(W_score)                        -4.0906     2.1877  -1.870  0.08420 . 
+scale(NAcc_onset)                      0.1068     0.3572   0.299  0.76971   
+scale(AIns_onset)                     -0.4871     0.3081  -1.581  0.13786   
+scale(MPFC_onset)                      1.0466     0.4163   2.514  0.02589 * 
+Typehorror:scale(NAcc_onset)           0.1339     0.4207   0.318  0.75537   
+Typehorror:scale(MPFC_onset)          -1.4778     0.4816  -3.068  0.00898 **
+scale(Pos_arousal):scale(MPFC_onset)   0.6327     0.2132   2.967  0.01090 * 
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 0.7374 on 12 degrees of freedom
-Multiple R-squared:  0.7163,    Adjusted R-squared:  0.4562 
-F-statistic: 2.754 on 11 and 12 DF,  p-value: 0.04784
+Residual standard error: 0.7813 on 13 degrees of freedom
+Multiple R-squared:  0.6549,    Adjusted R-squared:  0.3895 
+F-statistic: 2.468 on 10 and 13 DF,  p-value: 0.06473
 
            R2m       R2c
-[1,] 0.5684503 0.5684503</code></pre>
+[1,] 0.5175725 0.5175725</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1978,7 +1980,7 @@ F-statistic: 2.754 on 11 and 12 DF,  p-value: 0.04784
 <h1>M6: Neural activation offset</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShOQWNjX29mZnNldCkgKyBcbiAgICBzY2FsZShBSW5zX29mZnNldCkgKyBzY2FsZShNUEZDX29mZnNldCkgKyBUeXBlOnNjYWxlKE5BY2Nfb2Zmc2V0KSArIFxuICAgIFR5cGU6c2NhbGUoTVBGQ19vZmZzZXQpLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKVxuXG5SZXNpZHVhbHM6XG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMS4yMTQxIC0wLjQ1MzEgIDAuMTE5MiAgMC4yODU0ICAyLjQyNjEgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAgICAgLTAuMTMyMyAgICAgMC4yNzYzICAtMC40NzkgICAwLjYzODEgIFxuVHlwZWhvcnJvciAgICAgICAgICAgICAgICAgICAgICAwLjEyMzQgICAgIDAuNDAzNSAgIDAuMzA2ICAgMC43NjM1ICBcbnNjYWxlKE5BY2Nfb2Zmc2V0KSAgICAgICAgICAgICAgMC40NTg5ICAgICAwLjM4MzIgICAxLjE5NyAgIDAuMjQ3NSAgXG5zY2FsZShBSW5zX29mZnNldCkgICAgICAgICAgICAgIDAuMjkzMCAgICAgMC4yMTc4ICAgMS4zNDYgICAwLjE5NjEgIFxuc2NhbGUoTVBGQ19vZmZzZXQpICAgICAgICAgICAgIC0wLjgwMjUgICAgIDAuMzA0MyAgLTIuNjM3ICAgMC4wMTczICpcblR5cGVob3Jyb3I6c2NhbGUoTkFjY19vZmZzZXQpICAtMC44NzIzICAgICAwLjQ5NzQgIC0xLjc1NCAgIDAuMDk3NSAuXG5UeXBlaG9ycm9yOnNjYWxlKE1QRkNfb2Zmc2V0KSAgIDEuMjM0OSAgICAgMC42MTAxICAgMi4wMjQgICAwLjA1OTAgLlxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cblJlc2lkdWFsIHN0YW5kYXJkIGVycm9yOiAwLjkxNDYgb24gMTcgZGVncmVlcyBvZiBmcmVlZG9tXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjM4MTcsXHRBZGp1c3RlZCBSLXNxdWFyZWQ6ICAwLjE2MzUgXG5GLXN0YXRpc3RpYzogMS43NDkgb24gNiBhbmQgMTcgREYsICBwLXZhbHVlOiAwLjE3MDFcblxuICAgICAgICAgICBSMm0gICAgICAgUjJjXG5bMSxdIDAuMzEzMzIxOSAwLjMxMzMyMTlcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShOQWNjX29mZnNldCkgKyBcbiAgICBzY2FsZShBSW5zX29mZnNldCkgKyBzY2FsZShNUEZDX29mZnNldCkgKyBUeXBlOnNjYWxlKE5BY2Nfb2Zmc2V0KSArIFxuICAgIFR5cGU6c2NhbGUoTVBGQ19vZmZzZXQpLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKVxuXG5SZXNpZHVhbHM6XG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMS4yMTQ5IC0wLjQ1NzEgIDAuMTIyMCAgMC4yNzM0ICAyLjQyNTMgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAgICAgLTAuMTM3NSAgICAgMC4yNzU2ICAtMC40OTkgICAwLjYyNDEgIFxuVHlwZWhvcnJvciAgICAgICAgICAgICAgICAgICAgICAwLjEzMjQgICAgIDAuNDAxMCAgIDAuMzMwICAgMC43NDU0ICBcbnNjYWxlKE5BY2Nfb2Zmc2V0KSAgICAgICAgICAgICAgMC40NjExICAgICAwLjM4MjIgICAxLjIwNiAgIDAuMjQ0MyAgXG5zY2FsZShBSW5zX29mZnNldCkgICAgICAgICAgICAgIDAuMjg4MCAgICAgMC4yMTY2ICAgMS4zMjkgICAwLjIwMTMgIFxuc2NhbGUoTVBGQ19vZmZzZXQpICAgICAgICAgICAgIC0wLjgwOTIgICAgIDAuMzA2MyAgLTIuNjQyICAgMC4wMTcxICpcblR5cGVob3Jyb3I6c2NhbGUoTkFjY19vZmZzZXQpICAtMC44ODExICAgICAwLjQ5NTcgIC0xLjc3NyAgIDAuMDkzNCAuXG5UeXBlaG9ycm9yOnNjYWxlKE1QRkNfb2Zmc2V0KSAgIDEuMjIxOSAgICAgMC41ODkyICAgMi4wNzQgICAwLjA1MzYgLlxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cblJlc2lkdWFsIHN0YW5kYXJkIGVycm9yOiAwLjkxMjcgb24gMTcgZGVncmVlcyBvZiBmcmVlZG9tXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjM4NDIsXHRBZGp1c3RlZCBSLXNxdWFyZWQ6ICAwLjE2NjkgXG5GLXN0YXRpc3RpYzogMS43Njggb24gNiBhbmQgMTcgREYsICBwLXZhbHVlOiAwLjE2NTlcblxuICAgICAgICAgICBSMm0gICAgICAgUjJjXG5bMSxdIDAuMzE1NjM0OSAwLjMxNTYzNDlcbiJ9 -->
 <pre><code>
 Call:
 lm(formula = scale(Domestic.Gross) ~ Type + scale(NAcc_offset) + 
@@ -1987,26 +1989,26 @@ lm(formula = scale(Domestic.Gross) ~ Type + scale(NAcc_offset) +
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--1.2141 -0.4531  0.1192  0.2854  2.4261 
+-1.2149 -0.4571  0.1220  0.2734  2.4253 
 
 Coefficients:
                               Estimate Std. Error t value Pr(&gt;|t|)  
-(Intercept)                    -0.1323     0.2763  -0.479   0.6381  
-Typehorror                      0.1234     0.4035   0.306   0.7635  
-scale(NAcc_offset)              0.4589     0.3832   1.197   0.2475  
-scale(AIns_offset)              0.2930     0.2178   1.346   0.1961  
-scale(MPFC_offset)             -0.8025     0.3043  -2.637   0.0173 *
-Typehorror:scale(NAcc_offset)  -0.8723     0.4974  -1.754   0.0975 .
-Typehorror:scale(MPFC_offset)   1.2349     0.6101   2.024   0.0590 .
+(Intercept)                    -0.1375     0.2756  -0.499   0.6241  
+Typehorror                      0.1324     0.4010   0.330   0.7454  
+scale(NAcc_offset)              0.4611     0.3822   1.206   0.2443  
+scale(AIns_offset)              0.2880     0.2166   1.329   0.2013  
+scale(MPFC_offset)             -0.8092     0.3063  -2.642   0.0171 *
+Typehorror:scale(NAcc_offset)  -0.8811     0.4957  -1.777   0.0934 .
+Typehorror:scale(MPFC_offset)   1.2219     0.5892   2.074   0.0536 .
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 0.9146 on 17 degrees of freedom
-Multiple R-squared:  0.3817,    Adjusted R-squared:  0.1635 
-F-statistic: 1.749 on 6 and 17 DF,  p-value: 0.1701
+Residual standard error: 0.9127 on 17 degrees of freedom
+Multiple R-squared:  0.3842,    Adjusted R-squared:  0.1669 
+F-statistic: 1.768 on 6 and 17 DF,  p-value: 0.1659
 
            R2m       R2c
-[1,] 0.3133219 0.3133219</code></pre>
+[1,] 0.3156349 0.3156349</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2015,45 +2017,123 @@ F-statistic: 1.749 on 6 and 17 DF,  p-value: 0.1701
 <h1>M7: Neural activation offset + behavioral data</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICsgXG4gICAgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSArIHNjYWxlKE5BY2Nfb2Zmc2V0KSArIHNjYWxlKEFJbnNfb2Zmc2V0KSArIFxuICAgIHNjYWxlKE1QRkNfb2Zmc2V0KSArIFR5cGU6c2NhbGUoTkFjY19vZmZzZXQpICsgVHlwZTpzY2FsZShNUEZDX29mZnNldCksIFxuICAgIGRhdGEgPSBBbGxTdWJzX05ldXJhbEFjdGl2YXRpb24pXG5cblJlc2lkdWFsczpcbiAgICAgTWluICAgICAgIDFRICAgTWVkaWFuICAgICAgIDNRICAgICAgTWF4IFxuLTEuMDUyNjAgLTAuMzUyMjEgIDAuMDQ1MTIgIDAuMjcwMzggIDIuNTE3MTggXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAgICAgLTAuNjA5NCAgICAgMC4zOTA5ICAtMS41NTkgICAwLjEzOTggIFxuVHlwZWhvcnJvciAgICAgICAgICAgICAgICAgICAgICAxLjA3NjIgICAgIDAuNjk3MiAgIDEuNTQ0ICAgMC4xNDM1ICBcbnNjYWxlKFBvc19hcm91c2FsX3NjYWxlZCkgICAgICAtMC4yNTExICAgICAwLjI2ODAgIC0wLjkzNyAgIDAuMzYzNyAgXG5zY2FsZShOZWdfYXJvdXNhbF9zY2FsZWQpICAgICAgLTAuNTg4OCAgICAgMC4zOTM0ICAtMS40OTcgICAwLjE1NTEgIFxuc2NhbGUoTkFjY19vZmZzZXQpICAgICAgICAgICAgICAwLjQzNjQgICAgIDAuNDQ4NiAgIDAuOTczICAgMC4zNDYxICBcbnNjYWxlKEFJbnNfb2Zmc2V0KSAgICAgICAgICAgICAgMC40NjAxICAgICAwLjI0MTcgICAxLjkwNCAgIDAuMDc2MyAuXG5zY2FsZShNUEZDX29mZnNldCkgICAgICAgICAgICAgLTAuODczNiAgICAgMC4zOTg0ICAtMi4xOTMgICAwLjA0NDUgKlxuVHlwZWhvcnJvcjpzY2FsZShOQWNjX29mZnNldCkgIC0wLjc5NDUgICAgIDAuNTMzMCAgLTEuNDkwICAgMC4xNTY4ICBcblR5cGVob3Jyb3I6c2NhbGUoTVBGQ19vZmZzZXQpICAgMS4zOTkwICAgICAwLjc1NDIgICAxLjg1NSAgIDAuMDgzNCAuXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuUmVzaWR1YWwgc3RhbmRhcmQgZXJyb3I6IDAuODkwNSBvbiAxNSBkZWdyZWVzIG9mIGZyZWVkb21cbk11bHRpcGxlIFItc3F1YXJlZDogIDAuNDgyOCxcdEFkanVzdGVkIFItc3F1YXJlZDogIDAuMjA3IFxuRi1zdGF0aXN0aWM6IDEuNzUxIG9uIDggYW5kIDE1IERGLCAgcC12YWx1ZTogMC4xNjY2XG5cbiAgICAgICAgICAgUjJtICAgICAgIFIyY1xuWzEsXSAwLjM3ODQ1MzQgMC4zNzg0NTM0XG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShQb3NfYXJvdXNhbCkgKyBcbiAgICBzY2FsZShOZWdfYXJvdXNhbCkgKyBzY2FsZShOQWNjX29mZnNldCkgKyBzY2FsZShBSW5zX29mZnNldCkgKyBcbiAgICBzY2FsZShNUEZDX29mZnNldCkgKyBUeXBlOnNjYWxlKE5BY2Nfb2Zmc2V0KSArIFR5cGU6c2NhbGUoTVBGQ19vZmZzZXQpLCBcbiAgICBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKVxuXG5SZXNpZHVhbHM6XG4gICAgIE1pbiAgICAgICAxUSAgIE1lZGlhbiAgICAgICAzUSAgICAgIE1heCBcbi0xLjA0MDQzIC0wLjM3NTM2ICAwLjA0OTY2ICAwLjI3MjQzICAyLjUyNzgyIFxuXG5Db2VmZmljaWVudHM6XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yIHQgdmFsdWUgUHIoPnx0fCkgIFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAgICAgIC0wLjU4NjggICAgIDAuMzk5MSAgLTEuNDcwICAgMC4xNjIxICBcblR5cGVob3Jyb3IgICAgICAgICAgICAgICAgICAgICAgMS4wMjgxICAgICAwLjcxMzMgICAxLjQ0MSAgIDAuMTcwMCAgXG5zY2FsZShQb3NfYXJvdXNhbCkgICAgICAgICAgICAgLTAuMjQ5NiAgICAgMC4yNzAzICAtMC45MjMgICAwLjM3MDQgIFxuc2NhbGUoTmVnX2Fyb3VzYWwpICAgICAgICAgICAgIC0wLjU0MDIgICAgIDAuMzk5OCAgLTEuMzUxICAgMC4xOTY3ICBcbnNjYWxlKE5BY2Nfb2Zmc2V0KSAgICAgICAgICAgICAgMC40Njc3ICAgICAwLjQ1ODAgICAxLjAyMSAgIDAuMzIzMyAgXG5zY2FsZShBSW5zX29mZnNldCkgICAgICAgICAgICAgIDAuNDI1NSAgICAgMC4yNDI5ICAgMS43NTIgICAwLjEwMDIgIFxuc2NhbGUoTVBGQ19vZmZzZXQpICAgICAgICAgICAgIC0wLjkwMTYgICAgIDAuNDExNSAgLTIuMTkxICAgMC4wNDQ3ICpcblR5cGVob3Jyb3I6c2NhbGUoTkFjY19vZmZzZXQpICAtMC44MzU0ICAgICAwLjUzODUgIC0xLjU1MSAgIDAuMTQxNiAgXG5UeXBlaG9ycm9yOnNjYWxlKE1QRkNfb2Zmc2V0KSAgIDEuMzg1OCAgICAgMC43MzI5ICAgMS44OTEgICAwLjA3ODEgLlxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cblJlc2lkdWFsIHN0YW5kYXJkIGVycm9yOiAwLjg5OTkgb24gMTUgZGVncmVlcyBvZiBmcmVlZG9tXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjQ3MTgsXHRBZGp1c3RlZCBSLXNxdWFyZWQ6ICAwLjE5MDEgXG5GLXN0YXRpc3RpYzogMS42NzUgb24gOCBhbmQgMTUgREYsICBwLXZhbHVlOiAwLjE4NTRcblxuICAgICAgICAgICBSMm0gICAgICAgUjJjXG5bMSxdIDAuMzY4MTA0OSAwLjM2ODEwNDlcbiJ9 -->
 <pre><code>
 Call:
-lm(formula = scale(Domestic.Gross) ~ Type + scale(Pos_arousal_scaled) + 
-    scale(Neg_arousal_scaled) + scale(NAcc_offset) + scale(AIns_offset) + 
+lm(formula = scale(Domestic.Gross) ~ Type + scale(Pos_arousal) + 
+    scale(Neg_arousal) + scale(NAcc_offset) + scale(AIns_offset) + 
     scale(MPFC_offset) + Type:scale(NAcc_offset) + Type:scale(MPFC_offset), 
     data = AllSubs_NeuralActivation)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
--1.05260 -0.35221  0.04512  0.27038  2.51718 
+-1.04043 -0.37536  0.04966  0.27243  2.52782 
 
 Coefficients:
                               Estimate Std. Error t value Pr(&gt;|t|)  
-(Intercept)                    -0.6094     0.3909  -1.559   0.1398  
-Typehorror                      1.0762     0.6972   1.544   0.1435  
-scale(Pos_arousal_scaled)      -0.2511     0.2680  -0.937   0.3637  
-scale(Neg_arousal_scaled)      -0.5888     0.3934  -1.497   0.1551  
-scale(NAcc_offset)              0.4364     0.4486   0.973   0.3461  
-scale(AIns_offset)              0.4601     0.2417   1.904   0.0763 .
-scale(MPFC_offset)             -0.8736     0.3984  -2.193   0.0445 *
-Typehorror:scale(NAcc_offset)  -0.7945     0.5330  -1.490   0.1568  
-Typehorror:scale(MPFC_offset)   1.3990     0.7542   1.855   0.0834 .
+(Intercept)                    -0.5868     0.3991  -1.470   0.1621  
+Typehorror                      1.0281     0.7133   1.441   0.1700  
+scale(Pos_arousal)             -0.2496     0.2703  -0.923   0.3704  
+scale(Neg_arousal)             -0.5402     0.3998  -1.351   0.1967  
+scale(NAcc_offset)              0.4677     0.4580   1.021   0.3233  
+scale(AIns_offset)              0.4255     0.2429   1.752   0.1002  
+scale(MPFC_offset)             -0.9016     0.4115  -2.191   0.0447 *
+Typehorror:scale(NAcc_offset)  -0.8354     0.5385  -1.551   0.1416  
+Typehorror:scale(MPFC_offset)   1.3858     0.7329   1.891   0.0781 .
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Residual standard error: 0.8905 on 15 degrees of freedom
-Multiple R-squared:  0.4828,    Adjusted R-squared:  0.207 
-F-statistic: 1.751 on 8 and 15 DF,  p-value: 0.1666
+Residual standard error: 0.8999 on 15 degrees of freedom
+Multiple R-squared:  0.4718,    Adjusted R-squared:  0.1901 
+F-statistic: 1.675 on 8 and 15 DF,  p-value: 0.1854
 
            R2m       R2c
-[1,] 0.3784534 0.3784534</code></pre>
+[1,] 0.3681049 0.3681049</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="m8-neural-activation-middle" class="section level1">
+<h1>M8: Neural activation middle</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShOQWNjX21pZGRsZSkgKyBcbiAgICBzY2FsZShBSW5zX21pZGRsZSkgKyBzY2FsZShNUEZDX21pZGRsZSkgKyBUeXBlOnNjYWxlKE5BY2NfbWlkZGxlKSArIFxuICAgIFR5cGU6c2NhbGUoQUluc19taWRkbGUpICsgVHlwZTpzY2FsZShNUEZDX21pZGRsZSksIGRhdGEgPSBBbGxTdWJzX05ldXJhbEFjdGl2YXRpb24pXG5cblJlc2lkdWFsczpcbiAgICAgTWluICAgICAgIDFRICAgTWVkaWFuICAgICAgIDNRICAgICAgTWF4IFxuLTEuMTQ1MzkgLTAuMjkxNzUgIDAuMDA5MjIgIDAuMTcxNjkgIDEuOTYwMDAgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgIFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAgICAgLTAuMzA3NjEgICAgMC4zMTc3OCAgLTAuOTY4ICAwLjM0NzQ1ICAgXG5UeXBlaG9ycm9yICAgICAgICAgICAgICAgICAgICAgMC40MTE0MCAgICAwLjQzODU5ICAgMC45MzggIDAuMzYyMTkgICBcbnNjYWxlKE5BY2NfbWlkZGxlKSAgICAgICAgICAgIC0xLjA5OTQzICAgIDAuMzM3ODcgIC0zLjI1NCAgMC4wMDQ5OCAqKlxuc2NhbGUoQUluc19taWRkbGUpICAgICAgICAgICAgIDAuMTQ3NTEgICAgMC4zODQyMSAgIDAuMzg0ICAwLjcwNjA5ICAgXG5zY2FsZShNUEZDX21pZGRsZSkgICAgICAgICAgICAgMC41MjYyNCAgICAwLjMyMTQ4ICAgMS42MzcgIDAuMTIxMTYgICBcblR5cGVob3Jyb3I6c2NhbGUoTkFjY19taWRkbGUpICAxLjA0MjQ3ICAgIDAuNDQyODkgICAyLjM1NCAgMC4wMzE3MCAqIFxuVHlwZWhvcnJvcjpzY2FsZShBSW5zX21pZGRsZSkgIDAuMDQyMDggICAgMC40Nzc3OSAgIDAuMDg4ICAwLjkzMDkxICAgXG5UeXBlaG9ycm9yOnNjYWxlKE1QRkNfbWlkZGxlKSAtMC45NDQxMyAgICAwLjQ0NTEzICAtMi4xMjEgIDAuMDQ5ODkgKiBcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogMC44NjUgb24gMTYgZGVncmVlcyBvZiBmcmVlZG9tXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjQ3OTUsXHRBZGp1c3RlZCBSLXNxdWFyZWQ6ICAwLjI1MTggXG5GLXN0YXRpc3RpYzogMi4xMDYgb24gNyBhbmQgMTYgREYsICBwLXZhbHVlOiAwLjEwM1xuXG4gICAgICAgICAgIFIybSAgICAgICBSMmNcblsxLF0gMC4zOTA2MDM3IDAuMzkwNjAzN1xuIn0= -->
+<pre><code>
+Call:
+lm(formula = scale(Domestic.Gross) ~ Type + scale(NAcc_middle) + 
+    scale(AIns_middle) + scale(MPFC_middle) + Type:scale(NAcc_middle) + 
+    Type:scale(AIns_middle) + Type:scale(MPFC_middle), data = AllSubs_NeuralActivation)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.14539 -0.29175  0.00922  0.17169  1.96000 
+
+Coefficients:
+                              Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)                   -0.30761    0.31778  -0.968  0.34745   
+Typehorror                     0.41140    0.43859   0.938  0.36219   
+scale(NAcc_middle)            -1.09943    0.33787  -3.254  0.00498 **
+scale(AIns_middle)             0.14751    0.38421   0.384  0.70609   
+scale(MPFC_middle)             0.52624    0.32148   1.637  0.12116   
+Typehorror:scale(NAcc_middle)  1.04247    0.44289   2.354  0.03170 * 
+Typehorror:scale(AIns_middle)  0.04208    0.47779   0.088  0.93091   
+Typehorror:scale(MPFC_middle) -0.94413    0.44513  -2.121  0.04989 * 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.865 on 16 degrees of freedom
+Multiple R-squared:  0.4795,    Adjusted R-squared:  0.2518 
+F-statistic: 2.106 on 7 and 16 DF,  p-value: 0.103
+
+           R2m       R2c
+[1,] 0.3906037 0.3906037</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="m9-neural-activation-middle-behavioral-data" class="section level1">
+<h1>M9: Neural activation middle + behavioral data</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyBzY2FsZShQb3NfYXJvdXNhbCkgKyBcbiAgICBzY2FsZShOZWdfYXJvdXNhbCkgKyBzY2FsZShXX3Njb3JlKSArIHNjYWxlKE5BY2NfbWlkZGxlKSArIFxuICAgIHNjYWxlKEFJbnNfbWlkZGxlKSArIHNjYWxlKE1QRkNfbWlkZGxlKSArIHNjYWxlKFBvc19hcm91c2FsKTpzY2FsZShOQWNjX21pZGRsZSksIFxuICAgIGRhdGEgPSBBbGxTdWJzX05ldXJhbEFjdGl2YXRpb24pXG5cblJlc2lkdWFsczpcbiAgICAgTWluICAgICAgIDFRICAgTWVkaWFuICAgICAgIDNRICAgICAgTWF4IFxuLTEuNDIzMTkgLTAuMzE1NDggLTAuMDY2ODUgIDAuMzEwODcgIDEuNDAzNzAgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgIFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAgICAgICAgICAgICAtMC4yNTY2NDEgICAwLjM2MzY2OCAgLTAuNzA2ICAwLjQ5MTE5ICAgXG5UeXBlaG9ycm9yICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwLjMzMTQ5MiAgIDAuNjY2ODAwICAgMC40OTcgIDAuNjI2MzAgICBcbnNjYWxlKFBvc19hcm91c2FsKSAgICAgICAgICAgICAgICAgICAgLTAuMTAyOTM1ICAgMS4yMDAyMTEgIC0wLjA4NiAgMC45MzI3OSAgIFxuc2NhbGUoTmVnX2Fyb3VzYWwpICAgICAgICAgICAgICAgICAgICAgMC4xMDExNzEgICAxLjQwODYzNCAgIDAuMDcyICAwLjk0MzY5ICAgXG5zY2FsZShXX3Njb3JlKSAgICAgICAgICAgICAgICAgICAgICAgICAwLjAwODgwNSAgIDEuNzM1Njc0ICAgMC4wMDUgIDAuOTk2MDIgICBcbnNjYWxlKE5BY2NfbWlkZGxlKSAgICAgICAgICAgICAgICAgICAgLTAuMzQwNDM3ICAgMC4xOTgzMDAgIC0xLjcxNyAgMC4xMDY1OSAgIFxuc2NhbGUoQUluc19taWRkbGUpICAgICAgICAgICAgICAgICAgICAgMC4xOTU1ODcgICAwLjIxNTY5MiAgIDAuOTA3ICAwLjM3ODg2ICAgXG5zY2FsZShNUEZDX21pZGRsZSkgICAgICAgICAgICAgICAgICAgIC0wLjE1NDQ4NyAgIDAuMTkzMDA0ICAtMC44MDAgIDAuNDM1OTYgICBcbnNjYWxlKFBvc19hcm91c2FsKTpzY2FsZShOQWNjX21pZGRsZSkgLTAuNTk5NTc0ICAgMC4xNjcwMzIgIC0zLjU5MCAgMC4wMDI2OCAqKlxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cblJlc2lkdWFsIHN0YW5kYXJkIGVycm9yOiAwLjc2NjIgb24gMTUgZGVncmVlcyBvZiBmcmVlZG9tXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjYxNzEsXHRBZGp1c3RlZCBSLXNxdWFyZWQ6ICAwLjQxMjkgXG5GLXN0YXRpc3RpYzogMy4wMjIgb24gOCBhbmQgMTUgREYsICBwLXZhbHVlOiAwLjAzMDk4XG5cbiAgICAgICAgICAgUjJtICAgICAgIFIyY1xuWzEsXSAwLjUxMjQ0MjkgMC41MTI0NDI5XG4ifQ== -->
+<pre><code>
+Call:
+lm(formula = scale(Domestic.Gross) ~ Type + scale(Pos_arousal) + 
+    scale(Neg_arousal) + scale(W_score) + scale(NAcc_middle) + 
+    scale(AIns_middle) + scale(MPFC_middle) + scale(Pos_arousal):scale(NAcc_middle), 
+    data = AllSubs_NeuralActivation)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.42319 -0.31548 -0.06685  0.31087  1.40370 
+
+Coefficients:
+                                       Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)                           -0.256641   0.363668  -0.706  0.49119   
+Typehorror                             0.331492   0.666800   0.497  0.62630   
+scale(Pos_arousal)                    -0.102935   1.200211  -0.086  0.93279   
+scale(Neg_arousal)                     0.101171   1.408634   0.072  0.94369   
+scale(W_score)                         0.008805   1.735674   0.005  0.99602   
+scale(NAcc_middle)                    -0.340437   0.198300  -1.717  0.10659   
+scale(AIns_middle)                     0.195587   0.215692   0.907  0.37886   
+scale(MPFC_middle)                    -0.154487   0.193004  -0.800  0.43596   
+scale(Pos_arousal):scale(NAcc_middle) -0.599574   0.167032  -3.590  0.00268 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.7662 on 15 degrees of freedom
+Multiple R-squared:  0.6171,    Adjusted R-squared:  0.4129 
+F-statistic: 3.022 on 8 and 15 DF,  p-value: 0.03098
+
+           R2m       R2c
+[1,] 0.5124429 0.5124429</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0V9CmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkKYGBgCgojIExvYWQgbGlicmFyaWVzCmBgYHtyfQpsaWJyYXJ5KGtuaXRyKQpsaWJyYXJ5KHJtZGZvcm1hdHMpCmxpYnJhcnkoZ2dwbG90MikKbGlicmFyeShnZ3B1YnIpCmxpYnJhcnkoR0dhbGx5KQpgYGAKCgpgYGB7ciwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGxtZTQpCmxpYnJhcnkobG1lclRlc3QpCmxpYnJhcnkoIk11TUluIikKbGlicmFyeShsbXRlc3QpCmxpYnJhcnkoYm9vdCkKYGBgCgpSZWFkIGRhdGFzZXQKYGBge3J9CkFsbFN1YnNfTmV1cmFsQWN0aXZhdGlvbiA8LSByZWFkLmNzdignL1VzZXJzL2x1aXNhbHZhcmV6L0RvY3VtZW50cy9HaXRIdWIvUk1fVGhlc2lzX05ldXJvZm9yZWNhc3RpbmcvUHJvY2Vzc2VkRGF0YS9BbGxTdWJzX05ldXJhbEFjdGl2YXRpb25fQWdncmVnYXRlX0NvbWJpbmVkLmNzdicpCmBgYAoKIyBNMTogQmVoYXZpb3JhbCBkYXRhIApgYGB7ciwgZWNobyA9IEZBTFNFfQpNMSA8LSBsbShzY2FsZShEb21lc3RpYy5Hcm9zcykgfiBUeXBlICsgc2NhbGUoUG9zX2Fyb3VzYWwpICsgc2NhbGUoTmVnX2Fyb3VzYWwpICsgc2NhbGUoV19zY29yZSkgCiAgICAgICAgICAgICArIFR5cGU6c2NhbGUoTmVnX2Fyb3VzYWwpIAogICAgICAgICAgICAgKyBUeXBlOnNjYWxlKFBvc19hcm91c2FsKSAKICAgICAgICAgICAgICsgVHlwZTpzY2FsZShXX3Njb3JlKSAKICAgICAgICAgICAgLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKQpzdW1tYXJ5KE0xKQpyLnNxdWFyZWRHTE1NKE0xKQpgYGAKCiMgTTI6IElTQyBkYXRhIGFsb25lCmBgYHtyLCBlY2hvID0gRkFMU0V9Ck0yIDwtIGxtKHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyAKICAgICAgICAgICAgICBzY2FsZShOQWNjX0lTQykgKyBzY2FsZShBSW5zX0lTQykgKyBzY2FsZShNUEZDX0lTQykgCiAgICAgICAgICAgICAgIysgVHlwZTpzY2FsZShOQWNjX0lTQykgCiAgICAgICAgICAgICAgIysgVHlwZTpzY2FsZShBSW5zX0lTQykgCiAgICAgICAgICAgICAgIysgVHlwZTpzY2FsZShNUEZDX0lTQykgCiAgICAgICAgICAgICwgZGF0YSA9IEFsbFN1YnNfTmV1cmFsQWN0aXZhdGlvbikKc3VtbWFyeShNMikKci5zcXVhcmVkR0xNTShNMikKYGBgCgojIE0zOiBJU0MgZGF0YSArIGJlaGF2aW9yYWwgZGF0YQpgYGB7ciwgZWNobyA9IEZBTFNFfQpNMyA8LSBsbShzY2FsZShEb21lc3RpYy5Hcm9zcykgfiBUeXBlICsgc2NhbGUoUG9zX2Fyb3VzYWwpICsgc2NhbGUoTmVnX2Fyb3VzYWwpICsgCiAgICAgICAgICAgICBzY2FsZShXX3Njb3JlKSArCiAgICAgICAgICAgICBzY2FsZShOQWNjX0lTQykgCiAgICAgICAgICAgICAjKyBzY2FsZShBSW5zX0lTQykgCiAgICAgICAgICAgICAjKyBzY2FsZShNUEZDX0lTQykgCiAgICAgICAgICAgICArIFR5cGU6c2NhbGUoTkFjY19JU0MpIAogICAgICAgICAgICAgIysgVHlwZTpzY2FsZShBSW5zX0lTQykgCiAgICAgICAgICAgICAjKyBUeXBlOnNjYWxlKE1QRkNfSVNDKSAKICAgICAgICAgICAgICsgc2NhbGUoUG9zX2Fyb3VzYWwpOnNjYWxlKE5BY2NfSVNDKQogICAgICAgICAgICAgIysgc2NhbGUoUG9zX2Fyb3VzYWwpOnNjYWxlKEFJbnNfSVNDKQogICAgICAgICAgICAgIysgc2NhbGUoUG9zX2Fyb3VzYWwpOnNjYWxlKE1QRkNfSVNDKQogICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWwpOnNjYWxlKE5BY2NfSVNDKQogICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWwpOnNjYWxlKEFJbnNfSVNDKQogICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWwpOnNjYWxlKE1QRkNfSVNDKQogICAgICAgICAgICAgIysgc2NhbGUoV19zY29yZSk6c2NhbGUoTkFjY19JU0MpCiAgICAgICAgICAgICAjKyBzY2FsZShXX3Njb3JlKTpzY2FsZShBSW5zX0lTQykKICAgICAgICAgICAgICMrIHNjYWxlKFdfc2NvcmUpOnNjYWxlKE1QRkNfSVNDKSAjSWYgd2UgdGFrZSBvdXQgdGhpcyBpbnRlcmFjdGlvbiB0aGUgbW9kZWwgZGllcy4KICAgICAgICAgICAgLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKQpzdW1tYXJ5KE0zKQpyLnNxdWFyZWRHTE1NKE0zKQpgYGAKIyBNNDogTmV1cmFsIGFjdGl2YXRpb24gb25zZXQKYGBge3IsIGVjaG8gPSBGQUxTRX0KTTQgPC0gbG0oc2NhbGUoRG9tZXN0aWMuR3Jvc3MpIH4gVHlwZSArIAogICAgICAgICAgICAgIHNjYWxlKE5BY2Nfb25zZXQpICsgc2NhbGUoQUluc19vbnNldCkgKyBzY2FsZShNUEZDX29uc2V0KSAKICAgICAgICAgICAgICAjKyBUeXBlOnNjYWxlKE5BY2Nfb25zZXQpIAogICAgICAgICAgICAgICMrIFR5cGU6c2NhbGUoQUluc19vbnNldCkgCiAgICAgICAgICAgICAgIysgVHlwZTpzY2FsZShNUEZDX29uc2V0KSAKICAgICAgICAgICAgLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKQpzdW1tYXJ5KE00KQpyLnNxdWFyZWRHTE1NKE00KQpgYGAKIyBNNTogTmV1cmFsIGFjdGl2YXRpb24gb25zZXQKYGBge3IsIGVjaG8gPSBGQUxTRX0KTTUgPC0gbG0oc2NhbGUoRG9tZXN0aWMuR3Jvc3MpIH4gVHlwZSArIHNjYWxlKFBvc19hcm91c2FsKSArIHNjYWxlKE5lZ19hcm91c2FsKSArIAogICAgICAgICAgICAgc2NhbGUoV19zY29yZSkgKwogICAgICAgICAgICAgIHNjYWxlKE5BY2Nfb25zZXQpICsgc2NhbGUoQUluc19vbnNldCkgKyBzY2FsZShNUEZDX29uc2V0KSAKICAgICAgICAgICAgICArIFR5cGU6c2NhbGUoTkFjY19vbnNldCkgCiAgICAgICAgICAgICAgKyBUeXBlOnNjYWxlKEFJbnNfb25zZXQpIAogICAgICAgICAgICAgICsgVHlwZTpzY2FsZShNUEZDX29uc2V0KQogICAgICAgICAgICAgICMrIHNjYWxlKFBvc19hcm91c2FsX3NjYWxlZCk6c2NhbGUoTkFjY19vbnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKTpzY2FsZShBSW5zX29uc2V0KSAKICAgICAgICAgICAgICArIHNjYWxlKFBvc19hcm91c2FsKTpzY2FsZShNUEZDX29uc2V0KQogICAgICAgICAgICAgICMrIHNjYWxlKE5lZ19hcm91c2FsX3NjYWxlZCk6c2NhbGUoTkFjY19vbnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKTpzY2FsZShBSW5zX29uc2V0KSAKICAgICAgICAgICAgICAjKyBzY2FsZShOZWdfYXJvdXNhbF9zY2FsZWQpOnNjYWxlKE1QRkNfb25zZXQpCiAgICAgICAgICAgICAgIysgc2NhbGUoV19zY29yZV9zY2FsZWQpOnNjYWxlKE5BY2Nfb25zZXQpIAogICAgICAgICAgICAgICMrIHNjYWxlKFdfc2NvcmVfc2NhbGVkKTpzY2FsZShBSW5zX29uc2V0KSAKICAgICAgICAgICAgICAjKyBzY2FsZShXX3Njb3JlX3NjYWxlZCk6c2NhbGUoTVBGQ19vbnNldCkKICAgICAgICAgICAgLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKQpzdW1tYXJ5KE01KQpyLnNxdWFyZWRHTE1NKE01KQpgYGAKIyBNNjogTmV1cmFsIGFjdGl2YXRpb24gb2Zmc2V0CmBgYHtyLCBlY2hvID0gRkFMU0V9Ck02IDwtIGxtKHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyAKICAgICAgICAgICAgICBzY2FsZShOQWNjX29mZnNldCkgKyBzY2FsZShBSW5zX29mZnNldCkgKyBzY2FsZShNUEZDX29mZnNldCkgCiAgICAgICAgICAgICAgKyBUeXBlOnNjYWxlKE5BY2Nfb2Zmc2V0KSAKICAgICAgICAgICAgICAjKyBUeXBlOnNjYWxlKEFJbnNfb2Zmc2V0KSAKICAgICAgICAgICAgICArIFR5cGU6c2NhbGUoTVBGQ19vZmZzZXQpIAogICAgICAgICAgICAsIGRhdGEgPSBBbGxTdWJzX05ldXJhbEFjdGl2YXRpb24pCnN1bW1hcnkoTTYpCnIuc3F1YXJlZEdMTU0oTTYpCmBgYAojIE03OiBOZXVyYWwgYWN0aXZhdGlvbiBvZmZzZXQgKyBiZWhhdmlvcmFsIGRhdGEKYGBge3IsIGVjaG8gPSBGQUxTRX0KTTcgPC0gbG0oc2NhbGUoRG9tZXN0aWMuR3Jvc3MpIH4gVHlwZSArICBzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICsgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSArIAogICAgICAgICAgICAgICNzY2FsZShXX3Njb3JlX3NjYWxlZCkgKwogICAgICAgICAgICAgIHNjYWxlKE5BY2Nfb2Zmc2V0KSArIAogICAgICAgICAgICAgIHNjYWxlKEFJbnNfb2Zmc2V0KSArIAogICAgICAgICAgICAgIHNjYWxlKE1QRkNfb2Zmc2V0KSAKICAgICAgICAgICAgICArIFR5cGU6c2NhbGUoTkFjY19vZmZzZXQpIAogICAgICAgICAgICAgICMrIFR5cGU6c2NhbGUoQUluc19vZmZzZXQpIAogICAgICAgICAgICAgICsgVHlwZTpzY2FsZShNUEZDX29mZnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKTpzY2FsZShOQWNjX29mZnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKTpzY2FsZShBSW5zX29mZnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKTpzY2FsZShNUEZDX29mZnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKTpzY2FsZShOQWNjX29mZnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKTpzY2FsZShBSW5zX29mZnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKTpzY2FsZShNUEZDX29mZnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoV19zY29yZV9zY2FsZWQpOnNjYWxlKE5BY2Nfb2Zmc2V0KSAKICAgICAgICAgICAgICAjKyBzY2FsZShXX3Njb3JlX3NjYWxlZCk6c2NhbGUoQUluc19vZmZzZXQpIAogICAgICAgICAgICAgICMrIHNjYWxlKFdfc2NvcmVfc2NhbGVkKTpzY2FsZShNUEZDX29mZnNldCkgCiAgICAgICAgICAgICwgZGF0YSA9IEFsbFN1YnNfTmV1cmFsQWN0aXZhdGlvbikKc3VtbWFyeShNNykKci5zcXVhcmVkR0xNTShNNykKYGBgCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0V9CmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkKYGBgCgojIExvYWQgbGlicmFyaWVzCmBgYHtyfQpsaWJyYXJ5KGtuaXRyKQpsaWJyYXJ5KHJtZGZvcm1hdHMpCmxpYnJhcnkoZ2dwbG90MikKbGlicmFyeShnZ3B1YnIpCmxpYnJhcnkoR0dhbGx5KQpgYGAKCgpgYGB7ciwgd2FybmluZyA9IEZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGxtZTQpCmxpYnJhcnkobG1lclRlc3QpCmxpYnJhcnkoIk11TUluIikKbGlicmFyeShsbXRlc3QpCmxpYnJhcnkoYm9vdCkKYGBgCgpSZWFkIGRhdGFzZXQKYGBge3J9CkFsbFN1YnNfTmV1cmFsQWN0aXZhdGlvbiA8LSByZWFkLmNzdignL1VzZXJzL2x1aXNhbHZhcmV6L0RvY3VtZW50cy9HaXRIdWIvUk1fVGhlc2lzX05ldXJvZm9yZWNhc3RpbmcvUHJvY2Vzc2VkRGF0YS9BbGxTdWJzX05ldXJhbEFjdGl2YXRpb25fQWdncmVnYXRlX0NvbWJpbmVkX2NsZWFuLmNzdicpCmBgYAoKIyBNMTogQmVoYXZpb3JhbCBkYXRhIApgYGB7ciwgZWNobyA9IEZBTFNFfQpNMSA8LSBsbShzY2FsZShEb21lc3RpYy5Hcm9zcykgfiBUeXBlICsgc2NhbGUoUG9zX2Fyb3VzYWwpICsgc2NhbGUoTmVnX2Fyb3VzYWwpICsgc2NhbGUoV19zY29yZSkgCiAgICAgICAgICAgICArIFR5cGU6c2NhbGUoTmVnX2Fyb3VzYWwpIAogICAgICAgICAgICAgKyBUeXBlOnNjYWxlKFBvc19hcm91c2FsKSAKICAgICAgICAgICAgICsgVHlwZTpzY2FsZShXX3Njb3JlKSAKICAgICAgICAgICAgLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKQpzdW1tYXJ5KE0xKQpyLnNxdWFyZWRHTE1NKE0xKQpgYGAKCiMgTTI6IElTQyBkYXRhIGFsb25lCmBgYHtyLCBlY2hvID0gRkFMU0V9Ck0yIDwtIGxtKHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyAKICAgICAgICAgICAgICBzY2FsZShOQWNjX0lTQykgKyBzY2FsZShBSW5zX0lTQykgKyBzY2FsZShNUEZDX0lTQykgCiAgICAgICAgICAgICAgKyBUeXBlOnNjYWxlKE5BY2NfSVNDKSAKICAgICAgICAgICAgICArIFR5cGU6c2NhbGUoQUluc19JU0MpIAogICAgICAgICAgICAgICsgVHlwZTpzY2FsZShNUEZDX0lTQykgCiAgICAgICAgICAgICwgZGF0YSA9IEFsbFN1YnNfTmV1cmFsQWN0aXZhdGlvbikKc3VtbWFyeShNMikKci5zcXVhcmVkR0xNTShNMikKYGBgCgojIE0zOiBJU0MgZGF0YSArIGJlaGF2aW9yYWwgZGF0YQpgYGB7ciwgZWNobyA9IEZBTFNFfQpNMyA8LSBsbShzY2FsZShEb21lc3RpYy5Hcm9zcykgfiBUeXBlICsgc2NhbGUoUG9zX2Fyb3VzYWwpICsgc2NhbGUoTmVnX2Fyb3VzYWwpICsgCiAgICAgICAgICAgICBzY2FsZShXX3Njb3JlKSAKICAgICAgICAgICAgICsgc2NhbGUoTkFjY19JU0MpIAogICAgICAgICAgICAgKyBzY2FsZShBSW5zX0lTQykgCiAgICAgICAgICAgICArIHNjYWxlKE1QRkNfSVNDKSAKICAgICAgICAgICAgICsgVHlwZTpzY2FsZShOQWNjX0lTQykgCiAgICAgICAgICAgICAjKyBUeXBlOnNjYWxlKEFJbnNfSVNDKSAKICAgICAgICAgICAgICMrIFR5cGU6c2NhbGUoTVBGQ19JU0MpIAogICAgICAgICAgICAgIysgc2NhbGUoUG9zX2Fyb3VzYWwpOnNjYWxlKE5BY2NfSVNDKQogICAgICAgICAgICAgIysgc2NhbGUoUG9zX2Fyb3VzYWwpOnNjYWxlKEFJbnNfSVNDKQogICAgICAgICAgICAgIysgc2NhbGUoUG9zX2Fyb3VzYWwpOnNjYWxlKE1QRkNfSVNDKQogICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWwpOnNjYWxlKE5BY2NfSVNDKQogICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWwpOnNjYWxlKEFJbnNfSVNDKQogICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWwpOnNjYWxlKE1QRkNfSVNDKQogICAgICAgICAgICAgIysgc2NhbGUoV19zY29yZSk6c2NhbGUoTkFjY19JU0MpCiAgICAgICAgICAgICAjKyBzY2FsZShXX3Njb3JlKTpzY2FsZShBSW5zX0lTQykKICAgICAgICAgICAgICMrIHNjYWxlKFdfc2NvcmUpOnNjYWxlKE1QRkNfSVNDKSAjSWYgd2UgdGFrZSBvdXQgdGhpcyBpbnRlcmFjdGlvbiB0aGUgbW9kZWwgZGllcy4KICAgICAgICAgICAgLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKQpzdW1tYXJ5KE0zKQpyLnNxdWFyZWRHTE1NKE0zKQpgYGAKIyBNNDogTmV1cmFsIGFjdGl2YXRpb24gb25zZXQKYGBge3IsIGVjaG8gPSBGQUxTRX0KTTQgPC0gbG0oc2NhbGUoRG9tZXN0aWMuR3Jvc3MpIH4gVHlwZSArIAogICAgICAgICAgICAgIHNjYWxlKE5BY2Nfb25zZXQpICsgc2NhbGUoQUluc19vbnNldCkgKyBzY2FsZShNUEZDX29uc2V0KSAKICAgICAgICAgICAgICAjKyBUeXBlOnNjYWxlKE5BY2Nfb25zZXQpIAogICAgICAgICAgICAgICMrIFR5cGU6c2NhbGUoQUluc19vbnNldCkgCiAgICAgICAgICAgICAgIysgVHlwZTpzY2FsZShNUEZDX29uc2V0KSAKICAgICAgICAgICAgLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKQpzdW1tYXJ5KE00KQpyLnNxdWFyZWRHTE1NKE00KQpgYGAKIyBNNTogTmV1cmFsIGFjdGl2YXRpb24gb25zZXQKYGBge3IsIGVjaG8gPSBGQUxTRX0KTTUgPC0gbG0oc2NhbGUoRG9tZXN0aWMuR3Jvc3MpIH4gVHlwZSArIHNjYWxlKFBvc19hcm91c2FsKSArIHNjYWxlKE5lZ19hcm91c2FsKSArIAogICAgICAgICAgICAgc2NhbGUoV19zY29yZSkgCiAgICAgICAgICAgICAgKyBzY2FsZShOQWNjX29uc2V0KSAKICAgICAgICAgICAgICArIHNjYWxlKEFJbnNfb25zZXQpIAogICAgICAgICAgICAgICsgc2NhbGUoTVBGQ19vbnNldCkgCiAgICAgICAgICAgICAgKyBUeXBlOnNjYWxlKE5BY2Nfb25zZXQpIAogICAgICAgICAgICAgICMrIFR5cGU6c2NhbGUoQUluc19vbnNldCkgCiAgICAgICAgICAgICAgKyBUeXBlOnNjYWxlKE1QRkNfb25zZXQpCiAgICAgICAgICAgICAgIysgc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKTpzY2FsZShOQWNjX29uc2V0KSAKICAgICAgICAgICAgICAjKyBzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpOnNjYWxlKEFJbnNfb25zZXQpIAogICAgICAgICAgICAgICsgc2NhbGUoUG9zX2Fyb3VzYWwpOnNjYWxlKE1QRkNfb25zZXQpCiAgICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKTpzY2FsZShOQWNjX29uc2V0KSAKICAgICAgICAgICAgICAjKyBzY2FsZShOZWdfYXJvdXNhbF9zY2FsZWQpOnNjYWxlKEFJbnNfb25zZXQpIAogICAgICAgICAgICAgICMrIHNjYWxlKE5lZ19hcm91c2FsX3NjYWxlZCk6c2NhbGUoTVBGQ19vbnNldCkKICAgICAgICAgICAgICAjKyBzY2FsZShXX3Njb3JlX3NjYWxlZCk6c2NhbGUoTkFjY19vbnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoV19zY29yZV9zY2FsZWQpOnNjYWxlKEFJbnNfb25zZXQpIAogICAgICAgICAgICAgICMrIHNjYWxlKFdfc2NvcmVfc2NhbGVkKTpzY2FsZShNUEZDX29uc2V0KQogICAgICAgICAgICAsIGRhdGEgPSBBbGxTdWJzX05ldXJhbEFjdGl2YXRpb24pCnN1bW1hcnkoTTUpCnIuc3F1YXJlZEdMTU0oTTUpCmBgYAojIE02OiBOZXVyYWwgYWN0aXZhdGlvbiBvZmZzZXQKYGBge3IsIGVjaG8gPSBGQUxTRX0KTTYgPC0gbG0oc2NhbGUoRG9tZXN0aWMuR3Jvc3MpIH4gVHlwZSArIAogICAgICAgICAgICAgIHNjYWxlKE5BY2Nfb2Zmc2V0KSArIHNjYWxlKEFJbnNfb2Zmc2V0KSArIHNjYWxlKE1QRkNfb2Zmc2V0KSAKICAgICAgICAgICAgICArIFR5cGU6c2NhbGUoTkFjY19vZmZzZXQpIAogICAgICAgICAgICAgICMrIFR5cGU6c2NhbGUoQUluc19vZmZzZXQpIAogICAgICAgICAgICAgICsgVHlwZTpzY2FsZShNUEZDX29mZnNldCkgCiAgICAgICAgICAgICwgZGF0YSA9IEFsbFN1YnNfTmV1cmFsQWN0aXZhdGlvbikKc3VtbWFyeShNNikKci5zcXVhcmVkR0xNTShNNikKYGBgCiMgTTc6IE5ldXJhbCBhY3RpdmF0aW9uIG9mZnNldCArIGJlaGF2aW9yYWwgZGF0YQpgYGB7ciwgZWNobyA9IEZBTFNFfQpNNyA8LSBsbShzY2FsZShEb21lc3RpYy5Hcm9zcykgfiBUeXBlICsgIHNjYWxlKFBvc19hcm91c2FsKSArIHNjYWxlKE5lZ19hcm91c2FsKSArIAogICAgICAgICAgICAgICNzY2FsZShXX3Njb3JlKSArCiAgICAgICAgICAgICAgc2NhbGUoTkFjY19vZmZzZXQpICsgCiAgICAgICAgICAgICAgc2NhbGUoQUluc19vZmZzZXQpICsgCiAgICAgICAgICAgICAgc2NhbGUoTVBGQ19vZmZzZXQpIAogICAgICAgICAgICAgICsgVHlwZTpzY2FsZShOQWNjX29mZnNldCkgCiAgICAgICAgICAgICAgIysgVHlwZTpzY2FsZShBSW5zX29mZnNldCkgCiAgICAgICAgICAgICAgKyBUeXBlOnNjYWxlKE1QRkNfb2Zmc2V0KSAKICAgICAgICAgICAgICAjKyBzY2FsZShQb3NfYXJvdXNhbCk6c2NhbGUoTkFjY19vZmZzZXQpIAogICAgICAgICAgICAgICMrIHNjYWxlKFBvc19hcm91c2FsKTpzY2FsZShBSW5zX29mZnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoUG9zX2Fyb3VzYWwpOnNjYWxlKE1QRkNfb2Zmc2V0KSAKICAgICAgICAgICAgICAjKyBzY2FsZShOZWdfYXJvdXNhbCk6c2NhbGUoTkFjY19vZmZzZXQpIAogICAgICAgICAgICAgICMrIHNjYWxlKE5lZ19hcm91c2FsKTpzY2FsZShBSW5zX29mZnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWwpOnNjYWxlKE1QRkNfb2Zmc2V0KSAKICAgICAgICAgICAgICAjKyBzY2FsZShXX3Njb3JlKTpzY2FsZShOQWNjX29mZnNldCkgCiAgICAgICAgICAgICAgIysgc2NhbGUoV19zY29yZSk6c2NhbGUoQUluc19vZmZzZXQpIAogICAgICAgICAgICAgICMrIHNjYWxlKFdfc2NvcmUpOnNjYWxlKE1QRkNfb2Zmc2V0KSAKICAgICAgICAgICAgLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKQpzdW1tYXJ5KE03KQpyLnNxdWFyZWRHTE1NKE03KQpgYGAKIyBNODogTmV1cmFsIGFjdGl2YXRpb24gbWlkZGxlCmBgYHtyLCBlY2hvID0gRkFMU0V9Ck04IDwtIGxtKHNjYWxlKERvbWVzdGljLkdyb3NzKSB+IFR5cGUgKyAKICAgICAgICAgICAgICBzY2FsZShOQWNjX21pZGRsZSkgKyBzY2FsZShBSW5zX21pZGRsZSkgKyBzY2FsZShNUEZDX21pZGRsZSkgCiAgICAgICAgICAgICAgKyBUeXBlOnNjYWxlKE5BY2NfbWlkZGxlKSAKICAgICAgICAgICAgICArIFR5cGU6c2NhbGUoQUluc19taWRkbGUpIAogICAgICAgICAgICAgICsgVHlwZTpzY2FsZShNUEZDX21pZGRsZSkgCiAgICAgICAgICAgICwgZGF0YSA9IEFsbFN1YnNfTmV1cmFsQWN0aXZhdGlvbikKc3VtbWFyeShNOCkKci5zcXVhcmVkR0xNTShNOCkKYGBgCiMgTTk6IE5ldXJhbCBhY3RpdmF0aW9uIG1pZGRsZSArIGJlaGF2aW9yYWwgZGF0YQpgYGB7ciwgZWNobyA9IEZBTFNFfQpNOSA8LSBsbShzY2FsZShEb21lc3RpYy5Hcm9zcykgfiBUeXBlICsgIHNjYWxlKFBvc19hcm91c2FsKSArIHNjYWxlKE5lZ19hcm91c2FsKSArIAogICAgICAgICAgICAgIHNjYWxlKFdfc2NvcmUpICsKICAgICAgICAgICAgICBzY2FsZShOQWNjX21pZGRsZSkgKyAKICAgICAgICAgICAgICBzY2FsZShBSW5zX21pZGRsZSkgKyAKICAgICAgICAgICAgICBzY2FsZShNUEZDX21pZGRsZSkgCiAgICAgICAgICAgICAgIysgVHlwZTpzY2FsZShOQWNjX21pZGRsZSkgCiAgICAgICAgICAgICAgIysgVHlwZTpzY2FsZShBSW5zX21pZGRsZSkgCiAgICAgICAgICAgICAgIysgVHlwZTpzY2FsZShNUEZDX21pZGRsZSkgCiAgICAgICAgICAgICAgKyBzY2FsZShQb3NfYXJvdXNhbCk6c2NhbGUoTkFjY19taWRkbGUpIAogICAgICAgICAgICAgICMrIHNjYWxlKFBvc19hcm91c2FsKTpzY2FsZShBSW5zX21pZGRsZSkgCiAgICAgICAgICAgICAgIysgc2NhbGUoUG9zX2Fyb3VzYWwpOnNjYWxlKE1QRkNfbWlkZGxlKSAKICAgICAgICAgICAgICAjKyBzY2FsZShOZWdfYXJvdXNhbCk6c2NhbGUoTkFjY19taWRkbGUpIAogICAgICAgICAgICAgICMrIHNjYWxlKE5lZ19hcm91c2FsKTpzY2FsZShBSW5zX21pZGRsZSkgCiAgICAgICAgICAgICAgIysgc2NhbGUoTmVnX2Fyb3VzYWwpOnNjYWxlKE1QRkNfbWlkZGxlKSAKICAgICAgICAgICAgICAjKyBzY2FsZShXX3Njb3JlKTpzY2FsZShOQWNjX21pZGRsZSkgCiAgICAgICAgICAgICAgIysgc2NhbGUoV19zY29yZSk6c2NhbGUoQUluc19taWRkbGUpIAogICAgICAgICAgICAgICMrIHNjYWxlKFdfc2NvcmUpOnNjYWxlKE1QRkNfbWlkZGxlKSAKICAgICAgICAgICAgLCBkYXRhID0gQWxsU3Vic19OZXVyYWxBY3RpdmF0aW9uKQpzdW1tYXJ5KE05KQpyLnNxdWFyZWRHTE1NKE05KQpgYGAKCg==</div>
 
 
 
