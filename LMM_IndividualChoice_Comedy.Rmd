@@ -1,0 +1,179 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Load libraries
+```{r, warning = FALSE, message = FALSE}
+library(knitr)
+library(rmdformats)
+library(ggplot2)
+library(ggpubr)
+library(GGally)
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library("MuMIn")
+library(lmtest)
+library(boot)
+```
+
+# Read dataset
+```{r}
+AllSubs_IndividualChoice_C <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Comedy.csv')
+```
+
+# M1_C: Behavioral data
+```{r, echo = FALSE}
+M1_C <- lmer(scale(W_score_scaled) ~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) + 
+             (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M1_C)
+r.squaredGLMM(M1_C)
+confint(M1_C)
+AIC(M1_C)
+```
+
+# M2_C: Neural activation (whole)
+```{r, echo = FALSE}
+M2_C <- lmer(scale(W_score_scaled) ~ 
+               scale(NAcc_whole) + 
+               scale(AIns_whole) + 
+               scale(MPFC_whole) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M2_C)
+r.squaredGLMM(M2_C)
+confint(M2_C)
+AIC(M2_C)
+```
+
+# M3_C: Neural activation (whole) + Behavioral data
+```{r, echo = FALSE}
+M3_C <- lmer(scale(W_score_scaled) ~ 
+              + scale(Pos_arousal_scaled) 
+              + scale(Neg_arousal_scaled) 
+              + scale(NAcc_whole) 
+              + scale(AIns_whole) 
+              + scale(MPFC_whole) 
+              + (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M3_C)
+r.squaredGLMM(M3_C)
+confint(M3_C)
+AIC(M3_C)
+```
+
+# M4_C: Neural activation (onset)
+```{r, echo = FALSE}
+M4_C <- lmer(scale(W_score_scaled) ~ 
+               scale(NAcc_onset) + 
+               scale(AIns_onset) + 
+               scale(MPFC_onset) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M4_C)
+r.squaredGLMM(M4_C)
+confint(M4_C)
+AIC(M4_C)
+```
+
+# M5_C: Neural activation (onset) + Behavioral data
+```{r, echo = FALSE}
+M5_C <- lmer(scale(W_score_scaled) ~ 
+              + scale(Pos_arousal_scaled) 
+              + scale(Neg_arousal_scaled) 
+              + scale(NAcc_onset) 
+              + scale(AIns_onset) 
+              + scale(MPFC_onset) 
+              + (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M5_C)
+r.squaredGLMM(M5_C)
+confint(M5_C)
+AIC(M5_C)
+```
+
+# M6_C: Neural activation (middle)
+```{r, echo = FALSE}
+M6_C <- lmer(scale(W_score_scaled) ~ 
+               scale(NAcc_middle) + 
+               scale(AIns_middle) + 
+               scale(MPFC_middle) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M6_C)
+r.squaredGLMM(M6_C)
+confint(M6_C)
+AIC(M6_C)
+```
+
+# M7_C: Neural activation (middle) + Behavioral data
+```{r, echo = FALSE}
+M7_C <- lmer(scale(W_score_scaled) ~ 
+              + scale(Pos_arousal_scaled) 
+              + scale(Neg_arousal_scaled) 
+              + scale(NAcc_middle) 
+              + scale(AIns_middle) 
+              + scale(MPFC_middle) 
+              + (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M7_C)
+r.squaredGLMM(M7_C)
+confint(M7_C)
+AIC(M7_C)
+```
+
+# M8_C: Neural activation (offset)
+```{r, echo = FALSE}
+M8_C <- lmer(scale(W_score_scaled) ~ 
+               scale(NAcc_offset) + 
+               scale(AIns_offset) + 
+               scale(MPFC_offset) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M8_C)
+r.squaredGLMM(M8_C)
+confint(M8_C)
+AIC(M8_C)
+```
+
+# M9_C: Neural activation (offset) + Behavioral data
+```{r, echo = FALSE}
+M9_C <- lmer(scale(W_score_scaled) ~ 
+              + scale(Pos_arousal_scaled) 
+              + scale(Neg_arousal_scaled) 
+              + scale(NAcc_offset) 
+              + scale(AIns_offset) 
+              + scale(MPFC_offset) 
+              + (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M9_C)
+r.squaredGLMM(M9_C)
+confint(M9_C)
+AIC(M9_C)
+```
+
+# M10_C: Neural ISC 
+```{r, echo = FALSE}
+M10_C <- lmer(scale(W_score_scaled) ~ 
+               + scale(NAcc_ISC) 
+               + scale(AIns_ISC) 
+               + scale(MPFC_ISC) 
+               + (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M10_C)
+r.squaredGLMM(M10_C)
+AIC(M10_C)
+```
+
+# M11_C: Neural ISC + Behavioral data
+```{r, echo = FALSE}
+M11_C <- lmer(scale(W_score_scaled)~ 
+               + scale(Pos_arousal_scaled) 
+               + scale(Neg_arousal_scaled)
+               + scale(NAcc_ISC) 
+               + scale(AIns_ISC) 
+               + scale(MPFC_ISC) 
+               # + scale(Pos_arousal):scale(NAcc_ISC) + 
+               #scale(Pos_arousal):scale(AIns_ISC) +
+               #scale(Pos_arousal):scale(MPFC_ISC) + 
+               #scale(Neg_arousal):scale(NAcc_ISC) +
+               #scale(Neg_arousal):scale(AIns_ISC) + 
+               #scale(Neg_arousal):scale(MPFC_ISC) +
+               + (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M11_C)
+r.squaredGLMM(M11_C)
+AIC(M11_C)
+```
+
