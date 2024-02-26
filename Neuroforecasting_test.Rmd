@@ -124,9 +124,9 @@ r.squaredGLMM(FM_US_M2)
 FM_US_M3 <- lm(scale(Gross_US_M1) ~ Type 
              + Theaters_US_M1
              #+ Total_weeks 
-             + Weeks_avg_per_theater
-             #+ scale(Pos_arousal_scaled) 
-             #+ scale(Neg_arousal_scaled)  
+             #+ Weeks_avg_per_theater
+             + scale(Pos_arousal_scaled) 
+             + scale(Neg_arousal_scaled)  
              #+ scale(W_score_scaled) 
              #+ scale(NAcc_ISC) 
              #+ scale(AIns_ISC) 
@@ -179,7 +179,7 @@ GT_US_M3 <- lm(scale(Gross_Total_US) ~ Type
              #+ Weeks_avg_per_theater
              + scale(Pos_arousal_scaled) 
              + scale(Neg_arousal_scaled)  
-             + scale(W_score_scaled) 
+             #+ scale(W_score_scaled) 
              + scale(NAcc_ISC) 
              + scale(AIns_ISC) 
              + scale(MPFC_ISC) 

@@ -177,3 +177,19 @@ r.squaredGLMM(M11_C)
 AIC(M11_C)
 ```
 
+
+
+# M8_C: Neural activation (offset)
+```{r, echo = FALSE}
+M8_C <- lmer(scale(W_score_scaled) ~ 
+               #scale(Pos_arousal_scaled) +
+               #scale(Neg_arousal_scaled) +
+               #scale(NAcc_TR4) + # 4
+               #scale(AIns_TR5) + # 5
+               #scale(MPFC_TR7) + # 7
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M8_C)
+r.squaredGLMM(M8_C)
+confint(M8_C)
+AIC(M8_C)
+```
