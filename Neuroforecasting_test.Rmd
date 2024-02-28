@@ -175,11 +175,11 @@ r.squaredGLMM(GT_US_M2)
 ```{r, echo = FALSE}
 GT_US_M3 <- lm(scale(Gross_Total_US) ~ Type 
              + Total_Theaters_US 
-             #+ Total_weeks 
+             + Total_weeks 
              #+ Weeks_avg_per_theater
              + scale(Pos_arousal_scaled) 
              + scale(Neg_arousal_scaled)  
-             #+ scale(W_score_scaled) 
+             + scale(W_score_scaled) 
              + scale(NAcc_ISC) 
              + scale(AIns_ISC) 
              + scale(MPFC_ISC) 
@@ -194,11 +194,11 @@ r.squaredGLMM(GT_US_M3)
 ```{r, echo = FALSE}
 GT_US_M4 <- lm(scale(Gross_Total_US) ~ Type 
              + Total_Theaters_US 
-             #+ Total_weeks 
+             + Total_weeks 
              #+ Weeks_avg_per_theater
-             #+ scale(NAcc_onset) 
-             #+ scale(AIns_onset) 
-             #+ scale(MPFC_onset) 
+             + scale(NAcc_onset) 
+             + scale(AIns_onset) 
+             + scale(MPFC_onset) 
              + Type:scale(NAcc_onset) 
              + Type:scale(AIns_onset) 
              + Type:scale(MPFC_onset) 
@@ -215,9 +215,9 @@ GT_US_M5 <- lm(scale(Gross_Total_US) ~ Type
               + scale(Pos_arousal_scaled) 
               + scale(Neg_arousal_scaled)  
               + scale(W_score_scaled) 
-              #+ scale(NAcc_onset) 
-              #+ scale(AIns_onset) 
-              #+ scale(MPFC_onset) 
+              + scale(NAcc_onset) 
+              + scale(AIns_onset) 
+              + scale(MPFC_onset) 
               + Type:scale(NAcc_onset) 
               + Type:scale(AIns_onset) 
               + Type:scale(MPFC_onset)
@@ -229,11 +229,11 @@ r.squaredGLMM(GT_US_M5)
 ```{r, echo = FALSE}
 GT_US_M6 <- lm(scale(Gross_Total_US) ~ Type 
               + Total_Theaters_US 
-              #+ Total_weeks 
+              + Total_weeks 
               #+ Weeks_avg_per_theater
-              #+ scale(NAcc_offset) 
-              #+ scale(AIns_offset) 
-              #+ scale(MPFC_offset) 
+              + scale(NAcc_offset) 
+              + scale(AIns_offset) 
+              + scale(MPFC_offset) 
               + Type:scale(NAcc_offset) 
               + Type:scale(AIns_offset) 
               + Type:scale(MPFC_offset) 
@@ -280,14 +280,14 @@ r.squaredGLMM(GT_US_M8)
 ```{r, echo = FALSE}
 GT_US_M9 <- lm(scale(Gross_Total_US) ~ Type 
               + Total_Theaters_US 
-              #+ Total_weeks 
+              + Total_weeks 
               #+ Weeks_avg_per_theater
               + scale(Pos_arousal_scaled) 
               + scale(Neg_arousal_scaled) 
               + scale(W_score_scaled) 
-              #+ scale(NAcc_middle)  
-              #+ scale(AIns_middle)  
-              #+ scale(MPFC_middle) 
+              + scale(NAcc_middle)  
+              + scale(AIns_middle)  
+              + scale(MPFC_middle) 
               + Type:scale(NAcc_middle) 
               + Type:scale(AIns_middle) 
               + Type:scale(MPFC_middle) 
@@ -331,4 +331,24 @@ GT_US_M11 <- lm(scale(Gross_Total_US) ~ Type
             , data = AllSubs_NeuralActivation)
 summary(GT_US_M11)
 r.squaredGLMM(GT_US_M11)
+```
+
+# FM_US_M3: ISC data + affective data + behavioral data
+```{r, echo = FALSE}
+Test_seq <- lm(scale(Gross_US_M1) ~ Type 
+             + Theaters_US_M1
+             #+ Total_weeks 
+             + Weeks_avg_per_theater
+             #+ scale(Pos_arousal_scaled) 
+             #+ scale(Neg_arousal_scaled)  
+             #+ scale(W_score_scaled) 
+             + scale(NAcc_middle) 
+             #+ scale(AIns_offset) 
+             #+ scale(MPFC_offset) 
+             + Type:scale(NAcc_middle) 
+             #+ Type:scale(AIns_offset) 
+             #+ Type:scale(MPFC_offset) 
+            , data = AllSubs_NeuralActivation)
+summary(Test_seq)
+r.squaredGLMM(Test_seq)
 ```
