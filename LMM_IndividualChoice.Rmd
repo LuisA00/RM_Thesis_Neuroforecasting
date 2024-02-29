@@ -34,14 +34,17 @@ AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_The
 
 # M1: Behavioral data 
 ```{r, echo = FALSE}
-M1 <- lmer(scale(W_score_scaled) ~ Type 
+M1 <- lmer(scale(W_score_scaled) ~ Type +
            + scale(Pos_arousal_scaled) 
            + scale(Neg_arousal_scaled) 
-           + Type:scale(Neg_arousal_scaled) 
-           + Type:scale(Pos_arousal_scaled) 
-           + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+           + Type:scale(Neg_arousal_scaled)  
+           + Type:scale(Pos_arousal_scaled)  
+           + (1|Participant) + (1|Trailer), 
+           data = AllSubs_NeuralActivation%>% mutate(Type = factor(Type, levels = c("Horror", "Comedy")))
+           )
 summary(M1)
 r.squaredGLMM(M1)
+AIC(M1)
 ```
 
 # M2: Neural data whole 
@@ -53,9 +56,11 @@ M2 <- lmer(scale(W_score_scaled) ~ Type
              + Type:scale(NAcc_whole) 
              + Type:scale(AIns_whole) 
              + Type:scale(MPFC_whole) 
-             + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+             + (1|Participant) + (1|Trailer)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M2)
 r.squaredGLMM(M2)
+AIC(M2)
 ```
 
 # M3: Neural data whole + behavioral data
@@ -66,14 +71,16 @@ M3 <- lmer(scale(W_score_scaled) ~ Type
              + scale(NAcc_whole) 
              + scale(AIns_whole) 
              + scale(MPFC_whole)  
-             + Type:scale(Neg_arousal)  
-             + Type:scale(Pos_arousal)  
+             + Type:scale(Pos_arousal_scaled)  
+             + Type:scale(Neg_arousal_scaled)  
              + Type:scale(NAcc_whole)  
              + Type:scale(AIns_whole)  
              + Type:scale(MPFC_whole) 
-             + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+             + (1|Participant) + (1|Trailer)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M3)
 r.squaredGLMM(M3)
+AIC(M3)
 ```
 
 # M4: Neural data onset
@@ -85,28 +92,31 @@ M4 <- lmer(scale(W_score_scaled) ~ Type
              + Type:scale(NAcc_onset)  
              + Type:scale(AIns_onset)  
              + Type:scale(MPFC_onset) 
-             + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+             + (1|Participant) + (1|Trailer)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M4)
 r.squaredGLMM(M4)
+AIC(M4)
 ```
 
 # M5: Neural data onset + behavioral data
 ```{r, echo = FALSE}
-# When 'W_score_scaled' NAcc interaction with type is about to become significant.
 M5 <- lmer(scale(W_score_scaled) ~ Type 
              + scale(Pos_arousal_scaled) 
              + scale(Neg_arousal_scaled) 
              + scale(NAcc_onset)  
              + scale(AIns_onset)  
              + scale(MPFC_onset)  
-             + Type:scale(Neg_arousal) 
-             + Type:scale(Pos_arousal)  
+             + Type:scale(Neg_arousal_scaled) 
+             + Type:scale(Pos_arousal_scaled)  
              + Type:scale(NAcc_onset) 
              + Type:scale(AIns_onset)  
              + Type:scale(MPFC_onset) 
-             + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+             + (1|Participant) + (1|Trailer)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M5)
 r.squaredGLMM(M5)
+AIC(M5)
 ```
 
 # M6: Neural data offset
@@ -115,34 +125,39 @@ M6 <- lmer(scale(W_score_scaled) ~ Type
              + scale(NAcc_offset) 
              + scale(AIns_offset) 
              + scale(MPFC_offset)  
-             + Type:scale(NAcc_onset) 
-             + Type:scale(AIns_onset)  
-             + Type:scale(MPFC_onset) 
-             + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+             + Type:scale(NAcc_offset) 
+             + Type:scale(AIns_offset)  
+             + Type:scale(MPFC_offset) 
+             + (1|Participant) + (1|Trailer) 
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M6)
 r.squaredGLMM(M6)
+AIC(M6)
 ```
 
 # M7: Neural data offset + behavioral data
 ```{r, echo = FALSE}
 M7 <- lmer(scale(W_score_scaled) ~ Type 
-             + scale(Pos_arousal) 
-             + scale(Neg_arousal) 
+             + scale(Pos_arousal_scaled) 
+             + scale(Neg_arousal_scaled) 
              + scale(NAcc_offset) 
              + scale(AIns_offset) 
              + scale(MPFC_offset)  
-             + Type:scale(Neg_arousal)  
-             + Type:scale(Pos_arousal) 
+             + Type:scale(Pos_arousal_scaled)  
+             + Type:scale(Neg_arousal_scaled) 
              + Type:scale(NAcc_offset) 
              + Type:scale(AIns_offset)  
              + Type:scale(MPFC_offset) 
-             + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+             + (1|Participant) + (1|Trailer)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M7)
 r.squaredGLMM(M7)
+AIC(M7)
 ```
 
 # M7: Neural data middle
 ```{r, echo = FALSE}
+# seven is repeated
 M7 <- lmer(scale(W_score_scaled) ~ Type 
              + scale(NAcc_middle) 
              + scale(AIns_middle) 
@@ -150,9 +165,11 @@ M7 <- lmer(scale(W_score_scaled) ~ Type
              + Type:scale(NAcc_middle)  
              + Type:scale(AIns_middle)  
              + Type:scale(MPFC_middle)  
-             + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+             + (1|Participant) + (1|Trailer)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M7)
 r.squaredGLMM(M7)
+AIC(M7)
 ```
 
 # M8: Neural data middle + behavioral data
@@ -163,14 +180,16 @@ M8 <- lmer(scale(W_score_scaled) ~ Type
              + scale(NAcc_middle) 
              + scale(AIns_middle) 
              + scale(MPFC_middle)  
-             + Type:scale(Neg_arousal)  
-             + Type:scale(Pos_arousal) 
+             + Type:scale(Neg_arousal_scaled)  
+             + Type:scale(Pos_arousal_scaled) 
              + Type:scale(NAcc_middle)  
              + Type:scale(AIns_middle)  
              + Type:scale(MPFC_middle)  
-             + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+             + (1|Participant) + (1|Trailer)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M8)
 r.squaredGLMM(M8)
+AIC(M8)
 ```
 
 # M9: Neural ISC data 
@@ -182,26 +201,65 @@ M9 <- lmer(scale(W_score_scaled) ~ Type
              + Type:scale(NAcc_ISC)  
              + Type:scale(AIns_ISC) 
              + Type:scale(MPFC_ISC) 
-             + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+             + (1|Participant) + (1|Trailer)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M9)
 r.squaredGLMM(M9)
+AIC(M9)
 ```
 
 # M10: Neural ISC data + behavioral data
 ```{r, echo = FALSE}
-# Note, when using 'W_score_scaled' instead of 'W_score' results become more significant.
 M10 <- lmer(scale(W_score_scaled) ~ Type  
              + scale(Pos_arousal_scaled)  
              + scale(Neg_arousal_scaled) 
              + scale(NAcc_ISC) 
              + scale(AIns_ISC)  
              + scale(MPFC_ISC)  
-             + Type:scale(Neg_arousal_scaled) 
              + Type:scale(Pos_arousal_scaled) 
+             + Type:scale(Neg_arousal_scaled) 
              + Type:scale(NAcc_ISC)  
              + Type:scale(AIns_ISC)  
              + Type:scale(MPFC_ISC)  
-             + (1|Participant) + (1|Trailer), data = AllSubs_NeuralActivation)
+             + (1|Participant) + (1|Trailer)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M10)
+r.squaredGLMM(M10)
+AIC(M10)
+```
+
+# Sequence Test
+# NAcc onset and AIns offset.
+# M11: Neural seq data 
+```{r, echo = FALSE}
+M11 <- lmer(scale(W_score_scaled) ~ Type 
+             + scale(NAcc_onset) 
+             + scale(AIns_offset) 
+              
+             + Type:scale(NAcc_onset)  
+             + Type:scale(AIns_offset) 
+         
+             + (1|Participant) + (1|Trailer)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
+summary(M11)
+r.squaredGLMM(M11)
+```
+
+# M12: Neural seq data + behavioral data
+```{r, echo = FALSE}
+M12 <- lmer(scale(W_score_scaled) ~ Type  
+             + scale(Pos_arousal_scaled)  
+             + scale(Neg_arousal_scaled) 
+             + scale(NAcc_middle) 
+             + scale(AIns_offset)  
+             + scale(MPFC_offset)  
+             + Type:scale(Neg_arousal_scaled) 
+             + Type:scale(Pos_arousal_scaled) 
+             + Type:scale(NAcc_middle)  
+             + Type:scale(AIns_offset)  
+             + Type:scale(MPFC_offset)  
+             + (1|Participant) + (1|Trailer)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
+summary(M12)
 r.squaredGLMM(M10)
 ```

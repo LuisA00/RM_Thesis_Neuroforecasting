@@ -1,0 +1,314 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load libraries
+```{r}
+library(knitr)
+library(rmdformats)
+library(ggplot2)
+library(ggpubr)
+library(GGally)
+library(car)
+```
+
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library("MuMIn")
+library(lmtest)
+library(boot)
+```
+
+Read dataset
+```{r}
+AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_Comedy_clean.csv')
+```
+# Notes: 
+ - Have note removed outliers from data.
+
+# Neuroforecasting: First Week US.
+## FW_US_M1: Behavioral data 
+```{r, echo = FALSE}
+FW_US_M1 <- lm(scale(Gross_US_W2_num) ~ Theaters_US_W2_num 
+         #+ Total_weeks 
+         #+ Weeks_avg_per_theater
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+            , data = AllSubs_NeuralActivation )
+summary(FW_US_M1)
+r.squaredGLMM(FW_US_M1)
+```
+
+# FW_US_M2: ISC data alone
+```{r, echo = FALSE}
+FW_US_M2 <- lm(scale(Gross_US_W4_num) ~  
+              + Theaters_US_W4_num 
+              + scale(NAcc_ISC) 
+              + scale(AIns_ISC) 
+              + scale(MPFC_ISC) 
+            , data = AllSubs_NeuralActivation)
+summary(FW_US_M2)
+r.squaredGLMM(FW_US_M2)
+```
+
+# FW_US_M3: ISC data + affective data + behavioral data
+```{r, echo = FALSE}
+FW_US_M3 <- lm(scale(Gross_US_W1_num) ~  
+             + Theaters_US_W1_num 
+             #+ Total_weeks 
+             #+ Weeks_avg_per_theater
+             + scale(Pos_arousal_scaled) 
+             + scale(Neg_arousal_scaled)  
+             + scale(W_score_scaled) 
+             + scale(NAcc_ISC) 
+             + scale(AIns_ISC) 
+             + scale(MPFC_ISC) 
+            , data = AllSubs_NeuralActivation)
+summary(FW_US_M3)
+r.squaredGLMM(FW_US_M3)
+```
+
+# Neuroforecasting: First Month US.
+
+## FM_US_M1: Behavioral data + affective data
+```{r, echo = FALSE}
+FM_US_M1 <- lm(scale(Gross_US_M1) ~  
+         + Theaters_US_M1 
+         #+ Total_weeks 
+         #+ Weeks_avg_per_theater
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(W_score_scaled)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M1)
+r.squaredGLMM(FM_US_M1)
+```
+
+# FM_US_M2: ISC data alone
+```{r, echo = FALSE}
+FM_US_M2 <- lm(scale(Gross_US_M1) ~  
+              + Theaters_US_M1
+              + scale(NAcc_ISC) 
+              + scale(AIns_ISC) 
+              + scale(MPFC_ISC) 
+
+            , data = AllSubs_NeuralActivation)
+summary(FM_US_M2)
+r.squaredGLMM(FM_US_M2)
+```
+
+# FM_US_M3: ISC data + affective data + behavioral data
+```{r, echo = FALSE}
+FM_US_M3 <- lm(scale(Gross_US_M1) ~  
+             + Theaters_US_M1
+             #+ Total_weeks 
+             #+ Weeks_avg_per_theater
+             #+ scale(Pos_arousal_scaled) 
+             + scale(Neg_arousal_scaled)  
+             + scale(W_score_scaled) 
+             + scale(NAcc_ISC) 
+             + scale(AIns_ISC) 
+             + scale(MPFC_ISC) 
+
+            , data = AllSubs_NeuralActivation)
+summary(FM_US_M3)
+r.squaredGLMM(FM_US_M3)
+```
+
+
+# Neuroforecasting: Gross Total US.
+## GT_US_M1: Behavioral data 
+```{r, echo = FALSE}
+GT_US_M1 <- lm(scale(Gross_Total_US) ~  
+         + Total_Theaters_US 
+         #+ Total_weeks 
+         #+ Weeks_avg_per_theater
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+
+            , data = AllSubs_NeuralActivation )
+summary(GT_US_M1)
+r.squaredGLMM(GT_US_M1)
+```
+
+# GT_US_M2: ISC data alone
+```{r, echo = FALSE}
+GT_US_M2 <- lm(scale(Gross_Total_US) ~ 
+              + scale(NAcc_ISC) 
+              + scale(AIns_ISC) 
+              + scale(MPFC_ISC) 
+
+            , data = AllSubs_NeuralActivation)
+summary(GT_US_M2)
+r.squaredGLMM(GT_US_M2)
+```
+
+
+# GT_US_M3: ISC data + behavioral data
+```{r, echo = FALSE}
+GT_US_M3 <- lm(scale(Gross_Total_US) ~  
+             + Total_Theaters_US 
+             #+ Total_weeks 
+             #+ Weeks_avg_per_theater
+             #+ scale(Pos_arousal_scaled) 
+             #+ scale(Neg_arousal_scaled)  
+             #+ scale(W_score_scaled) 
+             #+ scale(NAcc_ISC) 
+             + scale(AIns_ISC) 
+             + scale(MPFC_ISC) 
+            , data = AllSubs_NeuralActivation)
+summary(GT_US_M3)
+r.squaredGLMM(GT_US_M3)
+```
+# GT_US_M4: Neural activation onset
+```{r, echo = FALSE}
+GT_US_M4 <- lm(scale(Gross_Total_US) ~  
+             + Total_Theaters_US 
+             #+ Total_weeks 
+             #+ Weeks_avg_per_theater
+             + scale(NAcc_onset) 
+             + scale(AIns_onset) 
+             + scale(MPFC_onset) 
+   
+             , data = AllSubs_NeuralActivation)
+summary(GT_US_M4)
+r.squaredGLMM(GT_US_M4)
+```
+# GT_US_M5: Neural activation onset
+```{r, echo = FALSE}
+GT_US_M5 <- lm(scale(Gross_Total_US) ~  
+              + Total_Theaters_US 
+              #+ Total_weeks 
+              #+ Weeks_avg_per_theater
+              + scale(Pos_arousal_scaled) 
+              + scale(Neg_arousal_scaled)  
+              + scale(W_score_scaled) 
+              + scale(NAcc_onset) 
+              + scale(AIns_onset) 
+              + scale(MPFC_onset) 
+     
+            , data = AllSubs_NeuralActivation)
+summary(GT_US_M5)
+r.squaredGLMM(GT_US_M5)
+```
+# GT_US_M6: Neural activation offset
+```{r, echo = FALSE}
+GT_US_M6 <- lm(scale(Gross_Total_US) ~  
+              + Total_Theaters_US 
+              + Total_weeks 
+              #+ Weeks_avg_per_theater
+              + scale(NAcc_offset) 
+              + scale(AIns_offset) 
+              + scale(MPFC_offset) 
+     
+            , data = AllSubs_NeuralActivation)
+summary(GT_US_M6)
+r.squaredGLMM(GT_US_M6)
+```
+# GT_US_M7: Neural activation offset + behavioral data
+```{r, echo = FALSE}
+GT_US_M7 <- lm(scale(Gross_Total_US) ~  
+              + Total_Theaters_US 
+              #+ Total_weeks 
+              #+ Weeks_avg_per_theater
+              + scale(Pos_arousal_scaled) 
+              + scale(Neg_arousal_scaled)  
+              + scale(W_score_scaled)
+              + scale(NAcc_offset)  
+              + scale(AIns_offset)  
+              + scale(MPFC_offset) 
+  
+            , data = AllSubs_NeuralActivation)
+summary(GT_US_M7)
+r.squaredGLMM(GT_US_M7)
+```
+# GT_US_M8: Neural activation middle
+```{r, echo = FALSE}
+GT_US_M8 <- lm(scale(Gross_Total_US) ~  
+              + Total_Theaters_US 
+              #+ Total_weeks 
+              #+ Weeks_avg_per_theater
+              + scale(NAcc_middle)  
+              + scale(AIns_middle) 
+              + scale(MPFC_middle) 
+
+            , data = AllSubs_NeuralActivation)
+summary(GT_US_M8)
+r.squaredGLMM(GT_US_M8)
+```
+# GT_US_M9: Neural activation middle + behavioral data
+```{r, echo = FALSE}
+GT_US_M9 <- lm(scale(Gross_Total_US) ~  
+              + Total_Theaters_US 
+              + Total_weeks 
+              #+ Weeks_avg_per_theater
+              + scale(Pos_arousal_scaled) 
+              + scale(Neg_arousal_scaled) 
+              + scale(W_score_scaled) 
+              + scale(NAcc_middle)  
+              + scale(AIns_middle)  
+              + scale(MPFC_middle) 
+  
+            , data = AllSubs_NeuralActivation)
+summary(GT_US_M9)
+r.squaredGLMM(GT_US_M9)
+```
+
+# GT_US_M10: Neural activation middle
+```{r, echo = FALSE}
+GT_US_M10 <- lm(scale(Gross_Total_US) ~  
+              + Total_Theaters_US 
+              #+ Total_weeks 
+              #+ Weeks_avg_per_theater
+              + (NAcc_whole)  
+              + (AIns_whole) 
+              + (MPFC_whole) 
+
+            , data = AllSubs_NeuralActivation)
+summary(GT_US_M10)
+r.squaredGLMM(GT_US_M10)
+```
+
+# GT_US_M11: Neural activation middle + behavioral data
+```{r, echo = FALSE}
+GT_US_M11 <- lm(scale(Gross_Total_US) ~  
+              + Total_Theaters_US 
+              #+ Total_weeks 
+              #+ Weeks_avg_per_theater
+              + scale(Pos_arousal_scaled) 
+              + scale(Neg_arousal_scaled) 
+              + scale(W_score_scaled) 
+              + scale(NAcc_whole)  
+              + scale(AIns_whole) 
+              + scale(MPFC_whole) 
+    
+            , data = AllSubs_NeuralActivation)
+summary(GT_US_M11)
+r.squaredGLMM(GT_US_M11)
+```
+
+# FM_US_M3: ISC data + affective data + behavioral data
+```{r, echo = FALSE}
+Test_seq <- lm(scale(Gross_US_M1) ~  
+             + Theaters_US_M1
+             + Total_weeks 
+             #+ Weeks_avg_per_theater
+             #+ scale(Pos_arousal_scaled) 
+             #+ scale(Neg_arousal_scaled)  
+             #+ scale(W_score_scaled) 
+             + scale(NAcc_onset) 
+             + scale(AIns_onset) 
+             + scale(MPFC_middle) 
+  
+            , data = AllSubs_NeuralActivation)
+summary(Test_seq)
+r.squaredGLMM(Test_seq)
+```

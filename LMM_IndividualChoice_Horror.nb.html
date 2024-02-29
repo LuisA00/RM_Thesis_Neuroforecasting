@@ -1786,52 +1786,51 @@ library(boot)</code></pre>
 <h1>M1_H: Behavioral data</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+IHNjYWxlKFBvc19hcm91c2FsX3NjYWxlZCkgKyBzY2FsZShOZWdfYXJvdXNhbF9zY2FsZWQpICsgIFxuICAgICgxIHwgUGFydGljaXBhbnQpICsgKDEgfCBUcmFpbGVyKVxuICAgRGF0YTogQWxsU3Vic19JbmRpdmlkdWFsQ2hvaWNlX0hcblxuUkVNTCBjcml0ZXJpb24gYXQgY29udmVyZ2VuY2U6IDEwMjIuNlxuXG5TY2FsZWQgcmVzaWR1YWxzOiBcbiAgICBNaW4gICAgICAxUSAgTWVkaWFuICAgICAgM1EgICAgIE1heCBcbi0yLjkzNjggLTAuNjIwMCAtMC4xMzczICAwLjY2NjkgIDIuNzg4MSBcblxuUmFuZG9tIGVmZmVjdHM6XG4gR3JvdXBzICAgICAgTmFtZSAgICAgICAgVmFyaWFuY2UgU3RkLkRldi5cbiBQYXJ0aWNpcGFudCAoSW50ZXJjZXB0KSAwLjE5NzggICAwLjQ0NDcgIFxuIFRyYWlsZXIgICAgIChJbnRlcmNlcHQpIDAuMDU1MCAgIDAuMjM0NSAgXG4gUmVzaWR1YWwgICAgICAgICAgICAgICAgMC40NzQ3ICAgMC42ODkwICBcbk51bWJlciBvZiBvYnM6IDQ0NSwgZ3JvdXBzOiAgUGFydGljaXBhbnQsIDMyOyBUcmFpbGVyLCAxNlxuXG5GaXhlZCBlZmZlY3RzOlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgICAgICAgICBkZiB0IHZhbHVlIFByKD58dHwpICAgIFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAgIDAuMDA0NTU1ICAgMC4xMDM3NDYgIDM3LjQ4NzM5MiAgIDAuMDQ0ICAwLjk2NTIxICAgIFxuc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKSAgIDAuNTA5MjY1ICAgMC4wMzg2MjQgNDM2LjI2MDM5MyAgMTMuMTg1ICA8IDJlLTE2ICoqKlxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAgLTAuMTA4NTU3ICAgMC4wNDExMDQgNDExLjE5MTA1MyAgLTIuNjQxICAwLjAwODU4ICoqIFxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cbkNvcnJlbGF0aW9uIG9mIEZpeGVkIEVmZmVjdHM6XG4gICAgICAgICAgICAoSW50cikgcyhQX18pXG5zY2woUHNfcnNfKSAtMC4wMDQgICAgICAgXG5zY2woTmdfcnNfKSAgMC4wMDYgLTAuMjY2XG4gICAgICAgICAgIFIybSAgICAgICBSMmNcblsxLF0gMC4yNTI1NDIxIDAuNTEyMjc2OFxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+IHNjYWxlKFBvc19hcm91c2FsX3NjYWxlZCkgKyBzY2FsZShOZWdfYXJvdXNhbF9zY2FsZWQpICsgICAgICAoMSB8IFBhcnRpY2lwYW50KSArICgxIHwgVHJhaWxlcilcbiAgIERhdGE6IEFsbFN1YnNfSW5kaXZpZHVhbENob2ljZV9IXG5cblJFTUwgY3JpdGVyaW9uIGF0IGNvbnZlcmdlbmNlOiAxMDIzLjhcblxuU2NhbGVkIHJlc2lkdWFsczogXG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMi45OTEzIC0wLjYyMTkgLTAuMTM0NiAgMC42NjgzICAyLjc5MzcgXG5cblJhbmRvbSBlZmZlY3RzOlxuIEdyb3VwcyAgICAgIE5hbWUgICAgICAgIFZhcmlhbmNlIFN0ZC5EZXYuXG4gUGFydGljaXBhbnQgKEludGVyY2VwdCkgMC4xOTc4MSAgMC40NDQ4ICBcbiBUcmFpbGVyICAgICAoSW50ZXJjZXB0KSAwLjA1MTU1ICAwLjIyNzAgIFxuIFJlc2lkdWFsICAgICAgICAgICAgICAgIDAuNDc0MzEgIDAuNjg4NyAgXG5OdW1iZXIgb2Ygb2JzOiA0NDYsIGdyb3VwczogIFBhcnRpY2lwYW50LCAzMjsgVHJhaWxlciwgMTZcblxuRml4ZWQgZWZmZWN0czpcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yICAgICAgICAgZGYgdCB2YWx1ZSBQcig+fHR8KSAgICBcbihJbnRlcmNlcHQpICAgICAgICAgICAgICAgICAwLjAwNjYyMSAgIDAuMTAyNjY4ICAzNy41NjYzMTUgICAwLjA2NCAgMC45NDg5MyAgICBcbnNjYWxlKFBvc19hcm91c2FsX3NjYWxlZCkgICAwLjUxMzkyOCAgIDAuMDM4NTc4IDQzNy44MTU1MDggIDEzLjMyMiAgPCAyZS0xNiAqKipcbnNjYWxlKE5lZ19hcm91c2FsX3NjYWxlZCkgIC0wLjEwOTI3NiAgIDAuMDQwOTY0IDQwNy45NTY2NTggIC0yLjY2OCAgMC4wMDc5NCAqKiBcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5Db3JyZWxhdGlvbiBvZiBGaXhlZCBFZmZlY3RzOlxuICAgICAgICAgICAgKEludHIpIHMoUF9fKVxuc2NsKFBzX3JzXykgLTAuMDA0ICAgICAgIFxuc2NsKE5nX3JzXykgIDAuMDA1IC0wLjI2N1xuICAgICAgICAgICBSMm0gICAgICAgUjJjXG5bMSxdIDAuMjU3MDg4OSAwLjUxMzA3NDJcbiJ9 -->
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
-Formula: scale(W_score_scaled) ~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
-    (1 | Participant) + (1 | Trailer)
+Formula: scale(W_score_scaled) ~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +      (1 | Participant) + (1 | Trailer)
    Data: AllSubs_IndividualChoice_H
 
-REML criterion at convergence: 1022.6
+REML criterion at convergence: 1023.8
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--2.9368 -0.6200 -0.1373  0.6669  2.7881 
+-2.9913 -0.6219 -0.1346  0.6683  2.7937 
 
 Random effects:
  Groups      Name        Variance Std.Dev.
- Participant (Intercept) 0.1978   0.4447  
- Trailer     (Intercept) 0.0550   0.2345  
- Residual                0.4747   0.6890  
-Number of obs: 445, groups:  Participant, 32; Trailer, 16
+ Participant (Intercept) 0.19781  0.4448  
+ Trailer     (Intercept) 0.05155  0.2270  
+ Residual                0.47431  0.6887  
+Number of obs: 446, groups:  Participant, 32; Trailer, 16
 
 Fixed effects:
                             Estimate Std. Error         df t value Pr(&gt;|t|)    
-(Intercept)                 0.004555   0.103746  37.487392   0.044  0.96521    
-scale(Pos_arousal_scaled)   0.509265   0.038624 436.260393  13.185  &lt; 2e-16 ***
-scale(Neg_arousal_scaled)  -0.108557   0.041104 411.191053  -2.641  0.00858 ** 
+(Intercept)                 0.006621   0.102668  37.566315   0.064  0.94893    
+scale(Pos_arousal_scaled)   0.513928   0.038578 437.815508  13.322  &lt; 2e-16 ***
+scale(Neg_arousal_scaled)  -0.109276   0.040964 407.956658  -2.668  0.00794 ** 
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Correlation of Fixed Effects:
             (Intr) s(P__)
 scl(Ps_rs_) -0.004       
-scl(Ng_rs_)  0.006 -0.266
+scl(Ng_rs_)  0.005 -0.267
            R2m       R2c
-[1,] 0.2525421 0.5122768</code></pre>
+[1,] 0.2570889 0.5130742</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiQ29tcHV0aW5nIHByb2ZpbGUgY29uZmlkZW5jZSBpbnRlcnZhbHMgLi4uXG4ifQ== -->
 <pre><code>Computing profile confidence intervals ...</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDIuNSAlICAgICAgOTcuNSAlXG4uc2lnMDEgICAgICAgICAgICAgICAgICAgICAwLjMzMTgzOTcgIDAuNTkyOTg3MjRcbi5zaWcwMiAgICAgICAgICAgICAgICAgICAgIDAuMTM4MzM5MSAgMC4zNzIzNzI3MFxuLnNpZ21hICAgICAgICAgICAgICAgICAgICAgMC42NDIzNTY3ICAwLjczODEwMzMxXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgIC0wLjIwMDc0NjIgIDAuMjA5OTI1MDlcbnNjYWxlKFBvc19hcm91c2FsX3NjYWxlZCkgIDAuNDMzNTc0MyAgMC41ODU5Mjc0Nlxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAtMC4xOTEzMjM5IC0wLjAyNzE2MDA3XG5bMV0gMTAzNC42MDRcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDIuNSAlICAgICAgOTcuNSAlXG4uc2lnMDEgICAgICAgICAgICAgICAgICAgICAwLjMzMTcxMDcgIDAuNTkyOTU0MTNcbi5zaWcwMiAgICAgICAgICAgICAgICAgICAgIDAuMTMxOTc1MSAgMC4zNjIzNjQxMFxuLnNpZ21hICAgICAgICAgICAgICAgICAgICAgMC42NDIxODQyICAwLjczNzc4ODEzXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgIC0wLjE5NjQ4MTMgIDAuMjA5ODkyNDBcbnNjYWxlKFBvc19hcm91c2FsX3NjYWxlZCkgIDAuNDM4MzE3MyAgMC41OTA1MTQ1OVxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAtMC4xOTE4NTg4IC0wLjAyODA2OTA1XG5bMV0gMTAzNS44MTFcbiJ9 -->
 <pre><code>                               2.5 %      97.5 %
-.sig01                     0.3318397  0.59298724
-.sig02                     0.1383391  0.37237270
-.sigma                     0.6423567  0.73810331
-(Intercept)               -0.2007462  0.20992509
-scale(Pos_arousal_scaled)  0.4335743  0.58592746
-scale(Neg_arousal_scaled) -0.1913239 -0.02716007
-[1] 1034.604</code></pre>
+.sig01                     0.3317107  0.59295413
+.sig02                     0.1319751  0.36236410
+.sigma                     0.6421842  0.73778813
+(Intercept)               -0.1964813  0.20989240
+scale(Pos_arousal_scaled)  0.4383173  0.59051459
+scale(Neg_arousal_scaled) -0.1918588 -0.02806905
+[1] 1035.811</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1840,53 +1839,52 @@ scale(Neg_arousal_scaled) -0.1913239 -0.02716007
 <h1>M2_H: Neural activation (whole)</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+IHNjYWxlKE5BY2Nfd2hvbGUpICsgc2NhbGUoQUluc193aG9sZSkgKyAgXG4gICAgc2NhbGUoTVBGQ193aG9sZSkgKyAoMSB8IFBhcnRpY2lwYW50KSArICgxIHwgVHJhaWxlcilcbiAgIERhdGE6IEFsbFN1YnNfSW5kaXZpZHVhbENob2ljZV9IXG5cblJFTUwgY3JpdGVyaW9uIGF0IGNvbnZlcmdlbmNlOiAxMTczLjVcblxuU2NhbGVkIHJlc2lkdWFsczogXG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMi40NzQzIC0wLjY4NzkgLTAuMTA3NSAgMC42NDYxICAyLjc2OTkgXG5cblJhbmRvbSBlZmZlY3RzOlxuIEdyb3VwcyAgICAgIE5hbWUgICAgICAgIFZhcmlhbmNlIFN0ZC5EZXYuXG4gUGFydGljaXBhbnQgKEludGVyY2VwdCkgMC4yNTA1ICAgMC41MDA1ICBcbiBUcmFpbGVyICAgICAoSW50ZXJjZXB0KSAwLjEwMjcgICAwLjMyMDUgIFxuIFJlc2lkdWFsICAgICAgICAgICAgICAgIDAuNjYwOSAgIDAuODEzMCAgXG5OdW1iZXIgb2Ygb2JzOiA0NDUsIGdyb3VwczogIFBhcnRpY2lwYW50LCAzMjsgVHJhaWxlciwgMTZcblxuRml4ZWQgZWZmZWN0czpcbiAgICAgICAgICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciAgICAgICAgIGRmIHQgdmFsdWUgUHIoPnx0fClcbihJbnRlcmNlcHQpICAgICAgICAgMC4wMDg5NzYgICAwLjEyNTg2MiAgMzUuNzM1MjQxICAgMC4wNzEgICAgMC45NDRcbnNjYWxlKE5BY2Nfd2hvbGUpICAtMC4wMTM4NzYgICAwLjA0NzIwNiA0MTAuMjAxMTc5ICAtMC4yOTQgICAgMC43NjlcbnNjYWxlKEFJbnNfd2hvbGUpICAgMC4wMjMyMzYgICAwLjA0ODM0MiA0MjYuOTk5MjI0ICAgMC40ODEgICAgMC42MzFcbnNjYWxlKE1QRkNfd2hvbGUpICAtMC4wMTg3NDYgICAwLjA0Njc4OSA0MjAuMzMxNzI1ICAtMC40MDEgICAgMC42ODlcblxuQ29ycmVsYXRpb24gb2YgRml4ZWQgRWZmZWN0czpcbiAgICAgICAgICAgIChJbnRyKSBzKE5BXykgcyhBSV8pXG5zY2woTkFjY193KSAgMC4wMDMgICAgICAgICAgICAgIFxuc2NsKEFJbnNfdykgIDAuMDAzIC0wLjMxOCAgICAgICBcbnNjbChNUEZDX3cpIC0wLjAwMSAtMC4zMzMgLTAuMjE4XG4gICAgICAgICAgICAgIFIybSAgICAgICBSMmNcblsxLF0gMC4wMDA3NTYxMzM0IDAuMzQ4NzgzNlxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+IHNjYWxlKE5BY2Nfd2hvbGUpICsgc2NhbGUoQUluc193aG9sZSkgKyAgICAgIHNjYWxlKE1QRkNfd2hvbGUpICsgKDEgfCBQYXJ0aWNpcGFudCkgKyAoMSB8IFRyYWlsZXIpXG4gICBEYXRhOiBBbGxTdWJzX0luZGl2aWR1YWxDaG9pY2VfSFxuXG5SRU1MIGNyaXRlcmlvbiBhdCBjb252ZXJnZW5jZTogMTE3Ny4yXG5cblNjYWxlZCByZXNpZHVhbHM6IFxuICAgIE1pbiAgICAgIDFRICBNZWRpYW4gICAgICAzUSAgICAgTWF4IFxuLTIuNDEyMyAtMC42OTE3IC0wLjEwODYgIDAuNjYwMCAgMi43ODkyIFxuXG5SYW5kb20gZWZmZWN0czpcbiBHcm91cHMgICAgICBOYW1lICAgICAgICBWYXJpYW5jZSBTdGQuRGV2LlxuIFBhcnRpY2lwYW50IChJbnRlcmNlcHQpIDAuMjUzODYgIDAuNTAzOCAgXG4gVHJhaWxlciAgICAgKEludGVyY2VwdCkgMC4wOTk4NSAgMC4zMTYwICBcbiBSZXNpZHVhbCAgICAgICAgICAgICAgICAwLjY2MjkxICAwLjgxNDIgIFxuTnVtYmVyIG9mIG9iczogNDQ2LCBncm91cHM6ICBQYXJ0aWNpcGFudCwgMzI7IFRyYWlsZXIsIDE2XG5cbkZpeGVkIGVmZmVjdHM6XG4gICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgICAgICAgICBkZiB0IHZhbHVlIFByKD58dHwpXG4oSW50ZXJjZXB0KSAgICAgICAgIDAuMDExNzUxICAgMC4xMjU1NDYgIDM2LjAxMzMzNyAgIDAuMDk0ICAgIDAuOTI2XG5zY2FsZShOQWNjX3dob2xlKSAgIDAuMDA1MTA0ICAgMC4wNDc3ODUgNDA5LjkxMTcyMSAgIDAuMTA3ICAgIDAuOTE1XG5zY2FsZShBSW5zX3dob2xlKSAgIDAuMDIzOTcxICAgMC4wNDkwODkgNDI3Ljk0NzczOCAgIDAuNDg4ICAgIDAuNjI2XG5zY2FsZShNUEZDX3dob2xlKSAgLTAuMDI3MTE4ICAgMC4wNDY3NjcgNDIxLjMxNzMyNiAgLTAuNTgwICAgIDAuNTYyXG5cbkNvcnJlbGF0aW9uIG9mIEZpeGVkIEVmZmVjdHM6XG4gICAgICAgICAgICAoSW50cikgcyhOQV8pIHMoQUlfKVxuc2NsKE5BY2NfdykgIDAuMDAyICAgICAgICAgICAgICBcbnNjbChBSW5zX3cpICAwLjAwMiAtMC4zNDkgICAgICAgXG5zY2woTVBGQ193KSAgMC4wMDAgLTAuMzI0IC0wLjIxNVxuICAgICAgICAgICAgICBSMm0gICAgICAgUjJjXG5bMSxdIDAuMDAwOTAzNTgyOSAwLjM0ODUyMDRcbiJ9 -->
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
-Formula: scale(W_score_scaled) ~ scale(NAcc_whole) + scale(AIns_whole) +  
-    scale(MPFC_whole) + (1 | Participant) + (1 | Trailer)
+Formula: scale(W_score_scaled) ~ scale(NAcc_whole) + scale(AIns_whole) +      scale(MPFC_whole) + (1 | Participant) + (1 | Trailer)
    Data: AllSubs_IndividualChoice_H
 
-REML criterion at convergence: 1173.5
+REML criterion at convergence: 1177.2
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--2.4743 -0.6879 -0.1075  0.6461  2.7699 
+-2.4123 -0.6917 -0.1086  0.6600  2.7892 
 
 Random effects:
  Groups      Name        Variance Std.Dev.
- Participant (Intercept) 0.2505   0.5005  
- Trailer     (Intercept) 0.1027   0.3205  
- Residual                0.6609   0.8130  
-Number of obs: 445, groups:  Participant, 32; Trailer, 16
+ Participant (Intercept) 0.25386  0.5038  
+ Trailer     (Intercept) 0.09985  0.3160  
+ Residual                0.66291  0.8142  
+Number of obs: 446, groups:  Participant, 32; Trailer, 16
 
 Fixed effects:
                     Estimate Std. Error         df t value Pr(&gt;|t|)
-(Intercept)         0.008976   0.125862  35.735241   0.071    0.944
-scale(NAcc_whole)  -0.013876   0.047206 410.201179  -0.294    0.769
-scale(AIns_whole)   0.023236   0.048342 426.999224   0.481    0.631
-scale(MPFC_whole)  -0.018746   0.046789 420.331725  -0.401    0.689
+(Intercept)         0.011751   0.125546  36.013337   0.094    0.926
+scale(NAcc_whole)   0.005104   0.047785 409.911721   0.107    0.915
+scale(AIns_whole)   0.023971   0.049089 427.947738   0.488    0.626
+scale(MPFC_whole)  -0.027118   0.046767 421.317326  -0.580    0.562
 
 Correlation of Fixed Effects:
             (Intr) s(NA_) s(AI_)
-scl(NAcc_w)  0.003              
-scl(AIns_w)  0.003 -0.318       
-scl(MPFC_w) -0.001 -0.333 -0.218
+scl(NAcc_w)  0.002              
+scl(AIns_w)  0.002 -0.349       
+scl(MPFC_w)  0.000 -0.324 -0.215
               R2m       R2c
-[1,] 0.0007561334 0.3487836</code></pre>
+[1,] 0.0009035829 0.3485204</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiQ29tcHV0aW5nIHByb2ZpbGUgY29uZmlkZW5jZSBpbnRlcnZhbHMgLi4uXG4ifQ== -->
 <pre><code>Computing profile confidence intervals ...</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgMi41ICUgICAgIDk3LjUgJVxuLnNpZzAxICAgICAgICAgICAgIDAuMzY4NTY3NDUgMC42NzUwMTMzMVxuLnNpZzAyICAgICAgICAgICAgIDAuMjAyMTM2NjUgMC40OTYyODI0N1xuLnNpZ21hICAgICAgICAgICAgIDAuNzU2OTM4NzUgMC44Njk4MTExOVxuKEludGVyY2VwdCkgICAgICAgLTAuMjQwNDcwOTkgMC4yNTg1ODE0Nlxuc2NhbGUoTkFjY193aG9sZSkgLTAuMTA2Njg0MTAgMC4wNzgzNjM5MFxuc2NhbGUoQUluc193aG9sZSkgLTAuMDcxNzAwNTMgMC4xMTc3Mzc1NFxuc2NhbGUoTVBGQ193aG9sZSkgLTAuMTEwMTg4NzQgMC4wNzM2OTE5NVxuWzFdIDExODcuNDU2XG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgMi41ICUgICAgIDk3LjUgJVxuLnNpZzAxICAgICAgICAgICAgIDAuMzcxMTc3ODUgMC42NzkzMzMwMFxuLnNpZzAyICAgICAgICAgICAgIDAuMTk4MTY0MTUgMC40OTA0Njg4NVxuLnNpZ21hICAgICAgICAgICAgIDAuNzU4MTQxNTIgMC44NzEwNDU1MFxuKEludGVyY2VwdCkgICAgICAgLTAuMjM2OTg1NDYgMC4yNjA3NDgzMlxuc2NhbGUoTkFjY193aG9sZSkgLTAuMDg4NzY0NzcgMC4wOTg0NzAyN1xuc2NhbGUoQUluc193aG9sZSkgLTAuMDcyNTUwMjUgMC4xMTk5ODE3OFxuc2NhbGUoTVBGQ193aG9sZSkgLTAuMTE4NTY0NDkgMC4wNjUzMjI5MVxuWzFdIDExOTEuMTk0XG4ifQ== -->
 <pre><code>                        2.5 %     97.5 %
-.sig01             0.36856745 0.67501331
-.sig02             0.20213665 0.49628247
-.sigma             0.75693875 0.86981119
-(Intercept)       -0.24047099 0.25858146
-scale(NAcc_whole) -0.10668410 0.07836390
-scale(AIns_whole) -0.07170053 0.11773754
-scale(MPFC_whole) -0.11018874 0.07369195
-[1] 1187.456</code></pre>
+.sig01             0.37117785 0.67933300
+.sig02             0.19816415 0.49046885
+.sigma             0.75814152 0.87104550
+(Intercept)       -0.23698546 0.26074832
+scale(NAcc_whole) -0.08876477 0.09847027
+scale(AIns_whole) -0.07255025 0.11998178
+scale(MPFC_whole) -0.11856449 0.06532291
+[1] 1191.194</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1895,34 +1893,33 @@ scale(MPFC_whole) -0.11018874 0.07369195
 <h1>M3_H: Neural activation (whole) + Behavioral data</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+ICtzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICsgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSArICBcbiAgICBzY2FsZShOQWNjX3dob2xlKSArIHNjYWxlKEFJbnNfd2hvbGUpICsgc2NhbGUoTVBGQ193aG9sZSkgKyAgXG4gICAgKDEgfCBQYXJ0aWNpcGFudCkgKyAoMSB8IFRyYWlsZXIpXG4gICBEYXRhOiBBbGxTdWJzX0luZGl2aWR1YWxDaG9pY2VfSFxuXG5SRU1MIGNyaXRlcmlvbiBhdCBjb252ZXJnZW5jZTogMTAzNi4zXG5cblNjYWxlZCByZXNpZHVhbHM6IFxuICAgIE1pbiAgICAgIDFRICBNZWRpYW4gICAgICAzUSAgICAgTWF4IFxuLTIuODQzMCAtMC42MjM2IC0wLjEyODIgIDAuNjU3MCAgMi44NTYxIFxuXG5SYW5kb20gZWZmZWN0czpcbiBHcm91cHMgICAgICBOYW1lICAgICAgICBWYXJpYW5jZSBTdGQuRGV2LlxuIFBhcnRpY2lwYW50IChJbnRlcmNlcHQpIDAuMTk4NTIgIDAuNDQ1NiAgXG4gVHJhaWxlciAgICAgKEludGVyY2VwdCkgMC4wNTU5MSAgMC4yMzY1ICBcbiBSZXNpZHVhbCAgICAgICAgICAgICAgICAwLjQ3NzM1ICAwLjY5MDkgIFxuTnVtYmVyIG9mIG9iczogNDQ1LCBncm91cHM6ICBQYXJ0aWNpcGFudCwgMzI7IFRyYWlsZXIsIDE2XG5cbkZpeGVkIGVmZmVjdHM6XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciAgICAgICAgIGRmIHQgdmFsdWUgUHIoPnx0fCkgICAgXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAgMC4wMDQ1MDUgICAwLjEwNDE2NCAgMzcuMjM3MDcwICAgMC4wNDMgIDAuOTY1NzQgICAgXG5zY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICAgMC41MDkxOTkgICAwLjAzODczNiA0MzMuMDg5NDk4ICAxMy4xNDYgIDwgMmUtMTYgKioqXG5zY2FsZShOZWdfYXJvdXNhbF9zY2FsZWQpICAtMC4xMTAxNTMgICAwLjA0MTQwOSA0MTAuMDM0OTg0ICAtMi42NjAgIDAuMDA4MTIgKiogXG5zY2FsZShOQWNjX3dob2xlKSAgICAgICAgICAtMC4wMTA1NTUgICAwLjA0MDEwMyA0MTAuMjIyODQ5ICAtMC4yNjMgIDAuNzkyNTMgICAgXG5zY2FsZShBSW5zX3dob2xlKSAgICAgICAgICAgMC4wMTc4MzcgICAwLjA0MTEyNyA0MjMuODk1MDk3ICAgMC40MzQgIDAuNjY0NzIgICAgXG5zY2FsZShNUEZDX3dob2xlKSAgICAgICAgICAtMC4wMTgwODQgICAwLjAzOTcxNiA0MTkuMzQ3MTc2ICAtMC40NTUgIDAuNjQ5MTAgICAgXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuQ29ycmVsYXRpb24gb2YgRml4ZWQgRWZmZWN0czpcbiAgICAgICAgICAgIChJbnRyKSBzKFBfXykgcyhOX18pIHMoTkFfKSBzKEFJXylcbnNjbChQc19yc18pIC0wLjAwNCAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbnNjbChOZ19yc18pICAwLjAwNSAtMC4yNjUgICAgICAgICAgICAgICAgICAgICBcbnNjbChOQWNjX3cpICAwLjAwNCAgMC4wMDQgIDAuMDI4ICAgICAgICAgICAgICBcbnNjbChBSW5zX3cpICAwLjAwMyAgMC4wMDAgLTAuMDkyIC0wLjMxOSAgICAgICBcbnNjbChNUEZDX3cpIC0wLjAwMSAtMC4wMDQgIDAuMDI2IC0wLjMzMyAtMC4yMTdcbiAgICAgICAgICAgUjJtICAgICAgIFIyY1xuWzEsXSAwLjI1MTc0MzkgMC41MTE5MDA1XG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+ICtzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICsgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSArICBcbiAgICBzY2FsZShOQWNjX3dob2xlKSArIHNjYWxlKEFJbnNfd2hvbGUpICsgc2NhbGUoTVBGQ193aG9sZSkgKyAgICAgICgxIHwgUGFydGljaXBhbnQpICsgKDEgfCBUcmFpbGVyKVxuICAgRGF0YTogQWxsU3Vic19JbmRpdmlkdWFsQ2hvaWNlX0hcblxuUkVNTCBjcml0ZXJpb24gYXQgY29udmVyZ2VuY2U6IDEwMzcuNlxuXG5TY2FsZWQgcmVzaWR1YWxzOiBcbiAgICBNaW4gICAgICAxUSAgTWVkaWFuICAgICAgM1EgICAgIE1heCBcbi0yLjkyMTkgLTAuNjA5NyAtMC4xMjk4ICAwLjY1ODEgIDIuODYwNyBcblxuUmFuZG9tIGVmZmVjdHM6XG4gR3JvdXBzICAgICAgTmFtZSAgICAgICAgVmFyaWFuY2UgU3RkLkRldi5cbiBQYXJ0aWNpcGFudCAoSW50ZXJjZXB0KSAwLjE5ODggICAwLjQ0NTggIFxuIFRyYWlsZXIgICAgIChJbnRlcmNlcHQpIDAuMDUyOSAgIDAuMjMwMCAgXG4gUmVzaWR1YWwgICAgICAgICAgICAgICAgMC40NzY5ICAgMC42OTA2ICBcbk51bWJlciBvZiBvYnM6IDQ0NiwgZ3JvdXBzOiAgUGFydGljaXBhbnQsIDMyOyBUcmFpbGVyLCAxNlxuXG5GaXhlZCBlZmZlY3RzOlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgICAgICAgICBkZiB0IHZhbHVlIFByKD58dHwpICAgIFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAgIDAuMDA2NjI4ICAgMC4xMDMyNTMgIDM3LjI3NTY0NCAgIDAuMDY0ICAwLjk0OTE2ICAgIFxuc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKSAgIDAuNTEzNjg1ICAgMC4wMzg2OTYgNDM0LjczNjQxMSAgMTMuMjc1ICA8IDJlLTE2ICoqKlxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAgLTAuMTEwNTc4ICAgMC4wNDEzMjYgNDA3LjQ4NDE1NCAgLTIuNjc2ICAwLjAwNzc2ICoqIFxuc2NhbGUoTkFjY193aG9sZSkgICAgICAgICAgLTAuMDAxOTY2ICAgMC4wNDA1MzQgNDEwLjgxNzI2OCAgLTAuMDQ4ICAwLjk2MTM0ICAgIFxuc2NhbGUoQUluc193aG9sZSkgICAgICAgICAgIDAuMDE2NjA2ICAgMC4wNDE3MDYgNDI0LjM2MTczMCAgIDAuMzk4ICAwLjY5MDcwICAgIFxuc2NhbGUoTVBGQ193aG9sZSkgICAgICAgICAgLTAuMDIwMzkxICAgMC4wMzk1OTQgNDIwLjU5MjY4NSAgLTAuNTE1ICAwLjYwNjgyICAgIFxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cbkNvcnJlbGF0aW9uIG9mIEZpeGVkIEVmZmVjdHM6XG4gICAgICAgICAgICAoSW50cikgcyhQX18pIHMoTl9fKSBzKE5BXykgcyhBSV8pXG5zY2woUHNfcnNfKSAtMC4wMDQgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5zY2woTmdfcnNfKSAgMC4wMDUgLTAuMjY1ICAgICAgICAgICAgICAgICAgICAgXG5zY2woTkFjY193KSAgMC4wMDIgLTAuMDE2ICAwLjA0OCAgICAgICAgICAgICAgXG5zY2woQUluc193KSAgMC4wMDIgLTAuMDAyIC0wLjEwMyAtMC4zNTIgICAgICAgXG5zY2woTVBGQ193KSAgMC4wMDAgIDAuMDA2ICAwLjAxNiAtMC4zMjQgLTAuMjEyXG4gICAgICAgICAgIFIybSAgICAgICBSMmNcblsxLF0gMC4yNTU4ODIyIDAuNTEyOTAxM1xuIn0= -->
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 Formula: scale(W_score_scaled) ~ +scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
-    scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) +  
-    (1 | Participant) + (1 | Trailer)
+    scale(NAcc_whole) + scale(AIns_whole) + scale(MPFC_whole) +      (1 | Participant) + (1 | Trailer)
    Data: AllSubs_IndividualChoice_H
 
-REML criterion at convergence: 1036.3
+REML criterion at convergence: 1037.6
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--2.8430 -0.6236 -0.1282  0.6570  2.8561 
+-2.9219 -0.6097 -0.1298  0.6581  2.8607 
 
 Random effects:
  Groups      Name        Variance Std.Dev.
- Participant (Intercept) 0.19852  0.4456  
- Trailer     (Intercept) 0.05591  0.2365  
- Residual                0.47735  0.6909  
-Number of obs: 445, groups:  Participant, 32; Trailer, 16
+ Participant (Intercept) 0.1988   0.4458  
+ Trailer     (Intercept) 0.0529   0.2300  
+ Residual                0.4769   0.6906  
+Number of obs: 446, groups:  Participant, 32; Trailer, 16
 
 Fixed effects:
                             Estimate Std. Error         df t value Pr(&gt;|t|)    
-(Intercept)                 0.004505   0.104164  37.237070   0.043  0.96574    
-scale(Pos_arousal_scaled)   0.509199   0.038736 433.089498  13.146  &lt; 2e-16 ***
-scale(Neg_arousal_scaled)  -0.110153   0.041409 410.034984  -2.660  0.00812 ** 
-scale(NAcc_whole)          -0.010555   0.040103 410.222849  -0.263  0.79253    
-scale(AIns_whole)           0.017837   0.041127 423.895097   0.434  0.66472    
-scale(MPFC_whole)          -0.018084   0.039716 419.347176  -0.455  0.64910    
+(Intercept)                 0.006628   0.103253  37.275644   0.064  0.94916    
+scale(Pos_arousal_scaled)   0.513685   0.038696 434.736411  13.275  &lt; 2e-16 ***
+scale(Neg_arousal_scaled)  -0.110578   0.041326 407.484154  -2.676  0.00776 ** 
+scale(NAcc_whole)          -0.001966   0.040534 410.817268  -0.048  0.96134    
+scale(AIns_whole)           0.016606   0.041706 424.361730   0.398  0.69070    
+scale(MPFC_whole)          -0.020391   0.039594 420.592685  -0.515  0.60682    
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -1930,27 +1927,27 @@ Correlation of Fixed Effects:
             (Intr) s(P__) s(N__) s(NA_) s(AI_)
 scl(Ps_rs_) -0.004                            
 scl(Ng_rs_)  0.005 -0.265                     
-scl(NAcc_w)  0.004  0.004  0.028              
-scl(AIns_w)  0.003  0.000 -0.092 -0.319       
-scl(MPFC_w) -0.001 -0.004  0.026 -0.333 -0.217
+scl(NAcc_w)  0.002 -0.016  0.048              
+scl(AIns_w)  0.002 -0.002 -0.103 -0.352       
+scl(MPFC_w)  0.000  0.006  0.016 -0.324 -0.212
            R2m       R2c
-[1,] 0.2517439 0.5119005</code></pre>
+[1,] 0.2558822 0.5129013</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiQ29tcHV0aW5nIHByb2ZpbGUgY29uZmlkZW5jZSBpbnRlcnZhbHMgLi4uXG4ifQ== -->
 <pre><code>Computing profile confidence intervals ...</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyLjUgJSAgICAgIDk3LjUgJVxuLnNpZzAxICAgICAgICAgICAgICAgICAgICAgMC4zMzIzMTcxMSAgMC41OTM4OTI2OVxuLnNpZzAyICAgICAgICAgICAgICAgICAgICAgMC4xMzkzMzU0MCAgMC4zNzQ1Njc0MVxuLnNpZ21hICAgICAgICAgICAgICAgICAgICAgMC42NDE4MjgwOSAgMC43Mzc1MjY4MlxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAtMC4yMDEzNzUwNCAgMC4yMTA0ODI0M1xuc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKSAgMC40MzM1MDUxMSAgMC41ODU3OTI2Mlxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAtMC4xOTMwNTIyNCAtMC4wMjg0MTk2MVxuc2NhbGUoTkFjY193aG9sZSkgICAgICAgICAtMC4wODkxODA5NSAgMC4wNjc2MDgxN1xuc2NhbGUoQUluc193aG9sZSkgICAgICAgICAtMC4wNjI1MzgzNyAgMC4wOTgwNDY4N1xuc2NhbGUoTVBGQ193aG9sZSkgICAgICAgICAtMC4wOTU1MDM0NSAgMC4wNjAwNTc2MFxuWzFdIDEwNTQuMjk5XG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyLjUgJSAgICAgIDk3LjUgJVxuLnNpZzAxICAgICAgICAgICAgICAgICAgICAgMC4zMzI0NDQ0NyAgMC41OTQxNDEzM1xuLnNpZzAyICAgICAgICAgICAgICAgICAgICAgMC4xMzM2MTYzNyAgMC4zNjYwNTUxM1xuLnNpZ21hICAgICAgICAgICAgICAgICAgICAgMC42NDE2MDg4NyAgMC43MzcxNjMwNFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAtMC4xOTczODAwMCAgMC4yMTA4MzY5OFxuc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKSAgMC40MzgwNTYxMiAgMC41OTAyMzk1MVxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAtMC4xOTM0MjM0OSAtMC4wMjg5MjczOFxuc2NhbGUoTkFjY193aG9sZSkgICAgICAgICAtMC4wODE0NjQ5NCAgMC4wNzcwNDkzNFxuc2NhbGUoQUluc193aG9sZSkgICAgICAgICAtMC4wNjQ5NjQxOSAgMC4wOTc5NDU0MFxuc2NhbGUoTVBGQ193aG9sZSkgICAgICAgICAtMC4wOTc2MTM0MyAgMC4wNTc2MjQyOFxuWzFdIDEwNTUuNTU1XG4ifQ== -->
 <pre><code>                                2.5 %      97.5 %
-.sig01                     0.33231711  0.59389269
-.sig02                     0.13933540  0.37456741
-.sigma                     0.64182809  0.73752682
-(Intercept)               -0.20137504  0.21048243
-scale(Pos_arousal_scaled)  0.43350511  0.58579262
-scale(Neg_arousal_scaled) -0.19305224 -0.02841961
-scale(NAcc_whole)         -0.08918095  0.06760817
-scale(AIns_whole)         -0.06253837  0.09804687
-scale(MPFC_whole)         -0.09550345  0.06005760
-[1] 1054.299</code></pre>
+.sig01                     0.33244447  0.59414133
+.sig02                     0.13361637  0.36605513
+.sigma                     0.64160887  0.73716304
+(Intercept)               -0.19738000  0.21083698
+scale(Pos_arousal_scaled)  0.43805612  0.59023951
+scale(Neg_arousal_scaled) -0.19342349 -0.02892738
+scale(NAcc_whole)         -0.08146494  0.07704934
+scale(AIns_whole)         -0.06496419  0.09794540
+scale(MPFC_whole)         -0.09761343  0.05762428
+[1] 1055.555</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1959,53 +1956,52 @@ scale(MPFC_whole)         -0.09550345  0.06005760
 <h1>M4_H: Neural activation (onset)</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+IHNjYWxlKE5BY2Nfb25zZXQpICsgc2NhbGUoQUluc19vbnNldCkgKyAgXG4gICAgc2NhbGUoTVBGQ19vbnNldCkgKyAoMSB8IFBhcnRpY2lwYW50KSArICgxIHwgVHJhaWxlcilcbiAgIERhdGE6IEFsbFN1YnNfSW5kaXZpZHVhbENob2ljZV9IXG5cblJFTUwgY3JpdGVyaW9uIGF0IGNvbnZlcmdlbmNlOiAxMTcyLjhcblxuU2NhbGVkIHJlc2lkdWFsczogXG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMi40MDc0IC0wLjY2NDMgLTAuMTAwOCAgMC42MzUyICAyLjcyNzcgXG5cblJhbmRvbSBlZmZlY3RzOlxuIEdyb3VwcyAgICAgIE5hbWUgICAgICAgIFZhcmlhbmNlIFN0ZC5EZXYuXG4gUGFydGljaXBhbnQgKEludGVyY2VwdCkgMC4yNDk5NCAgMC40OTk5ICBcbiBUcmFpbGVyICAgICAoSW50ZXJjZXB0KSAwLjA5NjQzICAwLjMxMDUgIFxuIFJlc2lkdWFsICAgICAgICAgICAgICAgIDAuNjYxMjUgIDAuODEzMiAgXG5OdW1iZXIgb2Ygb2JzOiA0NDUsIGdyb3VwczogIFBhcnRpY2lwYW50LCAzMjsgVHJhaWxlciwgMTZcblxuRml4ZWQgZWZmZWN0czpcbiAgICAgICAgICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciAgICAgICAgIGRmIHQgdmFsdWUgUHIoPnx0fClcbihJbnRlcmNlcHQpICAgICAgICAgMC4wMDkyNDMgICAwLjEyNDIyMCAgMzUuOTk3NDc5ICAgMC4wNzQgICAgMC45NDFcbnNjYWxlKE5BY2Nfb25zZXQpICAtMC4wNDQ0MjcgICAwLjA0ODUyMSA0MTkuNzUwODgwICAtMC45MTYgICAgMC4zNjBcbnNjYWxlKEFJbnNfb25zZXQpICAgMC4wMjkwODIgICAwLjA0NzUzMiA0MjQuODA3MDk2ICAgMC42MTIgICAgMC41NDFcbnNjYWxlKE1QRkNfb25zZXQpICAgMC4wMjMxNjIgICAwLjA0NzAyNyA0MTcuODgxNzQyICAgMC40OTMgICAgMC42MjNcblxuQ29ycmVsYXRpb24gb2YgRml4ZWQgRWZmZWN0czpcbiAgICAgICAgICAgIChJbnRyKSBzKE5BXykgcyhBSV8pXG5zY2woTkFjY19uKSAgMC4wMDEgICAgICAgICAgICAgIFxuc2NsKEFJbnNfbikgIDAuMDA1IC0wLjMyMyAgICAgICBcbnNjbChNUEZDX24pIC0wLjAwMSAtMC4zNTcgLTAuMjAzXG4gICAgICAgICAgICAgUjJtICAgICAgIFIyY1xuWzEsXSAwLjAwMTg1NzU5NCAwLjM0NDk3MTRcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+IHNjYWxlKE5BY2Nfb25zZXQpICsgc2NhbGUoQUluc19vbnNldCkgKyAgICAgIHNjYWxlKE1QRkNfb25zZXQpICsgKDEgfCBQYXJ0aWNpcGFudCkgKyAoMSB8IFRyYWlsZXIpXG4gICBEYXRhOiBBbGxTdWJzX0luZGl2aWR1YWxDaG9pY2VfSFxuXG5SRU1MIGNyaXRlcmlvbiBhdCBjb252ZXJnZW5jZTogMTE3Ni44XG5cblNjYWxlZCByZXNpZHVhbHM6IFxuICAgICBNaW4gICAgICAgMVEgICBNZWRpYW4gICAgICAgM1EgICAgICBNYXggXG4tMi40MDk5NCAtMC42ODI5MiAtMC4wOTU2NyAgMC42NTUzMCAgMi43MjAxMiBcblxuUmFuZG9tIGVmZmVjdHM6XG4gR3JvdXBzICAgICAgTmFtZSAgICAgICAgVmFyaWFuY2UgU3RkLkRldi5cbiBQYXJ0aWNpcGFudCAoSW50ZXJjZXB0KSAwLjI1MTM1ICAwLjUwMTMgIFxuIFRyYWlsZXIgICAgIChJbnRlcmNlcHQpIDAuMDkyNjYgIDAuMzA0NCAgXG4gUmVzaWR1YWwgICAgICAgICAgICAgICAgMC42NjQyNCAgMC44MTUwICBcbk51bWJlciBvZiBvYnM6IDQ0NiwgZ3JvdXBzOiAgUGFydGljaXBhbnQsIDMyOyBUcmFpbGVyLCAxNlxuXG5GaXhlZCBlZmZlY3RzOlxuICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgICAgICAgIGRmIHQgdmFsdWUgUHIoPnx0fClcbihJbnRlcmNlcHQpICAgICAgICAgMC4wMTE3MSAgICAwLjEyMzQ0ICAzNi4yMDY3OCAgIDAuMDk1ICAgIDAuOTI1XG5zY2FsZShOQWNjX29uc2V0KSAgLTAuMDQwMzUgICAgMC4wNDg5NiA0MjAuMDg3ODggIC0wLjgyNCAgICAwLjQxMFxuc2NhbGUoQUluc19vbnNldCkgICAwLjAxNzI3ICAgIDAuMDQ4MjIgNDI1LjQwNTIxICAgMC4zNTggICAgMC43MjBcbnNjYWxlKE1QRkNfb25zZXQpICAgMC4wMjc2OCAgICAwLjA0NzM0IDQxOS4yNDEwMiAgIDAuNTg1ICAgIDAuNTU5XG5cbkNvcnJlbGF0aW9uIG9mIEZpeGVkIEVmZmVjdHM6XG4gICAgICAgICAgICAoSW50cikgcyhOQV8pIHMoQUlfKVxuc2NsKE5BY2NfbikgIDAuMDAxICAgICAgICAgICAgICBcbnNjbChBSW5zX24pICAwLjAwNSAtMC4zNDIgICAgICAgXG5zY2woTVBGQ19uKSAtMC4wMDEgLTAuMzUxIC0wLjIxMVxuICAgICAgICAgICAgIFIybSAgICAgICBSMmNcblsxLF0gMC4wMDE0NDYzMTcgMC4zNDIxNDU3XG4ifQ== -->
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
-Formula: scale(W_score_scaled) ~ scale(NAcc_onset) + scale(AIns_onset) +  
-    scale(MPFC_onset) + (1 | Participant) + (1 | Trailer)
+Formula: scale(W_score_scaled) ~ scale(NAcc_onset) + scale(AIns_onset) +      scale(MPFC_onset) + (1 | Participant) + (1 | Trailer)
    Data: AllSubs_IndividualChoice_H
 
-REML criterion at convergence: 1172.8
+REML criterion at convergence: 1176.8
 
 Scaled residuals: 
-    Min      1Q  Median      3Q     Max 
--2.4074 -0.6643 -0.1008  0.6352  2.7277 
+     Min       1Q   Median       3Q      Max 
+-2.40994 -0.68292 -0.09567  0.65530  2.72012 
 
 Random effects:
  Groups      Name        Variance Std.Dev.
- Participant (Intercept) 0.24994  0.4999  
- Trailer     (Intercept) 0.09643  0.3105  
- Residual                0.66125  0.8132  
-Number of obs: 445, groups:  Participant, 32; Trailer, 16
+ Participant (Intercept) 0.25135  0.5013  
+ Trailer     (Intercept) 0.09266  0.3044  
+ Residual                0.66424  0.8150  
+Number of obs: 446, groups:  Participant, 32; Trailer, 16
 
 Fixed effects:
-                    Estimate Std. Error         df t value Pr(&gt;|t|)
-(Intercept)         0.009243   0.124220  35.997479   0.074    0.941
-scale(NAcc_onset)  -0.044427   0.048521 419.750880  -0.916    0.360
-scale(AIns_onset)   0.029082   0.047532 424.807096   0.612    0.541
-scale(MPFC_onset)   0.023162   0.047027 417.881742   0.493    0.623
+                   Estimate Std. Error        df t value Pr(&gt;|t|)
+(Intercept)         0.01171    0.12344  36.20678   0.095    0.925
+scale(NAcc_onset)  -0.04035    0.04896 420.08788  -0.824    0.410
+scale(AIns_onset)   0.01727    0.04822 425.40521   0.358    0.720
+scale(MPFC_onset)   0.02768    0.04734 419.24102   0.585    0.559
 
 Correlation of Fixed Effects:
             (Intr) s(NA_) s(AI_)
 scl(NAcc_n)  0.001              
-scl(AIns_n)  0.005 -0.323       
-scl(MPFC_n) -0.001 -0.357 -0.203
+scl(AIns_n)  0.005 -0.342       
+scl(MPFC_n) -0.001 -0.351 -0.211
              R2m       R2c
-[1,] 0.001857594 0.3449714</code></pre>
+[1,] 0.001446317 0.3421457</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiQ29tcHV0aW5nIHByb2ZpbGUgY29uZmlkZW5jZSBpbnRlcnZhbHMgLi4uXG4ifQ== -->
 <pre><code>Computing profile confidence intervals ...</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgMi41ICUgICAgIDk3LjUgJVxuLnNpZzAxICAgICAgICAgICAgIDAuMzY4MDM5MjkgMC42NzQwNDM3MFxuLnNpZzAyICAgICAgICAgICAgIDAuMTkzNjUzMjUgMC40ODM0MDQ0MFxuLnNpZ21hICAgICAgICAgICAgIDAuNzU3MTIxMzcgMC44NzAwMTc4N1xuKEludGVyY2VwdCkgICAgICAgLTAuMjM2OTY0NjggMC4yNTU1ODYyMlxuc2NhbGUoTkFjY19vbnNldCkgLTAuMTM5OTIxNjQgMC4wNTAzNTIyNlxuc2NhbGUoQUluc19vbnNldCkgLTAuMDY0MDI0MDYgMC4xMjIzMDM4OFxuc2NhbGUoTVBGQ19vbnNldCkgLTAuMDY4ODEzMjMgMC4xMTYyNDkzM1xuWzFdIDExODYuODE5XG4ifQ== -->
-<pre><code>                        2.5 %     97.5 %
-.sig01             0.36803929 0.67404370
-.sig02             0.19365325 0.48340440
-.sigma             0.75712137 0.87001787
-(Intercept)       -0.23696468 0.25558622
-scale(NAcc_onset) -0.13992164 0.05035226
-scale(AIns_onset) -0.06402406 0.12230388
-scale(MPFC_onset) -0.06881323 0.11624933
-[1] 1186.819</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgMi41ICUgICAgOTcuNSAlXG4uc2lnMDEgICAgICAgICAgICAgMC4zNjg4NDQ5MiAwLjY3NjAxNjFcbi5zaWcwMiAgICAgICAgICAgICAwLjE4ODQ4NTY0IDAuNDc1MzAyOFxuLnNpZ21hICAgICAgICAgICAgIDAuNzU4OTAxMTEgMC44NzE5MjE4XG4oSW50ZXJjZXB0KSAgICAgICAtMC4yMzI4NjgyNSAwLjI1NjUzMjBcbnNjYWxlKE5BY2Nfb25zZXQpIC0wLjEzNjc3NTIzIDAuMDU1MzAyOVxuc2NhbGUoQUluc19vbnNldCkgLTAuMDc3MTg2MzcgMC4xMTE4NTQ3XG5zY2FsZShNUEZDX29uc2V0KSAtMC4wNjQ5MTc3MiAwLjEyMTQyODlcblsxXSAxMTkwLjg0MVxuIn0= -->
+<pre><code>                        2.5 %    97.5 %
+.sig01             0.36884492 0.6760161
+.sig02             0.18848564 0.4753028
+.sigma             0.75890111 0.8719218
+(Intercept)       -0.23286825 0.2565320
+scale(NAcc_onset) -0.13677523 0.0553029
+scale(AIns_onset) -0.07718637 0.1118547
+scale(MPFC_onset) -0.06491772 0.1214289
+[1] 1190.841</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2014,62 +2010,61 @@ scale(MPFC_onset) -0.06881323 0.11624933
 <h1>M5_H: Neural activation (onset) + Behavioral data</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+ICtzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICsgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSArICBcbiAgICBzY2FsZShOQWNjX29uc2V0KSArIHNjYWxlKEFJbnNfb25zZXQpICsgc2NhbGUoTVBGQ19vbnNldCkgKyAgXG4gICAgKDEgfCBQYXJ0aWNpcGFudCkgKyAoMSB8IFRyYWlsZXIpXG4gICBEYXRhOiBBbGxTdWJzX0luZGl2aWR1YWxDaG9pY2VfSFxuXG5SRU1MIGNyaXRlcmlvbiBhdCBjb252ZXJnZW5jZTogMTAzNi41XG5cblNjYWxlZCByZXNpZHVhbHM6IFxuICAgIE1pbiAgICAgIDFRICBNZWRpYW4gICAgICAzUSAgICAgTWF4IFxuLTIuODcwMSAtMC42MTQzIC0wLjEyNDEgIDAuNjY0MCAgMi44MTc2IFxuXG5SYW5kb20gZWZmZWN0czpcbiBHcm91cHMgICAgICBOYW1lICAgICAgICBWYXJpYW5jZSBTdGQuRGV2LlxuIFBhcnRpY2lwYW50IChJbnRlcmNlcHQpIDAuMTk4NDcgIDAuNDQ1NSAgXG4gVHJhaWxlciAgICAgKEludGVyY2VwdCkgMC4wNTQ1MiAgMC4yMzM1ICBcbiBSZXNpZHVhbCAgICAgICAgICAgICAgICAwLjQ3NzkzICAwLjY5MTMgIFxuTnVtYmVyIG9mIG9iczogNDQ1LCBncm91cHM6ICBQYXJ0aWNpcGFudCwgMzI7IFRyYWlsZXIsIDE2XG5cbkZpeGVkIGVmZmVjdHM6XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciAgICAgICAgIGRmIHQgdmFsdWUgUHIoPnx0fCkgICAgXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAgMC4wMDQ1ODggICAwLjEwMzc0NSAgMzcuMDY4ODg0ICAgMC4wNDQgIDAuOTY0OTYgICAgXG5zY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICAgMC41MDg4NTIgICAwLjAzODg0MCA0MzIuNzExNzc3ICAxMy4xMDEgIDwgMmUtMTYgKioqXG5zY2FsZShOZWdfYXJvdXNhbF9zY2FsZWQpICAtMC4xMDkwMDkgICAwLjA0MTM4NiA0MDQuNzQxMjkxICAtMi42MzQgIDAuMDA4NzYgKiogXG5zY2FsZShOQWNjX29uc2V0KSAgICAgICAgICAtMC4wMTcxNzIgICAwLjA0MTM0MSA0MTkuNzEzMDcxICAtMC40MTUgIDAuNjc4MDcgICAgXG5zY2FsZShBSW5zX29uc2V0KSAgICAgICAgICAgMC4wMTEzNDAgICAwLjA0MDM5NSA0MjMuODM4NjcyICAgMC4yODEgIDAuNzc5MDYgICAgXG5zY2FsZShNUEZDX29uc2V0KSAgICAgICAgICAtMC4wMDMyNTAgICAwLjA0MDE5NyA0MTcuNDQ0MDUzICAtMC4wODEgIDAuOTM1NjAgICAgXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuQ29ycmVsYXRpb24gb2YgRml4ZWQgRWZmZWN0czpcbiAgICAgICAgICAgIChJbnRyKSBzKFBfXykgcyhOX18pIHMoTkFfKSBzKEFJXylcbnNjbChQc19yc18pIC0wLjAwNCAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbnNjbChOZ19yc18pICAwLjAwNiAtMC4yNTkgICAgICAgICAgICAgICAgICAgICBcbnNjbChOQWNjX24pICAwLjAwMSAgMC4wNDggIDAuMDUwICAgICAgICAgICAgICBcbnNjbChBSW5zX24pICAwLjAwNSAtMC4wMzYgLTAuMDA4IC0wLjMyNCAgICAgICBcbnNjbChNUEZDX24pIC0wLjAwMSAtMC4wNDggLTAuMDg0IC0wLjM2MyAtMC4xOThcbiAgICAgICAgICAgUjJtICAgICAgIFIyY1xuWzEsXSAwLjI1MjI1MDMgMC41MTEwNjczXG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+ICtzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICsgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSArICBcbiAgICBzY2FsZShOQWNjX29uc2V0KSArIHNjYWxlKEFJbnNfb25zZXQpICsgc2NhbGUoTVBGQ19vbnNldCkgKyAgICAgICgxIHwgUGFydGljaXBhbnQpICsgKDEgfCBUcmFpbGVyKVxuICAgRGF0YTogQWxsU3Vic19JbmRpdmlkdWFsQ2hvaWNlX0hcblxuUkVNTCBjcml0ZXJpb24gYXQgY29udmVyZ2VuY2U6IDEwMzcuN1xuXG5TY2FsZWQgcmVzaWR1YWxzOiBcbiAgICBNaW4gICAgICAxUSAgTWVkaWFuICAgICAgM1EgICAgIE1heCBcbi0yLjkzNjUgLTAuNjEyMyAtMC4xMzEwICAwLjY2NjUgIDIuODA0MyBcblxuUmFuZG9tIGVmZmVjdHM6XG4gR3JvdXBzICAgICAgTmFtZSAgICAgICAgVmFyaWFuY2UgU3RkLkRldi5cbiBQYXJ0aWNpcGFudCAoSW50ZXJjZXB0KSAwLjE5NzkzICAwLjQ0NDkgIFxuIFRyYWlsZXIgICAgIChJbnRlcmNlcHQpIDAuMDUxNTEgIDAuMjI3MCAgXG4gUmVzaWR1YWwgICAgICAgICAgICAgICAgMC40Nzc2MCAgMC42OTExICBcbk51bWJlciBvZiBvYnM6IDQ0NiwgZ3JvdXBzOiAgUGFydGljaXBhbnQsIDMyOyBUcmFpbGVyLCAxNlxuXG5GaXhlZCBlZmZlY3RzOlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgICAgICAgICBkZiB0IHZhbHVlIFByKD58dHwpICAgIFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAgIDAuMDA2NTA3ICAgMC4xMDI3MTQgIDM3LjA0NjgyNiAgIDAuMDYzICAwLjk0OTgzICAgIFxuc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKSAgIDAuNTEzODg4ICAgMC4wMzg3OTMgNDM0LjI0NTY0NSAgMTMuMjQ3ICA8IDJlLTE2ICoqKlxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAgLTAuMTA5NTk2ICAgMC4wNDEyODUgNDAxLjAyNjc0NCAgLTIuNjU1ICAwLjAwODI2ICoqIFxuc2NhbGUoTkFjY19vbnNldCkgICAgICAgICAgLTAuMDE1NDU3ICAgMC4wNDE2MDcgNDIwLjQwNzM4MCAgLTAuMzcxICAwLjcxMDQ1ICAgIFxuc2NhbGUoQUluc19vbnNldCkgICAgICAgICAgIDAuMDAyOTQ3ICAgMC4wNDA4NTAgNDI0LjQwMzQyNyAgIDAuMDcyICAwLjk0MjUzICAgIFxuc2NhbGUoTVBGQ19vbnNldCkgICAgICAgICAgLTAuMDAyMjYzICAgMC4wNDA0MDEgNDE5LjE4MTA2NCAgLTAuMDU2ICAwLjk1NTM2ICAgIFxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cbkNvcnJlbGF0aW9uIG9mIEZpeGVkIEVmZmVjdHM6XG4gICAgICAgICAgICAoSW50cikgcyhQX18pIHMoTl9fKSBzKE5BXykgcyhBSV8pXG5zY2woUHNfcnNfKSAtMC4wMDUgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5zY2woTmdfcnNfKSAgMC4wMDUgLTAuMjU5ICAgICAgICAgICAgICAgICAgICAgXG5zY2woTkFjY19uKSAgMC4wMDEgIDAuMDQzICAwLjA1OCAgICAgICAgICAgICAgXG5zY2woQUluc19uKSAgMC4wMDYgLTAuMDI5IC0wLjAxMCAtMC4zNDIgICAgICAgXG5zY2woTVBGQ19uKSAtMC4wMDEgLTAuMDU0IC0wLjA5MSAtMC4zNTggLTAuMjA2XG4gICAgICAgICAgIFIybSAgICAgICBSMmNcblsxLF0gMC4yNTY2ODA2IDAuNTExNzAyNlxuIn0= -->
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 Formula: scale(W_score_scaled) ~ +scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
-    scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +  
-    (1 | Participant) + (1 | Trailer)
+    scale(NAcc_onset) + scale(AIns_onset) + scale(MPFC_onset) +      (1 | Participant) + (1 | Trailer)
    Data: AllSubs_IndividualChoice_H
 
-REML criterion at convergence: 1036.5
+REML criterion at convergence: 1037.7
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--2.8701 -0.6143 -0.1241  0.6640  2.8176 
+-2.9365 -0.6123 -0.1310  0.6665  2.8043 
 
 Random effects:
  Groups      Name        Variance Std.Dev.
- Participant (Intercept) 0.19847  0.4455  
- Trailer     (Intercept) 0.05452  0.2335  
- Residual                0.47793  0.6913  
-Number of obs: 445, groups:  Participant, 32; Trailer, 16
+ Participant (Intercept) 0.19793  0.4449  
+ Trailer     (Intercept) 0.05151  0.2270  
+ Residual                0.47760  0.6911  
+Number of obs: 446, groups:  Participant, 32; Trailer, 16
 
 Fixed effects:
                             Estimate Std. Error         df t value Pr(&gt;|t|)    
-(Intercept)                 0.004588   0.103745  37.068884   0.044  0.96496    
-scale(Pos_arousal_scaled)   0.508852   0.038840 432.711777  13.101  &lt; 2e-16 ***
-scale(Neg_arousal_scaled)  -0.109009   0.041386 404.741291  -2.634  0.00876 ** 
-scale(NAcc_onset)          -0.017172   0.041341 419.713071  -0.415  0.67807    
-scale(AIns_onset)           0.011340   0.040395 423.838672   0.281  0.77906    
-scale(MPFC_onset)          -0.003250   0.040197 417.444053  -0.081  0.93560    
+(Intercept)                 0.006507   0.102714  37.046826   0.063  0.94983    
+scale(Pos_arousal_scaled)   0.513888   0.038793 434.245645  13.247  &lt; 2e-16 ***
+scale(Neg_arousal_scaled)  -0.109596   0.041285 401.026744  -2.655  0.00826 ** 
+scale(NAcc_onset)          -0.015457   0.041607 420.407380  -0.371  0.71045    
+scale(AIns_onset)           0.002947   0.040850 424.403427   0.072  0.94253    
+scale(MPFC_onset)          -0.002263   0.040401 419.181064  -0.056  0.95536    
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Correlation of Fixed Effects:
             (Intr) s(P__) s(N__) s(NA_) s(AI_)
-scl(Ps_rs_) -0.004                            
-scl(Ng_rs_)  0.006 -0.259                     
-scl(NAcc_n)  0.001  0.048  0.050              
-scl(AIns_n)  0.005 -0.036 -0.008 -0.324       
-scl(MPFC_n) -0.001 -0.048 -0.084 -0.363 -0.198
+scl(Ps_rs_) -0.005                            
+scl(Ng_rs_)  0.005 -0.259                     
+scl(NAcc_n)  0.001  0.043  0.058              
+scl(AIns_n)  0.006 -0.029 -0.010 -0.342       
+scl(MPFC_n) -0.001 -0.054 -0.091 -0.358 -0.206
            R2m       R2c
-[1,] 0.2522503 0.5110673</code></pre>
+[1,] 0.2566806 0.5117026</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiQ29tcHV0aW5nIHByb2ZpbGUgY29uZmlkZW5jZSBpbnRlcnZhbHMgLi4uXG4ifQ== -->
 <pre><code>Computing profile confidence intervals ...</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyLjUgJSAgICAgIDk3LjUgJVxuLnNpZzAxICAgICAgICAgICAgICAgICAgICAgMC4zMzIwODQ5NiAgMC41OTM4NjI4MlxuLnNpZzAyICAgICAgICAgICAgICAgICAgICAgMC4xMzU1ODU1MCAgMC4zNzE4NzY2NlxuLnNpZ21hICAgICAgICAgICAgICAgICAgICAgMC42NDIyMDUxOCAgMC43Mzc5ODQ4MFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAtMC4yMDA1MDA4OCAgMC4yMDk3NTcyNFxuc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKSAgMC40MzI5OTI3OSAgMC41ODU1MzE0Nlxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAtMC4xOTIxODQxNiAtMC4wMjcwNDg1Mlxuc2NhbGUoTkFjY19vbnNldCkgICAgICAgICAtMC4wOTg1OTg2NiAgMC4wNjM1MzQ0NFxuc2NhbGUoQUluc19vbnNldCkgICAgICAgICAtMC4wNjc3ODE0NyAgMC4wOTA2NzI1NVxuc2NhbGUoTVBGQ19vbnNldCkgICAgICAgICAtMC4wODE3NzY1NiAgMC4wNzYzNjE2NlxuWzFdIDEwNTQuNDY3XG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyLjUgJSAgICAgIDk3LjUgJVxuLnNpZzAxICAgICAgICAgICAgICAgICAgICAgMC4zMzE0Mjk4NCAgMC41OTMwODUwMlxuLnNpZzAyICAgICAgICAgICAgICAgICAgICAgMC4xMjk3ODA4NiAgMC4zNjMyMDk3MVxuLnNpZ21hICAgICAgICAgICAgICAgICAgICAgMC42NDIwNTAzNyAgMC43Mzc2OTk5NlxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAtMC4xOTY0NzgxOSAgMC4yMDk2NzM2NVxuc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKSAgMC40MzgxMTg2NSAgMC41OTA0ODA3Mlxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAtMC4xOTI3NDMxMCAtMC4wMjc3MDI0Nlxuc2NhbGUoTkFjY19vbnNldCkgICAgICAgICAtMC4wOTc1NTI4NCAgMC4wNjU4MzQ2Mlxuc2NhbGUoQUluc19vbnNldCkgICAgICAgICAtMC4wNzcwOTg2NCAgMC4wODMyNDE1N1xuc2NhbGUoTVBGQ19vbnNldCkgICAgICAgICAtMC4wODEyMDY0MyAgMC4wNzc4MzY5NVxuWzFdIDEwNTUuNjkyXG4ifQ== -->
 <pre><code>                                2.5 %      97.5 %
-.sig01                     0.33208496  0.59386282
-.sig02                     0.13558550  0.37187666
-.sigma                     0.64220518  0.73798480
-(Intercept)               -0.20050088  0.20975724
-scale(Pos_arousal_scaled)  0.43299279  0.58553146
-scale(Neg_arousal_scaled) -0.19218416 -0.02704852
-scale(NAcc_onset)         -0.09859866  0.06353444
-scale(AIns_onset)         -0.06778147  0.09067255
-scale(MPFC_onset)         -0.08177656  0.07636166
-[1] 1054.467</code></pre>
+.sig01                     0.33142984  0.59308502
+.sig02                     0.12978086  0.36320971
+.sigma                     0.64205037  0.73769996
+(Intercept)               -0.19647819  0.20967365
+scale(Pos_arousal_scaled)  0.43811865  0.59048072
+scale(Neg_arousal_scaled) -0.19274310 -0.02770246
+scale(NAcc_onset)         -0.09755284  0.06583462
+scale(AIns_onset)         -0.07709864  0.08324157
+scale(MPFC_onset)         -0.08120643  0.07783695
+[1] 1055.692</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2078,55 +2073,55 @@ scale(MPFC_onset)         -0.08177656  0.07636166
 <h1>M6_H: Neural activation (middle)</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+IHNjYWxlKE5BY2NfbWlkZGxlKSArIHNjYWxlKEFJbnNfbWlkZGxlKSArICBcbiAgICBzY2FsZShNUEZDX21pZGRsZSkgKyAoMSB8IFBhcnRpY2lwYW50KSArICgxIHwgVHJhaWxlcilcbiAgIERhdGE6IEFsbFN1YnNfSW5kaXZpZHVhbENob2ljZV9IXG5cblJFTUwgY3JpdGVyaW9uIGF0IGNvbnZlcmdlbmNlOiAxMTcwLjJcblxuU2NhbGVkIHJlc2lkdWFsczogXG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMi41MTY1IC0wLjY2NzUgLTAuMTAxNiAgMC42MjY4ICAyLjgyMTEgXG5cblJhbmRvbSBlZmZlY3RzOlxuIEdyb3VwcyAgICAgIE5hbWUgICAgICAgIFZhcmlhbmNlIFN0ZC5EZXYuXG4gUGFydGljaXBhbnQgKEludGVyY2VwdCkgMC4yNTIyICAgMC41MDIyICBcbiBUcmFpbGVyICAgICAoSW50ZXJjZXB0KSAwLjEwMTQgICAwLjMxODQgIFxuIFJlc2lkdWFsICAgICAgICAgICAgICAgIDAuNjU1NSAgIDAuODA5NiAgXG5OdW1iZXIgb2Ygb2JzOiA0NDUsIGdyb3VwczogIFBhcnRpY2lwYW50LCAzMjsgVHJhaWxlciwgMTZcblxuRml4ZWQgZWZmZWN0czpcbiAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgICAgICAgICBkZiB0IHZhbHVlIFByKD58dHwpICBcbihJbnRlcmNlcHQpICAgICAgICAgIDAuMDA5ODMyICAgMC4xMjU2ODggIDM2LjE1MjQyOSAgIDAuMDc4ICAgMC45MzgxICBcbnNjYWxlKE5BY2NfbWlkZGxlKSAgLTAuMDIzNzgxICAgMC4wNDQzNDMgNDEyLjg1MjUzNCAgLTAuNTM2ICAgMC41OTIwICBcbnNjYWxlKEFJbnNfbWlkZGxlKSAgIDAuMDgxMjgxICAgMC4wNDg0NjIgNDI3LjAxNjYyNiAgIDEuNjc3ICAgMC4wOTQyIC5cbnNjYWxlKE1QRkNfbWlkZGxlKSAgLTAuMDY0Mjg5ICAgMC4wNDU1MDMgNDI1LjIzOTgzMyAgLTEuNDEzICAgMC4xNTg0ICBcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5Db3JyZWxhdGlvbiBvZiBGaXhlZCBFZmZlY3RzOlxuICAgICAgICAgICAgKEludHIpIHMoTkFfKSBzKEFJXylcbnNjbChOQWNjX20pICAwLjAwNSAgICAgICAgICAgICAgXG5zY2woQUluc19tKSAgMC4wMDQgLTAuMjk3ICAgICAgIFxuc2NsKE1QRkNfbSkgLTAuMDAzIC0wLjE1MCAtMC4zMjhcbiAgICAgICAgICAgICBSMm0gICAgICAgUjJjXG5bMSxdIDAuMDA3MTEwNzI0IDAuMzU0OTk5NVxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+IHNjYWxlKE5BY2NfbWlkZGxlKSArIHNjYWxlKEFJbnNfbWlkZGxlKSArICBcbiAgICBzY2FsZShNUEZDX21pZGRsZSkgKyAoMSB8IFBhcnRpY2lwYW50KSArICgxIHwgVHJhaWxlcilcbiAgIERhdGE6IEFsbFN1YnNfSW5kaXZpZHVhbENob2ljZV9IXG5cblJFTUwgY3JpdGVyaW9uIGF0IGNvbnZlcmdlbmNlOiAxMTczLjNcblxuU2NhbGVkIHJlc2lkdWFsczogXG4gICAgIE1pbiAgICAgICAxUSAgIE1lZGlhbiAgICAgICAzUSAgICAgIE1heCBcbi0yLjQ5NjIxIC0wLjY3NDcyIC0wLjA5OTM0ICAwLjYzNDI2ICAyLjg1MTA0IFxuXG5SYW5kb20gZWZmZWN0czpcbiBHcm91cHMgICAgICBOYW1lICAgICAgICBWYXJpYW5jZSBTdGQuRGV2LlxuIFBhcnRpY2lwYW50IChJbnRlcmNlcHQpIDAuMjUzNjIgIDAuNTAzNiAgXG4gVHJhaWxlciAgICAgKEludGVyY2VwdCkgMC4wOTkxNCAgMC4zMTQ5ICBcbiBSZXNpZHVhbCAgICAgICAgICAgICAgICAwLjY1NjY2ICAwLjgxMDMgIFxuTnVtYmVyIG9mIG9iczogNDQ2LCBncm91cHM6ICBQYXJ0aWNpcGFudCwgMzI7IFRyYWlsZXIsIDE2XG5cbkZpeGVkIGVmZmVjdHM6XG4gICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgICAgICAgIGRmIHQgdmFsdWUgUHIoPnx0fCkgIFxuKEludGVyY2VwdCkgICAgICAgICAgMC4wMTIxMSAgICAwLjEyNTI4ICAzNi4zMDkxMSAgIDAuMDk3ICAgMC45MjM2ICBcbnNjYWxlKE5BY2NfbWlkZGxlKSAgLTAuMDI0ODYgICAgMC4wNDQ5NCA0MTMuNzM5MzkgIC0wLjU1MyAgIDAuNTgwNSAgXG5zY2FsZShBSW5zX21pZGRsZSkgICAwLjA4ODUwICAgIDAuMDQ4NzggNDI3Ljc5MDIzICAgMS44MTQgICAwLjA3MDQgLlxuc2NhbGUoTVBGQ19taWRkbGUpICAtMC4wNzEyNiAgICAwLjA0NTY4IDQyNi4wMjgxMCAgLTEuNTYwICAgMC4xMTk1ICBcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5Db3JyZWxhdGlvbiBvZiBGaXhlZCBFZmZlY3RzOlxuICAgICAgICAgICAgKEludHIpIHMoTkFfKSBzKEFJXylcbnNjbChOQWNjX20pICAwLjAwNSAgICAgICAgICAgICAgXG5zY2woQUluc19tKSAgMC4wMDIgLTAuMzEyICAgICAgIFxuc2NsKE1QRkNfbSkgLTAuMDAyIC0wLjE2NyAtMC4zMjJcbiAgICAgICAgICAgICBSMm0gICAgICBSMmNcblsxLF0gMC4wMDg0NDg2MjUgMC4zNTQ5NjNcbiJ9 -->
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 Formula: scale(W_score_scaled) ~ scale(NAcc_middle) + scale(AIns_middle) +  
     scale(MPFC_middle) + (1 | Participant) + (1 | Trailer)
    Data: AllSubs_IndividualChoice_H
 
-REML criterion at convergence: 1170.2
+REML criterion at convergence: 1173.3
 
 Scaled residuals: 
-    Min      1Q  Median      3Q     Max 
--2.5165 -0.6675 -0.1016  0.6268  2.8211 
+     Min       1Q   Median       3Q      Max 
+-2.49621 -0.67472 -0.09934  0.63426  2.85104 
 
 Random effects:
  Groups      Name        Variance Std.Dev.
- Participant (Intercept) 0.2522   0.5022  
- Trailer     (Intercept) 0.1014   0.3184  
- Residual                0.6555   0.8096  
-Number of obs: 445, groups:  Participant, 32; Trailer, 16
+ Participant (Intercept) 0.25362  0.5036  
+ Trailer     (Intercept) 0.09914  0.3149  
+ Residual                0.65666  0.8103  
+Number of obs: 446, groups:  Participant, 32; Trailer, 16
 
 Fixed effects:
-                     Estimate Std. Error         df t value Pr(&gt;|t|)  
-(Intercept)          0.009832   0.125688  36.152429   0.078   0.9381  
-scale(NAcc_middle)  -0.023781   0.044343 412.852534  -0.536   0.5920  
-scale(AIns_middle)   0.081281   0.048462 427.016626   1.677   0.0942 .
-scale(MPFC_middle)  -0.064289   0.045503 425.239833  -1.413   0.1584  
+                    Estimate Std. Error        df t value Pr(&gt;|t|)  
+(Intercept)          0.01211    0.12528  36.30911   0.097   0.9236  
+scale(NAcc_middle)  -0.02486    0.04494 413.73939  -0.553   0.5805  
+scale(AIns_middle)   0.08850    0.04878 427.79023   1.814   0.0704 .
+scale(MPFC_middle)  -0.07126    0.04568 426.02810  -1.560   0.1195  
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Correlation of Fixed Effects:
             (Intr) s(NA_) s(AI_)
 scl(NAcc_m)  0.005              
-scl(AIns_m)  0.004 -0.297       
-scl(MPFC_m) -0.003 -0.150 -0.328
-             R2m       R2c
-[1,] 0.007110724 0.3549995</code></pre>
+scl(AIns_m)  0.002 -0.312       
+scl(MPFC_m) -0.002 -0.167 -0.322
+             R2m      R2c
+[1,] 0.008448625 0.354963</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiQ29tcHV0aW5nIHByb2ZpbGUgY29uZmlkZW5jZSBpbnRlcnZhbHMgLi4uXG4ifQ== -->
 <pre><code>Computing profile confidence intervals ...</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgIDIuNSAlICAgICA5Ny41ICVcbi5zaWcwMSAgICAgICAgICAgICAgMC4zNzAxOTcxNyAwLjY3NjYwODY1XG4uc2lnMDIgICAgICAgICAgICAgIDAuMjAxMTE0ODQgMC40OTI5NDU5OVxuLnNpZ21hICAgICAgICAgICAgICAwLjc1Mzg1MTgzIDAuODY2MjI3OThcbihJbnRlcmNlcHQpICAgICAgICAtMC4yMzkxOTI2NCAwLjI1OTA1MzE1XG5zY2FsZShOQWNjX21pZGRsZSkgLTAuMTEwNzk4MjAgMC4wNjI5MzAzMFxuc2NhbGUoQUluc19taWRkbGUpIC0wLjAxMzgxODMyIDAuMTc1OTYwMTNcbnNjYWxlKE1QRkNfbWlkZGxlKSAtMC4xNTMzMDAwNCAwLjAyNDc4NDAyXG5bMV0gMTE4NC4yMjVcbiJ9 -->
-<pre><code>                         2.5 %     97.5 %
-.sig01              0.37019717 0.67660865
-.sig02              0.20111484 0.49294599
-.sigma              0.75385183 0.86622798
-(Intercept)        -0.23919264 0.25905315
-scale(NAcc_middle) -0.11079820 0.06293030
-scale(AIns_middle) -0.01381832 0.17596013
-scale(MPFC_middle) -0.15330004 0.02478402
-[1] 1184.225</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAyLjUgJSAgICAgOTcuNSAlXG4uc2lnMDEgICAgICAgICAgICAgIDAuMzcxMjM0NzgwIDAuNjc4NDg5NTJcbi5zaWcwMiAgICAgICAgICAgICAgMC4xOTgwNzI3MTAgMC40ODgzMzI1MlxuLnNpZ21hICAgICAgICAgICAgICAwLjc1NDU3NjM4NiAwLjg2NjkxNjU1XG4oSW50ZXJjZXB0KSAgICAgICAgLTAuMjM2MDUxMTEwIDAuMjYwNTQ3MDNcbnNjYWxlKE5BY2NfbWlkZGxlKSAtMC4xMTI5Nzg0MzUgMC4wNjMwNDQ0MFxuc2NhbGUoQUluc19taWRkbGUpIC0wLjAwNzM4MjM5NCAwLjE4MzgzNTY1XG5zY2FsZShNUEZDX21pZGRsZSkgLTAuMTYwNTg4NTI3IDAuMDE4MTc5NjRcblsxXSAxMTg3LjMyN1xuIn0= -->
+<pre><code>                          2.5 %     97.5 %
+.sig01              0.371234780 0.67848952
+.sig02              0.198072710 0.48833252
+.sigma              0.754576386 0.86691655
+(Intercept)        -0.236051110 0.26054703
+scale(NAcc_middle) -0.112978435 0.06304440
+scale(AIns_middle) -0.007382394 0.18383565
+scale(MPFC_middle) -0.160588527 0.01817964
+[1] 1187.327</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2135,62 +2130,61 @@ scale(MPFC_middle) -0.15330004 0.02478402
 <h1>M7_H: Neural activation (middle) + Behavioral data</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+ICtzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICsgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSArICBcbiAgICBzY2FsZShOQWNjX21pZGRsZSkgKyBzY2FsZShBSW5zX21pZGRsZSkgKyBzY2FsZShNUEZDX21pZGRsZSkgKyAgXG4gICAgKDEgfCBQYXJ0aWNpcGFudCkgKyAoMSB8IFRyYWlsZXIpXG4gICBEYXRhOiBBbGxTdWJzX0luZGl2aWR1YWxDaG9pY2VfSFxuXG5SRU1MIGNyaXRlcmlvbiBhdCBjb252ZXJnZW5jZTogMTAzMy4yXG5cblNjYWxlZCByZXNpZHVhbHM6IFxuICAgIE1pbiAgICAgIDFRICBNZWRpYW4gICAgICAzUSAgICAgTWF4IFxuLTIuODQ2NyAtMC42MjMwIC0wLjEzNDMgIDAuNjQwMSAgMi44NTY5IFxuXG5SYW5kb20gZWZmZWN0czpcbiBHcm91cHMgICAgICBOYW1lICAgICAgICBWYXJpYW5jZSBTdGQuRGV2LlxuIFBhcnRpY2lwYW50IChJbnRlcmNlcHQpIDAuMTk5MDEgIDAuNDQ2MSAgXG4gVHJhaWxlciAgICAgKEludGVyY2VwdCkgMC4wNTU3NSAgMC4yMzYxICBcbiBSZXNpZHVhbCAgICAgICAgICAgICAgICAwLjQ3MzUxICAwLjY4ODEgIFxuTnVtYmVyIG9mIG9iczogNDQ1LCBncm91cHM6ICBQYXJ0aWNpcGFudCwgMzI7IFRyYWlsZXIsIDE2XG5cbkZpeGVkIGVmZmVjdHM6XG4gICAgICAgICAgICAgICAgICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yICAgICAgICBkZiB0IHZhbHVlIFByKD58dHwpICAgIFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAgIDAuMDA1MDYgICAgMC4xMDQxNSAgMzcuNTA4MjEgICAwLjA0OSAgMC45NjE1MSAgICBcbnNjYWxlKFBvc19hcm91c2FsX3NjYWxlZCkgICAwLjUwNzk1ICAgIDAuMDM4NjQgNDMzLjAxODQ1ICAxMy4xNDUgIDwgMmUtMTYgKioqXG5zY2FsZShOZWdfYXJvdXNhbF9zY2FsZWQpICAtMC4xMTI2MyAgICAwLjA0MTE1IDQwOC45NDQ4OCAgLTIuNzM3ICAwLjAwNjQ3ICoqIFxuc2NhbGUoTkFjY19taWRkbGUpICAgICAgICAgLTAuMDMxOTUgICAgMC4wMzc2OSA0MTEuNTM5MzcgIC0wLjg0OCAgMC4zOTcwNiAgICBcbnNjYWxlKEFJbnNfbWlkZGxlKSAgICAgICAgICAwLjA3NDU5ICAgIDAuMDQxMTMgNDIzLjUwMDIzICAgMS44MTMgIDAuMDcwNDggLiAgXG5zY2FsZShNUEZDX21pZGRsZSkgICAgICAgICAtMC4wMzc4MSAgICAwLjAzODY2IDQyMy4yNDQ3NSAgLTAuOTc4ICAwLjMyODYzICAgIFxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cbkNvcnJlbGF0aW9uIG9mIEZpeGVkIEVmZmVjdHM6XG4gICAgICAgICAgICAoSW50cikgcyhQX18pIHMoTl9fKSBzKE5BXykgcyhBSV8pXG5zY2woUHNfcnNfKSAtMC4wMDQgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5zY2woTmdfcnNfKSAgMC4wMDUgLTAuMjY1ICAgICAgICAgICAgICAgICAgICAgXG5zY2woTkFjY19tKSAgMC4wMDUgLTAuMDE4ICAwLjAxMiAgICAgICAgICAgICAgXG5zY2woQUluc19tKSAgMC4wMDQgLTAuMDA3IC0wLjA1OSAtMC4yOTcgICAgICAgXG5zY2woTVBGQ19tKSAtMC4wMDMgIDAuMDUxICAwLjAyMSAtMC4xNTEgLTAuMzI2XG4gICAgICAgICAgIFIybSAgICAgICBSMmNcblsxLF0gMC4yNTY1NDA0IDAuNTE2NjE0OVxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+ICtzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICsgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSArICBcbiAgICBzY2FsZShOQWNjX21pZGRsZSkgKyBzY2FsZShBSW5zX21pZGRsZSkgKyBzY2FsZShNUEZDX21pZGRsZSkgKyAgICAgICgxIHwgUGFydGljaXBhbnQpICsgKDEgfCBUcmFpbGVyKVxuICAgRGF0YTogQWxsU3Vic19JbmRpdmlkdWFsQ2hvaWNlX0hcblxuUkVNTCBjcml0ZXJpb24gYXQgY29udmVyZ2VuY2U6IDEwMzQuMlxuXG5TY2FsZWQgcmVzaWR1YWxzOiBcbiAgICBNaW4gICAgICAxUSAgTWVkaWFuICAgICAgM1EgICAgIE1heCBcbi0yLjg3MzMgLTAuNjE1OSAtMC4xMjM2ICAwLjYzMDAgIDIuODc1OCBcblxuUmFuZG9tIGVmZmVjdHM6XG4gR3JvdXBzICAgICAgTmFtZSAgICAgICAgVmFyaWFuY2UgU3RkLkRldi5cbiBQYXJ0aWNpcGFudCAoSW50ZXJjZXB0KSAwLjE5ODkyICAwLjQ0NjAgIFxuIFRyYWlsZXIgICAgIChJbnRlcmNlcHQpIDAuMDUzMzUgIDAuMjMxMCAgXG4gUmVzaWR1YWwgICAgICAgICAgICAgICAgMC40NzI3OSAgMC42ODc2ICBcbk51bWJlciBvZiBvYnM6IDQ0NiwgZ3JvdXBzOiAgUGFydGljaXBhbnQsIDMyOyBUcmFpbGVyLCAxNlxuXG5GaXhlZCBlZmZlY3RzOlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciAgICAgICAgZGYgdCB2YWx1ZSBQcig+fHR8KSAgICBcbihJbnRlcmNlcHQpICAgICAgICAgICAgICAgICAwLjAwNjc5ICAgIDAuMTAzMzcgIDM3LjU1NTE2ICAgMC4wNjYgIDAuOTQ3OTcgICAgXG5zY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICAgMC41MTE3OSAgICAwLjAzODYyIDQzNC40NzI3OSAgMTMuMjUyICA8IDJlLTE2ICoqKlxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAgLTAuMTEzNjggICAgMC4wNDEwNSA0MDcuMzA3MjkgIC0yLjc2OSAgMC4wMDU4NyAqKiBcbnNjYWxlKE5BY2NfbWlkZGxlKSAgICAgICAgIC0wLjAzNTA0ICAgIDAuMDM4MTQgNDEyLjYzNTYxICAtMC45MTkgIDAuMzU4NzAgICAgXG5zY2FsZShBSW5zX21pZGRsZSkgICAgICAgICAgMC4wNzYxNyAgICAwLjA0MTM2IDQyNC4wODEwNSAgIDEuODQyICAwLjA2NjI0IC4gIFxuc2NhbGUoTVBGQ19taWRkbGUpICAgICAgICAgLTAuMDM2NjYgICAgMC4wMzg3NyA0MjMuODgwODkgIC0wLjk0NiAgMC4zNDQ5MCAgICBcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5Db3JyZWxhdGlvbiBvZiBGaXhlZCBFZmZlY3RzOlxuICAgICAgICAgICAgKEludHIpIHMoUF9fKSBzKE5fXykgcyhOQV8pIHMoQUlfKVxuc2NsKFBzX3JzXykgLTAuMDA1ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuc2NsKE5nX3JzXykgIDAuMDA1IC0wLjI2NSAgICAgICAgICAgICAgICAgICAgIFxuc2NsKE5BY2NfbSkgIDAuMDA1IC0wLjAyMiAgMC4wMTkgICAgICAgICAgICAgIFxuc2NsKEFJbnNfbSkgIDAuMDAyIC0wLjAxNSAtMC4wNjkgLTAuMzExICAgICAgIFxuc2NsKE1QRkNfbSkgLTAuMDAyICAwLjA2NSAgMC4wMTkgLTAuMTY5IC0wLjMyMFxuICAgICAgICAgIFIybSAgICAgICBSMmNcblsxLF0gMC4yNjEwMzEgMC41MTgxNDA2XG4ifQ== -->
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 Formula: scale(W_score_scaled) ~ +scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
-    scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +  
-    (1 | Participant) + (1 | Trailer)
+    scale(NAcc_middle) + scale(AIns_middle) + scale(MPFC_middle) +      (1 | Participant) + (1 | Trailer)
    Data: AllSubs_IndividualChoice_H
 
-REML criterion at convergence: 1033.2
+REML criterion at convergence: 1034.2
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--2.8467 -0.6230 -0.1343  0.6401  2.8569 
+-2.8733 -0.6159 -0.1236  0.6300  2.8758 
 
 Random effects:
  Groups      Name        Variance Std.Dev.
- Participant (Intercept) 0.19901  0.4461  
- Trailer     (Intercept) 0.05575  0.2361  
- Residual                0.47351  0.6881  
-Number of obs: 445, groups:  Participant, 32; Trailer, 16
+ Participant (Intercept) 0.19892  0.4460  
+ Trailer     (Intercept) 0.05335  0.2310  
+ Residual                0.47279  0.6876  
+Number of obs: 446, groups:  Participant, 32; Trailer, 16
 
 Fixed effects:
                            Estimate Std. Error        df t value Pr(&gt;|t|)    
-(Intercept)                 0.00506    0.10415  37.50821   0.049  0.96151    
-scale(Pos_arousal_scaled)   0.50795    0.03864 433.01845  13.145  &lt; 2e-16 ***
-scale(Neg_arousal_scaled)  -0.11263    0.04115 408.94488  -2.737  0.00647 ** 
-scale(NAcc_middle)         -0.03195    0.03769 411.53937  -0.848  0.39706    
-scale(AIns_middle)          0.07459    0.04113 423.50023   1.813  0.07048 .  
-scale(MPFC_middle)         -0.03781    0.03866 423.24475  -0.978  0.32863    
+(Intercept)                 0.00679    0.10337  37.55516   0.066  0.94797    
+scale(Pos_arousal_scaled)   0.51179    0.03862 434.47279  13.252  &lt; 2e-16 ***
+scale(Neg_arousal_scaled)  -0.11368    0.04105 407.30729  -2.769  0.00587 ** 
+scale(NAcc_middle)         -0.03504    0.03814 412.63561  -0.919  0.35870    
+scale(AIns_middle)          0.07617    0.04136 424.08105   1.842  0.06624 .  
+scale(MPFC_middle)         -0.03666    0.03877 423.88089  -0.946  0.34490    
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Correlation of Fixed Effects:
             (Intr) s(P__) s(N__) s(NA_) s(AI_)
-scl(Ps_rs_) -0.004                            
+scl(Ps_rs_) -0.005                            
 scl(Ng_rs_)  0.005 -0.265                     
-scl(NAcc_m)  0.005 -0.018  0.012              
-scl(AIns_m)  0.004 -0.007 -0.059 -0.297       
-scl(MPFC_m) -0.003  0.051  0.021 -0.151 -0.326
-           R2m       R2c
-[1,] 0.2565404 0.5166149</code></pre>
+scl(NAcc_m)  0.005 -0.022  0.019              
+scl(AIns_m)  0.002 -0.015 -0.069 -0.311       
+scl(MPFC_m) -0.002  0.065  0.019 -0.169 -0.320
+          R2m       R2c
+[1,] 0.261031 0.5181406</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiQ29tcHV0aW5nIHByb2ZpbGUgY29uZmlkZW5jZSBpbnRlcnZhbHMgLi4uXG4ifQ== -->
 <pre><code>Computing profile confidence intervals ...</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyLjUgJSAgICAgIDk3LjUgJVxuLnNpZzAxICAgICAgICAgICAgICAgICAgICAgMC4zMzI4NDE0NiAgMC41OTQzNzc3NFxuLnNpZzAyICAgICAgICAgICAgICAgICAgICAgMC4xMzk1MDM0MSAgMC4zNzM4MDYzOFxuLnNpZ21hICAgICAgICAgICAgICAgICAgICAgMC42MzkyNTE5MSAgMC43MzQ1Mzk1MFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAtMC4yMDA3NDAzNyAgMC4yMTA5ODU4OFxuc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKSAgMC40MzI0NTg1NCAgMC41ODQzMDA3NVxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAtMC4xOTQ5Njg5NSAtMC4wMzE0MjEwN1xuc2NhbGUoTkFjY19taWRkbGUpICAgICAgICAtMC4xMDU2NDIyOSAgMC4wNDE2MzUxMVxuc2NhbGUoQUluc19taWRkbGUpICAgICAgICAtMC4wMDU5MDI3OCAgMC4xNTQ3Nzk1NVxuc2NhbGUoTVBGQ19taWRkbGUpICAgICAgICAtMC4xMTMzMzczNiAgMC4wMzc3NTE4MVxuWzFdIDEwNTEuMTU3XG4ifQ== -->
-<pre><code>                                2.5 %      97.5 %
-.sig01                     0.33284146  0.59437774
-.sig02                     0.13950341  0.37380638
-.sigma                     0.63925191  0.73453950
-(Intercept)               -0.20074037  0.21098588
-scale(Pos_arousal_scaled)  0.43245854  0.58430075
-scale(Neg_arousal_scaled) -0.19496895 -0.03142107
-scale(NAcc_middle)        -0.10564229  0.04163511
-scale(AIns_middle)        -0.00590278  0.15477955
-scale(MPFC_middle)        -0.11333736  0.03775181
-[1] 1051.157</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMi41ICUgICAgICA5Ny41ICVcbi5zaWcwMSAgICAgICAgICAgICAgICAgICAgIDAuMzMyNzEyNjExICAwLjU5NDE1MTQ0XG4uc2lnMDIgICAgICAgICAgICAgICAgICAgICAwLjEzNTE2NjMwOCAgMC4zNjY4ODA2M1xuLnNpZ21hICAgICAgICAgICAgICAgICAgICAgMC42Mzg4MjgyMjggIDAuNzMzOTM2MDJcbihJbnRlcmNlcHQpICAgICAgICAgICAgICAgLTAuMTk3NDE1MTYzICAwLjIxMTIwODIyXG5zY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICAwLjQzNjMzNTQzMyAgMC41ODgxMTAwOVxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAtMC4xOTU4MjMyODYgLTAuMDMyNjU1MjFcbnNjYWxlKE5BY2NfbWlkZGxlKSAgICAgICAgLTAuMTA5NTUzMjE5ICAwLjAzOTQ0NDIzXG5zY2FsZShBSW5zX21pZGRsZSkgICAgICAgIC0wLjAwNDkwODA4MyAgMC4xNTY4MjQ2NFxuc2NhbGUoTVBGQ19taWRkbGUpICAgICAgICAtMC4xMTIzMzI3NzkgIDAuMDM5MTExMjZcblsxXSAxMDUyLjIzMVxuIn0= -->
+<pre><code>                                 2.5 %      97.5 %
+.sig01                     0.332712611  0.59415144
+.sig02                     0.135166308  0.36688063
+.sigma                     0.638828228  0.73393602
+(Intercept)               -0.197415163  0.21120822
+scale(Pos_arousal_scaled)  0.436335433  0.58811009
+scale(Neg_arousal_scaled) -0.195823286 -0.03265521
+scale(NAcc_middle)        -0.109553219  0.03944423
+scale(AIns_middle)        -0.004908083  0.15682464
+scale(MPFC_middle)        -0.112332779  0.03911126
+[1] 1052.231</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2199,53 +2193,53 @@ scale(MPFC_middle)        -0.11333736  0.03775181
 <h1>M8_H: Neural activation (offset)</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+IHNjYWxlKE5BY2Nfb2Zmc2V0KSArIHNjYWxlKEFJbnNfb2Zmc2V0KSArICBcbiAgICBzY2FsZShNUEZDX29mZnNldCkgKyAoMSB8IFBhcnRpY2lwYW50KSArICgxIHwgVHJhaWxlcilcbiAgIERhdGE6IEFsbFN1YnNfSW5kaXZpZHVhbENob2ljZV9IXG5cblJFTUwgY3JpdGVyaW9uIGF0IGNvbnZlcmdlbmNlOiAxMTcyLjRcblxuU2NhbGVkIHJlc2lkdWFsczogXG4gICAgIE1pbiAgICAgICAxUSAgIE1lZGlhbiAgICAgICAzUSAgICAgIE1heCBcbi0yLjQxMzE0IC0wLjY3OTczIC0wLjA4MTE1ICAwLjYyNjMyICAyLjcxNDExIFxuXG5SYW5kb20gZWZmZWN0czpcbiBHcm91cHMgICAgICBOYW1lICAgICAgICBWYXJpYW5jZSBTdGQuRGV2LlxuIFBhcnRpY2lwYW50IChJbnRlcmNlcHQpIDAuMjU0MzggIDAuNTA0NCAgXG4gVHJhaWxlciAgICAgKEludGVyY2VwdCkgMC4wOTY0MiAgMC4zMTA1ICBcbiBSZXNpZHVhbCAgICAgICAgICAgICAgICAwLjY1OTc4ICAwLjgxMjMgIFxuTnVtYmVyIG9mIG9iczogNDQ1LCBncm91cHM6ICBQYXJ0aWNpcGFudCwgMzI7IFRyYWlsZXIsIDE2XG5cbkZpeGVkIGVmZmVjdHM6XG4gICAgICAgICAgICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yICAgICAgICAgZGYgdCB2YWx1ZSBQcig+fHR8KVxuKEludGVyY2VwdCkgICAgICAgICA5LjMxM2UtMDMgIDEuMjQ4ZS0wMSAgMy42MzZlKzAxICAgMC4wNzUgICAgMC45NDFcbnNjYWxlKE5BY2Nfb2Zmc2V0KSAgMy4wNTNlLTAyICA0LjQ4N2UtMDIgIDQuMTc2ZSswMiAgIDAuNjgwICAgIDAuNDk3XG5zY2FsZShBSW5zX29mZnNldCkgLTUuNDg3ZS0wMiAgNC43NDhlLTAyICA0LjE1M2UrMDIgIC0xLjE1NSAgICAwLjI0OVxuc2NhbGUoTVBGQ19vZmZzZXQpICA2LjIzOGUtMDQgIDQuNTUzZS0wMiAgNC4yNDVlKzAyICAgMC4wMTQgICAgMC45ODlcblxuQ29ycmVsYXRpb24gb2YgRml4ZWQgRWZmZWN0czpcbiAgICAgICAgICAgIChJbnRyKSBzKE5BXykgcyhBSV8pXG5zY2woTkFjY19mKSAtMC4wMDEgICAgICAgICAgICAgIFxuc2NsKEFJbnNfZikgLTAuMDAyIC0wLjI1NSAgICAgICBcbnNjbChNUEZDX2YpICAwLjAwNCAtMC4yNDUgLTAuMTk0XG4gICAgICAgICAgICAgUjJtICAgICAgUjJjXG5bMSxdIDAuMDAyODI1MTU3IDAuMzQ4OTcxXG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+IHNjYWxlKE5BY2Nfb2Zmc2V0KSArIHNjYWxlKEFJbnNfb2Zmc2V0KSArICBcbiAgICBzY2FsZShNUEZDX29mZnNldCkgKyAoMSB8IFBhcnRpY2lwYW50KSArICgxIHwgVHJhaWxlcilcbiAgIERhdGE6IEFsbFN1YnNfSW5kaXZpZHVhbENob2ljZV9IXG5cblJFTUwgY3JpdGVyaW9uIGF0IGNvbnZlcmdlbmNlOiAxMTc1LjZcblxuU2NhbGVkIHJlc2lkdWFsczogXG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMi4zNTQxIC0wLjY4NjYgLTAuMTIzMiAgMC42MTE3ICAyLjcyNjggXG5cblJhbmRvbSBlZmZlY3RzOlxuIEdyb3VwcyAgICAgIE5hbWUgICAgICAgIFZhcmlhbmNlIFN0ZC5EZXYuXG4gUGFydGljaXBhbnQgKEludGVyY2VwdCkgMC4yNTUxMiAgMC41MDUxICBcbiBUcmFpbGVyICAgICAoSW50ZXJjZXB0KSAwLjA5MzQ3ICAwLjMwNTcgIFxuIFJlc2lkdWFsICAgICAgICAgICAgICAgIDAuNjYxMzQgIDAuODEzMiAgXG5OdW1iZXIgb2Ygb2JzOiA0NDYsIGdyb3VwczogIFBhcnRpY2lwYW50LCAzMjsgVHJhaWxlciwgMTZcblxuRml4ZWQgZWZmZWN0czpcbiAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgICAgICAgICBkZiB0IHZhbHVlIFByKD58dHwpXG4oSW50ZXJjZXB0KSAgICAgICAgICAwLjAxMTU1MiAgIDAuMTI0MDg5ICAzNi41MjQyNDggICAwLjA5MyAgICAwLjkyNlxuc2NhbGUoTkFjY19vZmZzZXQpICAgMC4wNTg0MDYgICAwLjA0NTI4MSA0MTcuNTE0Mzg5ICAgMS4yOTAgICAgMC4xOThcbnNjYWxlKEFJbnNfb2Zmc2V0KSAgLTAuMDQ4ODk1ICAgMC4wNDgxNjkgNDEzLjg0NDk2MCAgLTEuMDE1ICAgIDAuMzExXG5zY2FsZShNUEZDX29mZnNldCkgIC0wLjAwNjUzOCAgIDAuMDQ1NDY2IDQyNS42MjI3NzggIC0wLjE0NCAgICAwLjg4NlxuXG5Db3JyZWxhdGlvbiBvZiBGaXhlZCBFZmZlY3RzOlxuICAgICAgICAgICAgKEludHIpIHMoTkFfKSBzKEFJXylcbnNjbChOQWNjX2YpIC0wLjAwMyAgICAgICAgICAgICAgXG5zY2woQUluc19mKSAtMC4wMDMgLTAuMjkwICAgICAgIFxuc2NsKE1QRkNfZikgIDAuMDAzIC0wLjI0NyAtMC4xODdcbiAgICAgICAgICAgICBSMm0gICAgICAgUjJjXG5bMSxdIDAuMDAzNjk5MTE3IDAuMzQ3NTgyNlxuIn0= -->
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 Formula: scale(W_score_scaled) ~ scale(NAcc_offset) + scale(AIns_offset) +  
     scale(MPFC_offset) + (1 | Participant) + (1 | Trailer)
    Data: AllSubs_IndividualChoice_H
 
-REML criterion at convergence: 1172.4
+REML criterion at convergence: 1175.6
 
 Scaled residuals: 
-     Min       1Q   Median       3Q      Max 
--2.41314 -0.67973 -0.08115  0.62632  2.71411 
+    Min      1Q  Median      3Q     Max 
+-2.3541 -0.6866 -0.1232  0.6117  2.7268 
 
 Random effects:
  Groups      Name        Variance Std.Dev.
- Participant (Intercept) 0.25438  0.5044  
- Trailer     (Intercept) 0.09642  0.3105  
- Residual                0.65978  0.8123  
-Number of obs: 445, groups:  Participant, 32; Trailer, 16
+ Participant (Intercept) 0.25512  0.5051  
+ Trailer     (Intercept) 0.09347  0.3057  
+ Residual                0.66134  0.8132  
+Number of obs: 446, groups:  Participant, 32; Trailer, 16
 
 Fixed effects:
                      Estimate Std. Error         df t value Pr(&gt;|t|)
-(Intercept)         9.313e-03  1.248e-01  3.636e+01   0.075    0.941
-scale(NAcc_offset)  3.053e-02  4.487e-02  4.176e+02   0.680    0.497
-scale(AIns_offset) -5.487e-02  4.748e-02  4.153e+02  -1.155    0.249
-scale(MPFC_offset)  6.238e-04  4.553e-02  4.245e+02   0.014    0.989
+(Intercept)          0.011552   0.124089  36.524248   0.093    0.926
+scale(NAcc_offset)   0.058406   0.045281 417.514389   1.290    0.198
+scale(AIns_offset)  -0.048895   0.048169 413.844960  -1.015    0.311
+scale(MPFC_offset)  -0.006538   0.045466 425.622778  -0.144    0.886
 
 Correlation of Fixed Effects:
             (Intr) s(NA_) s(AI_)
-scl(NAcc_f) -0.001              
-scl(AIns_f) -0.002 -0.255       
-scl(MPFC_f)  0.004 -0.245 -0.194
-             R2m      R2c
-[1,] 0.002825157 0.348971</code></pre>
+scl(NAcc_f) -0.003              
+scl(AIns_f) -0.003 -0.290       
+scl(MPFC_f)  0.003 -0.247 -0.187
+             R2m       R2c
+[1,] 0.003699117 0.3475826</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiQ29tcHV0aW5nIHByb2ZpbGUgY29uZmlkZW5jZSBpbnRlcnZhbHMgLi4uXG4ifQ== -->
 <pre><code>Computing profile confidence intervals ...</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgIDIuNSAlICAgICA5Ny41ICVcbi5zaWcwMSAgICAgICAgICAgICAgMC4zNzE3MzU1NyAwLjY3OTM4NzE5XG4uc2lnMDIgICAgICAgICAgICAgIDAuMTkzNjU1MDMgMC40ODI2MzM5M1xuLnNpZ21hICAgICAgICAgICAgICAwLjc1NjMyMTU0IDAuODY5MDcyODNcbihJbnRlcmNlcHQpICAgICAgICAtMC4yMzc3ODM1NiAwLjI1NjUzNTk3XG5zY2FsZShOQWNjX29mZnNldCkgLTAuMDU3MjYyNTQgMC4xMTgzNjg3MVxuc2NhbGUoQUluc19vZmZzZXQpIC0wLjE0ODMwNDY0IDAuMDM4MzEzMzFcbnNjYWxlKE1QRkNfb2Zmc2V0KSAtMC4wODgzNTEyOCAwLjA5MDM2MTQ1XG5bMV0gMTE4Ni40MVxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgIDIuNSAlICAgICA5Ny41ICVcbi5zaWcwMSAgICAgICAgICAgICAgMC4zNzIwMjg2OCAwLjY4MDU2NjU3XG4uc2lnMDIgICAgICAgICAgICAgIDAuMTg5NDY4ODkgMC40NzY0MDI1MVxuLnNpZ21hICAgICAgICAgICAgICAwLjc1NzI4NTM1IDAuODcwMDM0ODZcbihJbnRlcmNlcHQpICAgICAgICAtMC4yMzQxNDUyMCAwLjI1NzQ3NTQ4XG5zY2FsZShOQWNjX29mZnNldCkgLTAuMDMwMTg1NjQgMC4xNDcwNTI1Nlxuc2NhbGUoQUluc19vZmZzZXQpIC0wLjE0Mzc5NzAyIDAuMDQ1NzI4MjZcbnNjYWxlKE1QRkNfb2Zmc2V0KSAtMC4wOTU0MzEwOCAwLjA4MzA4ODkwXG5bMV0gMTE4OS42MDZcbiJ9 -->
 <pre><code>                         2.5 %     97.5 %
-.sig01              0.37173557 0.67938719
-.sig02              0.19365503 0.48263393
-.sigma              0.75632154 0.86907283
-(Intercept)        -0.23778356 0.25653597
-scale(NAcc_offset) -0.05726254 0.11836871
-scale(AIns_offset) -0.14830464 0.03831331
-scale(MPFC_offset) -0.08835128 0.09036145
-[1] 1186.41</code></pre>
+.sig01              0.37202868 0.68056657
+.sig02              0.18946889 0.47640251
+.sigma              0.75728535 0.87003486
+(Intercept)        -0.23414520 0.25747548
+scale(NAcc_offset) -0.03018564 0.14705256
+scale(AIns_offset) -0.14379702 0.04572826
+scale(MPFC_offset) -0.09543108 0.08308890
+[1] 1189.606</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2254,62 +2248,61 @@ scale(MPFC_offset) -0.08835128 0.09036145
 <h1>M9_H: Neural activation (offset) + Behavioral data</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+ICtzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICsgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSArICBcbiAgICBzY2FsZShOQWNjX29mZnNldCkgKyBzY2FsZShBSW5zX29mZnNldCkgKyBzY2FsZShNUEZDX29mZnNldCkgKyAgXG4gICAgKDEgfCBQYXJ0aWNpcGFudCkgKyAoMSB8IFRyYWlsZXIpXG4gICBEYXRhOiBBbGxTdWJzX0luZGl2aWR1YWxDaG9pY2VfSFxuXG5SRU1MIGNyaXRlcmlvbiBhdCBjb252ZXJnZW5jZTogMTAzNS40XG5cblNjYWxlZCByZXNpZHVhbHM6IFxuICAgIE1pbiAgICAgIDFRICBNZWRpYW4gICAgICAzUSAgICAgTWF4IFxuLTIuOTg0OSAtMC41ODg5IC0wLjEyNDYgIDAuNjI3NyAgMi43NTY1IFxuXG5SYW5kb20gZWZmZWN0czpcbiBHcm91cHMgICAgICBOYW1lICAgICAgICBWYXJpYW5jZSBTdGQuRGV2LlxuIFBhcnRpY2lwYW50IChJbnRlcmNlcHQpIDAuMjAxMjEgIDAuNDQ4NiAgXG4gVHJhaWxlciAgICAgKEludGVyY2VwdCkgMC4wNTMyOSAgMC4yMzA4ICBcbiBSZXNpZHVhbCAgICAgICAgICAgICAgICAwLjQ3NjQ2ICAwLjY5MDMgIFxuTnVtYmVyIG9mIG9iczogNDQ1LCBncm91cHM6ICBQYXJ0aWNpcGFudCwgMzI7IFRyYWlsZXIsIDE2XG5cbkZpeGVkIGVmZmVjdHM6XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciAgICAgICAgIGRmIHQgdmFsdWUgUHIoPnx0fCkgICAgXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAgMC4wMDQ4MTEgICAwLjEwMzc3MCAgMzcuNjQ0NDMyICAgMC4wNDYgICAwLjk2MzMgICAgXG5zY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICAgMC41MDgyMzQgICAwLjAzODcxOCA0MzIuOTk3MjAyICAxMy4xMjYgICA8MmUtMTYgKioqXG5zY2FsZShOZWdfYXJvdXNhbF9zY2FsZWQpICAtMC4xMDYyMDggICAwLjA0MTUxMyA0MTAuMDY0MzYzICAtMi41NTggICAwLjAxMDkgKiAgXG5zY2FsZShOQWNjX29mZnNldCkgICAgICAgICAgMC4wMjUyMjkgICAwLjAzODEyMiA0MTYuMzcwMDU2ICAgMC42NjIgICAwLjUwODUgICAgXG5zY2FsZShBSW5zX29mZnNldCkgICAgICAgICAtMC4wNDQyMzEgICAwLjA0MDI2OSA0MDkuNDk5NDkwICAtMS4wOTggICAwLjI3MjcgICAgXG5zY2FsZShNUEZDX29mZnNldCkgICAgICAgICAtMC4wMDE0MTMgICAwLjAzODkyOCA0MjMuODY4MDQ2ICAtMC4wMzYgICAwLjk3MTEgICAgXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuQ29ycmVsYXRpb24gb2YgRml4ZWQgRWZmZWN0czpcbiAgICAgICAgICAgIChJbnRyKSBzKFBfXykgcyhOX18pIHMoTkFfKSBzKEFJXylcbnNjbChQc19yc18pIC0wLjAwNCAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbnNjbChOZ19yc18pICAwLjAwNiAtMC4yNjggICAgICAgICAgICAgICAgICAgICBcbnNjbChOQWNjX2YpIC0wLjAwMSAtMC4wMTAgLTAuMDEzICAgICAgICAgICAgICBcbnNjbChBSW5zX2YpIC0wLjAwMyAgMC4wMzIgLTAuMDg4IC0wLjI1NCAgICAgICBcbnNjbChNUEZDX2YpICAwLjAwNCAtMC4wMTYgIDAuMTE1IC0wLjI0NiAtMC4yMDBcbiAgICAgICAgICAgUjJtICAgICBSMmNcblsxLF0gMC4yNTM5NzQ0IDAuNTEzNzJcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+ICtzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICsgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSArICBcbiAgICBzY2FsZShOQWNjX29mZnNldCkgKyBzY2FsZShBSW5zX29mZnNldCkgKyBzY2FsZShNUEZDX29mZnNldCkgKyAgICAgICgxIHwgUGFydGljaXBhbnQpICsgKDEgfCBUcmFpbGVyKVxuICAgRGF0YTogQWxsU3Vic19JbmRpdmlkdWFsQ2hvaWNlX0hcblxuUkVNTCBjcml0ZXJpb24gYXQgY29udmVyZ2VuY2U6IDEwMzYuM1xuXG5TY2FsZWQgcmVzaWR1YWxzOiBcbiAgICBNaW4gICAgICAxUSAgTWVkaWFuICAgICAgM1EgICAgIE1heCBcbi0zLjA4NDYgLTAuNTk0OCAtMC4xNDQyICAwLjYyOTEgIDIuODAwNSBcblxuUmFuZG9tIGVmZmVjdHM6XG4gR3JvdXBzICAgICAgTmFtZSAgICAgICAgVmFyaWFuY2UgU3RkLkRldi5cbiBQYXJ0aWNpcGFudCAoSW50ZXJjZXB0KSAwLjIwMDA0ICAwLjQ0NzMgIFxuIFRyYWlsZXIgICAgIChJbnRlcmNlcHQpIDAuMDUwNTMgIDAuMjI0OCAgXG4gUmVzaWR1YWwgICAgICAgICAgICAgICAgMC40NzU3NyAgMC42ODk4ICBcbk51bWJlciBvZiBvYnM6IDQ0NiwgZ3JvdXBzOiAgUGFydGljaXBhbnQsIDMyOyBUcmFpbGVyLCAxNlxuXG5GaXhlZCBlZmZlY3RzOlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgICAgICAgICBkZiB0IHZhbHVlIFByKD58dHwpICAgIFxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAgIDAuMDA2NjQzICAgMC4xMDI3MTYgIDM3LjYxNTA2MyAgIDAuMDY1ICAgMC45NDg4ICAgIFxuc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKSAgIDAuNTEyMjI5ICAgMC4wMzg2NjcgNDM0LjU5MzIxOCAgMTMuMjQ3ICAgPDJlLTE2ICoqKlxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAgLTAuMTA2ODQyICAgMC4wNDEzNTQgNDA4LjU3NzEzMiAgLTIuNTg0ICAgMC4wMTAxICogIFxuc2NhbGUoTkFjY19vZmZzZXQpICAgICAgICAgIDAuMDQxNjM1ICAgMC4wMzg0MDIgNDE2LjQ1MTMxMiAgIDEuMDg0ICAgMC4yNzg5ICAgIFxuc2NhbGUoQUluc19vZmZzZXQpICAgICAgICAgLTAuMDQwNjU1ICAgMC4wNDA3NTEgNDA3LjE1Njk4MyAgLTAuOTk4ICAgMC4zMTkwICAgIFxuc2NhbGUoTVBGQ19vZmZzZXQpICAgICAgICAgLTAuMDA0NjEwICAgMC4wMzg3NjMgNDI1LjE5MjMyNiAgLTAuMTE5ICAgMC45MDU0ICAgIFxuLS0tXG5TaWduaWYuIGNvZGVzOiAgMCDigJgqKirigJkgMC4wMDEg4oCYKirigJkgMC4wMSDigJgq4oCZIDAuMDUg4oCYLuKAmSAwLjEg4oCYIOKAmSAxXG5cbkNvcnJlbGF0aW9uIG9mIEZpeGVkIEVmZmVjdHM6XG4gICAgICAgICAgICAoSW50cikgcyhQX18pIHMoTl9fKSBzKE5BXykgcyhBSV8pXG5zY2woUHNfcnNfKSAtMC4wMDQgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5zY2woTmdfcnNfKSAgMC4wMDYgLTAuMjY3ICAgICAgICAgICAgICAgICAgICAgXG5zY2woTkFjY19mKSAtMC4wMDMgLTAuMDMyICAwLjAwMyAgICAgICAgICAgICAgXG5zY2woQUluc19mKSAtMC4wMDMgIDAuMDI5IC0wLjA5MiAtMC4yOTEgICAgICAgXG5zY2woTVBGQ19mKSAgMC4wMDQgLTAuMDA5ICAwLjEwOCAtMC4yNDYgLTAuMTkzXG4gICAgICAgICAgIFIybSAgICAgIFIyY1xuWzEsXSAwLjI1ODYwOTEgMC41MTQzNjhcbiJ9 -->
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 Formula: scale(W_score_scaled) ~ +scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
-    scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) +  
-    (1 | Participant) + (1 | Trailer)
+    scale(NAcc_offset) + scale(AIns_offset) + scale(MPFC_offset) +      (1 | Participant) + (1 | Trailer)
    Data: AllSubs_IndividualChoice_H
 
-REML criterion at convergence: 1035.4
+REML criterion at convergence: 1036.3
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--2.9849 -0.5889 -0.1246  0.6277  2.7565 
+-3.0846 -0.5948 -0.1442  0.6291  2.8005 
 
 Random effects:
  Groups      Name        Variance Std.Dev.
- Participant (Intercept) 0.20121  0.4486  
- Trailer     (Intercept) 0.05329  0.2308  
- Residual                0.47646  0.6903  
-Number of obs: 445, groups:  Participant, 32; Trailer, 16
+ Participant (Intercept) 0.20004  0.4473  
+ Trailer     (Intercept) 0.05053  0.2248  
+ Residual                0.47577  0.6898  
+Number of obs: 446, groups:  Participant, 32; Trailer, 16
 
 Fixed effects:
                             Estimate Std. Error         df t value Pr(&gt;|t|)    
-(Intercept)                 0.004811   0.103770  37.644432   0.046   0.9633    
-scale(Pos_arousal_scaled)   0.508234   0.038718 432.997202  13.126   &lt;2e-16 ***
-scale(Neg_arousal_scaled)  -0.106208   0.041513 410.064363  -2.558   0.0109 *  
-scale(NAcc_offset)          0.025229   0.038122 416.370056   0.662   0.5085    
-scale(AIns_offset)         -0.044231   0.040269 409.499490  -1.098   0.2727    
-scale(MPFC_offset)         -0.001413   0.038928 423.868046  -0.036   0.9711    
+(Intercept)                 0.006643   0.102716  37.615063   0.065   0.9488    
+scale(Pos_arousal_scaled)   0.512229   0.038667 434.593218  13.247   &lt;2e-16 ***
+scale(Neg_arousal_scaled)  -0.106842   0.041354 408.577132  -2.584   0.0101 *  
+scale(NAcc_offset)          0.041635   0.038402 416.451312   1.084   0.2789    
+scale(AIns_offset)         -0.040655   0.040751 407.156983  -0.998   0.3190    
+scale(MPFC_offset)         -0.004610   0.038763 425.192326  -0.119   0.9054    
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Correlation of Fixed Effects:
             (Intr) s(P__) s(N__) s(NA_) s(AI_)
 scl(Ps_rs_) -0.004                            
-scl(Ng_rs_)  0.006 -0.268                     
-scl(NAcc_f) -0.001 -0.010 -0.013              
-scl(AIns_f) -0.003  0.032 -0.088 -0.254       
-scl(MPFC_f)  0.004 -0.016  0.115 -0.246 -0.200
-           R2m     R2c
-[1,] 0.2539744 0.51372</code></pre>
+scl(Ng_rs_)  0.006 -0.267                     
+scl(NAcc_f) -0.003 -0.032  0.003              
+scl(AIns_f) -0.003  0.029 -0.092 -0.291       
+scl(MPFC_f)  0.004 -0.009  0.108 -0.246 -0.193
+           R2m      R2c
+[1,] 0.2586091 0.514368</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiQ29tcHV0aW5nIHByb2ZpbGUgY29uZmlkZW5jZSBpbnRlcnZhbHMgLi4uXG4ifQ== -->
 <pre><code>Computing profile confidence intervals ...</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyLjUgJSAgICAgIDk3LjUgJVxuLnNpZzAxICAgICAgICAgICAgICAgICAgICAgMC4zMzQ1OTI0NyAgMC41OTc1NDM5N1xuLnNpZzAyICAgICAgICAgICAgICAgICAgICAgMC4xMzQ0ODU2NyAgMC4zNjY3NDI5NVxuLnNpZ21hICAgICAgICAgICAgICAgICAgICAgMC42NDEyNjUyNSAgMC43MzY4NTM2N1xuKEludGVyY2VwdCkgICAgICAgICAgICAgICAtMC4yMDAxNjc1OCAgMC4yMDk4NzkzNFxuc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKSAgMC40MzI2MTQ3OSAgMC41ODQ3NTI5MVxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAtMC4xODkxMDc1MyAtMC4wMjQ0NTIxN1xuc2NhbGUoTkFjY19vZmZzZXQpICAgICAgICAtMC4wNDkyMTkzOSAgMC4wOTk2NDk3Nlxuc2NhbGUoQUluc19vZmZzZXQpICAgICAgICAtMC4xMjMxMTYxNiAgMC4wMzQ2NjI0OVxuc2NhbGUoTVBGQ19vZmZzZXQpICAgICAgICAtMC4wNzczMDI5OSAgMC4wNzQ4ODgzNFxuWzFdIDEwNTMuMzc4XG4ifQ== -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAyLjUgJSAgICAgIDk3LjUgJVxuLnNpZzAxICAgICAgICAgICAgICAgICAgICAgMC4zMzMzODk5NSAgMC41OTU5MDc0N1xuLnNpZzAyICAgICAgICAgICAgICAgICAgICAgMC4xMjkwODkyNSAgMC4zNTg3MzE4OFxuLnNpZ21hICAgICAgICAgICAgICAgICAgICAgMC42NDA4NzA0MyAgMC43MzYyODUwMlxuKEludGVyY2VwdCkgICAgICAgICAgICAgICAtMC4xOTYxOTE5MSAgMC4yMDk2NjQ1OVxuc2NhbGUoUG9zX2Fyb3VzYWxfc2NhbGVkKSAgMC40MzY3MDUxNyAgMC41ODg2NzAxNlxuc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSAtMC4xODk1NDE4MiAtMC4wMjUzMjgwOVxuc2NhbGUoTkFjY19vZmZzZXQpICAgICAgICAtMC4wMzM0MDYwMCAgMC4xMTY1ODQ1M1xuc2NhbGUoQUluc19vZmZzZXQpICAgICAgICAtMC4xMjA1NzA2NyAgMC4wMzkyMzcxMlxuc2NhbGUoTVBGQ19vZmZzZXQpICAgICAgICAtMC4wODAyMDM5OSAgMC4wNzE0MjM2MFxuWzFdIDEwNTQuMjcxXG4ifQ== -->
 <pre><code>                                2.5 %      97.5 %
-.sig01                     0.33459247  0.59754397
-.sig02                     0.13448567  0.36674295
-.sigma                     0.64126525  0.73685367
-(Intercept)               -0.20016758  0.20987934
-scale(Pos_arousal_scaled)  0.43261479  0.58475291
-scale(Neg_arousal_scaled) -0.18910753 -0.02445217
-scale(NAcc_offset)        -0.04921939  0.09964976
-scale(AIns_offset)        -0.12311616  0.03466249
-scale(MPFC_offset)        -0.07730299  0.07488834
-[1] 1053.378</code></pre>
+.sig01                     0.33338995  0.59590747
+.sig02                     0.12908925  0.35873188
+.sigma                     0.64087043  0.73628502
+(Intercept)               -0.19619191  0.20966459
+scale(Pos_arousal_scaled)  0.43670517  0.58867016
+scale(Neg_arousal_scaled) -0.18954182 -0.02532809
+scale(NAcc_offset)        -0.03340600  0.11658453
+scale(AIns_offset)        -0.12057067  0.03923712
+scale(MPFC_offset)        -0.08020399  0.07142360
+[1] 1054.271</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2318,40 +2311,39 @@ scale(MPFC_offset)        -0.07730299  0.07488834
 <h1>M10_H: Neural ISC</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+ICtzY2FsZShOQWNjX0lTQykgKyBzY2FsZShBSW5zX0lTQykgKyAgXG4gICAgc2NhbGUoTVBGQ19JU0MpICsgKDEgfCBQYXJ0aWNpcGFudCkgKyAoMSB8IFRyYWlsZXIpXG4gICBEYXRhOiBBbGxTdWJzX0luZGl2aWR1YWxDaG9pY2VfSFxuXG5SRU1MIGNyaXRlcmlvbiBhdCBjb252ZXJnZW5jZTogMTE3MS45XG5cblNjYWxlZCByZXNpZHVhbHM6IFxuICAgIE1pbiAgICAgIDFRICBNZWRpYW4gICAgICAzUSAgICAgTWF4IFxuLTIuNDQ3NCAtMC42NTk5IC0wLjEwNjQgIDAuNjU2NyAgMi43MzU5IFxuXG5SYW5kb20gZWZmZWN0czpcbiBHcm91cHMgICAgICBOYW1lICAgICAgICBWYXJpYW5jZSBTdGQuRGV2LlxuIFBhcnRpY2lwYW50IChJbnRlcmNlcHQpIDAuMjQ2MyAgIDAuNDk2MyAgXG4gVHJhaWxlciAgICAgKEludGVyY2VwdCkgMC4xMDIwICAgMC4zMTk0ICBcbiBSZXNpZHVhbCAgICAgICAgICAgICAgICAwLjY1OTEgICAwLjgxMTkgIFxuTnVtYmVyIG9mIG9iczogNDQ1LCBncm91cHM6ICBQYXJ0aWNpcGFudCwgMzI7IFRyYWlsZXIsIDE2XG5cbkZpeGVkIGVmZmVjdHM6XG4gICAgICAgICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yICAgICAgICAgZGYgdCB2YWx1ZSBQcig+fHR8KVxuKEludGVyY2VwdCkgICAgICAgMC4wMDgzODQgICAwLjEyNTEzNSAgMzUuODk3MTg3ICAgMC4wNjcgICAgMC45NDdcbnNjYWxlKE5BY2NfSVNDKSAgLTAuMDEzODU0ICAgMC4wNDY1MDAgNDE2LjUzNDMyMyAgLTAuMjk4ICAgIDAuNzY2XG5zY2FsZShBSW5zX0lTQykgICAwLjAxMDMxOSAgIDAuMDQ2OTgwIDQxOS43MzU4MzQgICAwLjIyMCAgICAwLjgyNlxuc2NhbGUoTVBGQ19JU0MpICAgMC4wNTg0MDkgICAwLjA0NDk2NCA0MTQuMjkwNzQ1ICAgMS4yOTkgICAgMC4xOTVcblxuQ29ycmVsYXRpb24gb2YgRml4ZWQgRWZmZWN0czpcbiAgICAgICAgICAgIChJbnRyKSBzKE5BX0kgcyhBSV9JXG5zY2woTkFfSVNDKSAtMC4wMDQgICAgICAgICAgICAgIFxuc2NsKEFJX0lTQykgIDAuMDAyIC0wLjMxNSAgICAgICBcbnMoTVBGQ19JU0MpIC0wLjAwMyAtMC4yNjIgLTAuMjMwXG4gICAgICAgICAgICAgUjJtICAgICAgUjJjXG5bMSxdIDAuMDAzMzc4ODU5IDAuMzQ3OTMyXG5bMV0gMTE4NS45MjRcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+ICtzY2FsZShOQWNjX0lTQykgKyBzY2FsZShBSW5zX0lTQykgKyAgICAgIHNjYWxlKE1QRkNfSVNDKSArICgxIHwgUGFydGljaXBhbnQpICsgKDEgfCBUcmFpbGVyKVxuICAgRGF0YTogQWxsU3Vic19JbmRpdmlkdWFsQ2hvaWNlX0hcblxuUkVNTCBjcml0ZXJpb24gYXQgY29udmVyZ2VuY2U6IDExNzdcblxuU2NhbGVkIHJlc2lkdWFsczogXG4gICAgIE1pbiAgICAgICAxUSAgIE1lZGlhbiAgICAgICAzUSAgICAgIE1heCBcbi0yLjQyMTM1IC0wLjY3OTU4IC0wLjA5NDY0ICAwLjY1MjgwICAyLjcxNjk3IFxuXG5SYW5kb20gZWZmZWN0czpcbiBHcm91cHMgICAgICBOYW1lICAgICAgICBWYXJpYW5jZSBTdGQuRGV2LlxuIFBhcnRpY2lwYW50IChJbnRlcmNlcHQpIDAuMjUxNiAgIDAuNTAxNiAgXG4gVHJhaWxlciAgICAgKEludGVyY2VwdCkgMC4wOTY4ICAgMC4zMTExICBcbiBSZXNpZHVhbCAgICAgICAgICAgICAgICAwLjY2MzQgICAwLjgxNDUgIFxuTnVtYmVyIG9mIG9iczogNDQ2LCBncm91cHM6ICBQYXJ0aWNpcGFudCwgMzI7IFRyYWlsZXIsIDE2XG5cbkZpeGVkIGVmZmVjdHM6XG4gICAgICAgICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yICAgICAgICAgZGYgdCB2YWx1ZSBQcig+fHR8KVxuKEludGVyY2VwdCkgICAgICAgMC4wMTE2MTEgICAwLjEyNDUwMCAgMzYuMzgxMTY0ICAgMC4wOTMgICAgMC45MjZcbnNjYWxlKE5BY2NfSVNDKSAgLTAuMDAzMTY2ICAgMC4wNDU0NzIgNDE3LjA2MzY1MyAgLTAuMDcwICAgIDAuOTQ1XG5zY2FsZShBSW5zX0lTQykgICAwLjAwOTkxMSAgIDAuMDQ3MDI2IDQyMi45OTQzNzggICAwLjIxMSAgICAwLjgzM1xuc2NhbGUoTVBGQ19JU0MpICAgMC4wMzM5ODIgICAwLjA0NDM0OCA0MTQuMTc1OTg3ICAgMC43NjYgICAgMC40NDRcblxuQ29ycmVsYXRpb24gb2YgRml4ZWQgRWZmZWN0czpcbiAgICAgICAgICAgIChJbnRyKSBzKE5BX0kgcyhBSV9JXG5zY2woTkFfSVNDKSAtMC4wMDIgICAgICAgICAgICAgIFxuc2NsKEFJX0lTQykgIDAuMDA0IC0wLjMwOSAgICAgICBcbnMoTVBGQ19JU0MpIC0wLjAwMSAtMC4yMjMgLTAuMjI0XG4gICAgICAgICAgICAgUjJtICAgICAgIFIyY1xuWzEsXSAwLjAwMTM3NDk5MSAwLjM0NTI0MzhcblsxXSAxMTkxLjAxOFxuIn0= -->
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
-Formula: scale(W_score_scaled) ~ +scale(NAcc_ISC) + scale(AIns_ISC) +  
-    scale(MPFC_ISC) + (1 | Participant) + (1 | Trailer)
+Formula: scale(W_score_scaled) ~ +scale(NAcc_ISC) + scale(AIns_ISC) +      scale(MPFC_ISC) + (1 | Participant) + (1 | Trailer)
    Data: AllSubs_IndividualChoice_H
 
-REML criterion at convergence: 1171.9
+REML criterion at convergence: 1177
 
 Scaled residuals: 
-    Min      1Q  Median      3Q     Max 
--2.4474 -0.6599 -0.1064  0.6567  2.7359 
+     Min       1Q   Median       3Q      Max 
+-2.42135 -0.67958 -0.09464  0.65280  2.71697 
 
 Random effects:
  Groups      Name        Variance Std.Dev.
- Participant (Intercept) 0.2463   0.4963  
- Trailer     (Intercept) 0.1020   0.3194  
- Residual                0.6591   0.8119  
-Number of obs: 445, groups:  Participant, 32; Trailer, 16
+ Participant (Intercept) 0.2516   0.5016  
+ Trailer     (Intercept) 0.0968   0.3111  
+ Residual                0.6634   0.8145  
+Number of obs: 446, groups:  Participant, 32; Trailer, 16
 
 Fixed effects:
                   Estimate Std. Error         df t value Pr(&gt;|t|)
-(Intercept)       0.008384   0.125135  35.897187   0.067    0.947
-scale(NAcc_ISC)  -0.013854   0.046500 416.534323  -0.298    0.766
-scale(AIns_ISC)   0.010319   0.046980 419.735834   0.220    0.826
-scale(MPFC_ISC)   0.058409   0.044964 414.290745   1.299    0.195
+(Intercept)       0.011611   0.124500  36.381164   0.093    0.926
+scale(NAcc_ISC)  -0.003166   0.045472 417.063653  -0.070    0.945
+scale(AIns_ISC)   0.009911   0.047026 422.994378   0.211    0.833
+scale(MPFC_ISC)   0.033982   0.044348 414.175987   0.766    0.444
 
 Correlation of Fixed Effects:
             (Intr) s(NA_I s(AI_I
-scl(NA_ISC) -0.004              
-scl(AI_ISC)  0.002 -0.315       
-s(MPFC_ISC) -0.003 -0.262 -0.230
-             R2m      R2c
-[1,] 0.003378859 0.347932
-[1] 1185.924</code></pre>
+scl(NA_ISC) -0.002              
+scl(AI_ISC)  0.004 -0.309       
+s(MPFC_ISC) -0.001 -0.223 -0.224
+             R2m       R2c
+[1,] 0.001374991 0.3452438
+[1] 1191.018</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -2360,47 +2352,46 @@ s(MPFC_ISC) -0.003 -0.262 -0.230
 <h1>M11_H: Neural ISC + Behavioral data</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+ICtzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICsgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSArICBcbiAgICBzY2FsZShOQWNjX0lTQykgKyBzY2FsZShBSW5zX0lTQykgKyBzY2FsZShNUEZDX0lTQykgKyAoMSB8ICBcbiAgICBQYXJ0aWNpcGFudCkgKyAoMSB8IFRyYWlsZXIpXG4gICBEYXRhOiBBbGxTdWJzX0luZGl2aWR1YWxDaG9pY2VfSFxuXG5SRU1MIGNyaXRlcmlvbiBhdCBjb252ZXJnZW5jZTogMTAzNS40XG5cblNjYWxlZCByZXNpZHVhbHM6IFxuICAgIE1pbiAgICAgIDFRICBNZWRpYW4gICAgICAzUSAgICAgTWF4IFxuLTIuOTYyOSAtMC42MjI0IC0wLjEzNTYgIDAuNjM3OSAgMi43NzA4IFxuXG5SYW5kb20gZWZmZWN0czpcbiBHcm91cHMgICAgICBOYW1lICAgICAgICBWYXJpYW5jZSBTdGQuRGV2LlxuIFBhcnRpY2lwYW50IChJbnRlcmNlcHQpIDAuMTk2MzEgIDAuNDQzMSAgXG4gVHJhaWxlciAgICAgKEludGVyY2VwdCkgMC4wNTQyOCAgMC4yMzMwICBcbiBSZXNpZHVhbCAgICAgICAgICAgICAgICAwLjQ3Njk5ICAwLjY5MDYgIFxuTnVtYmVyIG9mIG9iczogNDQ1LCBncm91cHM6ICBQYXJ0aWNpcGFudCwgMzI7IFRyYWlsZXIsIDE2XG5cbkZpeGVkIGVmZmVjdHM6XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciAgICAgICAgIGRmIHQgdmFsdWUgUHIoPnx0fCkgICAgXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAgMC4wMDQxODIgICAwLjEwMzMzNSAgMzcuMjYwOTM2ICAgMC4wNDAgIDAuOTY3OTQgICAgXG5zY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICAgMC41MDk4OTkgICAwLjAzODg2NiA0MzMuNTQzMjk2ICAxMy4xMTkgIDwgMmUtMTYgKioqXG5zY2FsZShOZWdfYXJvdXNhbF9zY2FsZWQpICAtMC4xMTA0NTMgICAwLjA0MTI5MyA0MDkuMjkzMjEzICAtMi42NzUgIDAuMDA3NzggKiogXG5zY2FsZShOQWNjX0lTQykgICAgICAgICAgICAgMC4wMTE1NDMgICAwLjAzOTYzMCA0MTQuNzk0MDY1ICAgMC4yOTEgIDAuNzcwOTkgICAgXG5zY2FsZShBSW5zX0lTQykgICAgICAgICAgICAgMC4wMjg3NDkgICAwLjAzOTg3NSA0MTguODM2NTQ0ICAgMC43MjEgIDAuNDcxMzMgICAgXG5zY2FsZShNUEZDX0lTQykgICAgICAgICAgICAgMC4wMTE5MDMgICAwLjAzODQ5MCA0MTMuODQ5NDE3ICAgMC4zMDkgIDAuNzU3MjkgICAgXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuQ29ycmVsYXRpb24gb2YgRml4ZWQgRWZmZWN0czpcbiAgICAgICAgICAgIChJbnRyKSBzKFBfXykgcyhOX18pIHMoTkFfSSBzKEFJX0lcbnNjbChQc19yc18pIC0wLjAwNCAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbnNjbChOZ19yc18pICAwLjAwNiAtMC4yNjAgICAgICAgICAgICAgICAgICAgICBcbnNjbChOQV9JU0MpIC0wLjAwNCAgMC4wNDMgIDAuMDUyICAgICAgICAgICAgICBcbnNjbChBSV9JU0MpICAwLjAwMiAgMC4wMzYgLTAuMDMxIC0wLjMxMyAgICAgICBcbnMoTVBGQ19JU0MpIC0wLjAwMyAtMC4wODUgLTAuMDU3IC0wLjI2OCAtMC4yMzBcbiAgICAgICAgICAgUjJtICAgICAgIFIyY1xuWzEsXSAwLjI1MzQ0NDMgMC41MTA1NjkyXG5bMV0gMTA1My40NVxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIG1peGVkIG1vZGVsIGZpdCBieSBSRU1MLiB0LXRlc3RzIHVzZSBTYXR0ZXJ0aHdhaXRlJ3MgbWV0aG9kIFsnbG1lck1vZExtZXJUZXN0J11cbkZvcm11bGE6IHNjYWxlKFdfc2NvcmVfc2NhbGVkKSB+ICtzY2FsZShQb3NfYXJvdXNhbF9zY2FsZWQpICsgc2NhbGUoTmVnX2Fyb3VzYWxfc2NhbGVkKSArICBcbiAgICBzY2FsZShOQWNjX0lTQykgKyBzY2FsZShBSW5zX0lTQykgKyBzY2FsZShNUEZDX0lTQykgKyAoMSB8ICAgICAgUGFydGljaXBhbnQpICsgKDEgfCBUcmFpbGVyKVxuICAgRGF0YTogQWxsU3Vic19JbmRpdmlkdWFsQ2hvaWNlX0hcblxuUkVNTCBjcml0ZXJpb24gYXQgY29udmVyZ2VuY2U6IDEwMzdcblxuU2NhbGVkIHJlc2lkdWFsczogXG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMy4wMTk4IC0wLjYyNjEgLTAuMTM4MiAgMC42MzYyICAyLjgwMDUgXG5cblJhbmRvbSBlZmZlY3RzOlxuIEdyb3VwcyAgICAgIE5hbWUgICAgICAgIFZhcmlhbmNlIFN0ZC5EZXYuXG4gUGFydGljaXBhbnQgKEludGVyY2VwdCkgMC4xOTk0NCAgMC40NDY2ICBcbiBUcmFpbGVyICAgICAoSW50ZXJjZXB0KSAwLjA1MDU0ICAwLjIyNDggIFxuIFJlc2lkdWFsICAgICAgICAgICAgICAgIDAuNDc2NTUgIDAuNjkwMyAgXG5OdW1iZXIgb2Ygb2JzOiA0NDYsIGdyb3VwczogIFBhcnRpY2lwYW50LCAzMjsgVHJhaWxlciwgMTZcblxuRml4ZWQgZWZmZWN0czpcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yICAgICAgICAgZGYgdCB2YWx1ZSBQcig+fHR8KSAgICBcbihJbnRlcmNlcHQpICAgICAgICAgICAgICAgICAwLjAwNjc2NSAgIDAuMTAyNjM3ICAzNy40NTY1MjkgICAwLjA2NiAgMC45NDc4MCAgICBcbnNjYWxlKFBvc19hcm91c2FsX3NjYWxlZCkgICAwLjUxNTg2NSAgIDAuMDM4Nzc2IDQzNC45NjU5NzQgIDEzLjMwNCAgPCAyZS0xNiAqKipcbnNjYWxlKE5lZ19hcm91c2FsX3NjYWxlZCkgIC0wLjExMTIyOSAgIDAuMDQxMjM0IDQwNi45NDk1NjMgIC0yLjY5OCAgMC4wMDcyOCAqKiBcbnNjYWxlKE5BY2NfSVNDKSAgICAgICAgICAgICAwLjAxODAyMiAgIDAuMDM4NjA0IDQxNS40MjAyNzEgICAwLjQ2NyAgMC42NDA4NiAgICBcbnNjYWxlKEFJbnNfSVNDKSAgICAgICAgICAgICAwLjAyNzU4NSAgIDAuMDM5NzkzIDQyMS4wODc5OTQgICAwLjY5MyAgMC40ODg1NyAgICBcbnNjYWxlKE1QRkNfSVNDKSAgICAgICAgICAgIC0wLjAwMjc1MiAgIDAuMDM3NzkxIDQxMy4wNzE0MTkgIC0wLjA3MyAgMC45NDE5OSAgICBcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5Db3JyZWxhdGlvbiBvZiBGaXhlZCBFZmZlY3RzOlxuICAgICAgICAgICAgKEludHIpIHMoUF9fKSBzKE5fXykgcyhOQV9JIHMoQUlfSVxuc2NsKFBzX3JzXykgLTAuMDA0ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuc2NsKE5nX3JzXykgIDAuMDA1IC0wLjI2MiAgICAgICAgICAgICAgICAgICAgIFxuc2NsKE5BX0lTQykgLTAuMDAyICAwLjAzNSAgMC4wNTIgICAgICAgICAgICAgIFxuc2NsKEFJX0lTQykgIDAuMDAzICAwLjAzNiAtMC4wNTggLTAuMzA5ICAgICAgIFxucyhNUEZDX0lTQykgLTAuMDAxIC0wLjA2NiAtMC4wNjUgLTAuMjI5IC0wLjIyMlxuICAgICAgICAgICBSMm0gICAgICAgUjJjXG5bMSxdIDAuMjU3Mzc4MSAwLjUxMjg5NTRcblsxXSAxMDU0Ljk2OVxuIn0= -->
 <pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
 Formula: scale(W_score_scaled) ~ +scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) +  
-    scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) + (1 |  
-    Participant) + (1 | Trailer)
+    scale(NAcc_ISC) + scale(AIns_ISC) + scale(MPFC_ISC) + (1 |      Participant) + (1 | Trailer)
    Data: AllSubs_IndividualChoice_H
 
-REML criterion at convergence: 1035.4
+REML criterion at convergence: 1037
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--2.9629 -0.6224 -0.1356  0.6379  2.7708 
+-3.0198 -0.6261 -0.1382  0.6362  2.8005 
 
 Random effects:
  Groups      Name        Variance Std.Dev.
- Participant (Intercept) 0.19631  0.4431  
- Trailer     (Intercept) 0.05428  0.2330  
- Residual                0.47699  0.6906  
-Number of obs: 445, groups:  Participant, 32; Trailer, 16
+ Participant (Intercept) 0.19944  0.4466  
+ Trailer     (Intercept) 0.05054  0.2248  
+ Residual                0.47655  0.6903  
+Number of obs: 446, groups:  Participant, 32; Trailer, 16
 
 Fixed effects:
                             Estimate Std. Error         df t value Pr(&gt;|t|)    
-(Intercept)                 0.004182   0.103335  37.260936   0.040  0.96794    
-scale(Pos_arousal_scaled)   0.509899   0.038866 433.543296  13.119  &lt; 2e-16 ***
-scale(Neg_arousal_scaled)  -0.110453   0.041293 409.293213  -2.675  0.00778 ** 
-scale(NAcc_ISC)             0.011543   0.039630 414.794065   0.291  0.77099    
-scale(AIns_ISC)             0.028749   0.039875 418.836544   0.721  0.47133    
-scale(MPFC_ISC)             0.011903   0.038490 413.849417   0.309  0.75729    
+(Intercept)                 0.006765   0.102637  37.456529   0.066  0.94780    
+scale(Pos_arousal_scaled)   0.515865   0.038776 434.965974  13.304  &lt; 2e-16 ***
+scale(Neg_arousal_scaled)  -0.111229   0.041234 406.949563  -2.698  0.00728 ** 
+scale(NAcc_ISC)             0.018022   0.038604 415.420271   0.467  0.64086    
+scale(AIns_ISC)             0.027585   0.039793 421.087994   0.693  0.48857    
+scale(MPFC_ISC)            -0.002752   0.037791 413.071419  -0.073  0.94199    
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Correlation of Fixed Effects:
             (Intr) s(P__) s(N__) s(NA_I s(AI_I
 scl(Ps_rs_) -0.004                            
-scl(Ng_rs_)  0.006 -0.260                     
-scl(NA_ISC) -0.004  0.043  0.052              
-scl(AI_ISC)  0.002  0.036 -0.031 -0.313       
-s(MPFC_ISC) -0.003 -0.085 -0.057 -0.268 -0.230
+scl(Ng_rs_)  0.005 -0.262                     
+scl(NA_ISC) -0.002  0.035  0.052              
+scl(AI_ISC)  0.003  0.036 -0.058 -0.309       
+s(MPFC_ISC) -0.001 -0.066 -0.065 -0.229 -0.222
            R2m       R2c
-[1,] 0.2534443 0.5105692
-[1] 1053.45</code></pre>
+[1,] 0.2573781 0.5128954
+[1] 1054.969</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
