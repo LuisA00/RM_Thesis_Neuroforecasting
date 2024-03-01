@@ -1,0 +1,278 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load libraries
+```{r}
+library(knitr)
+library(rmdformats)
+library(ggplot2)
+library(ggpubr)
+library(GGally)
+library(car)
+```
+
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library("MuMIn")
+library(lmtest)
+library(boot)
+```
+
+Read dataset
+```{r}
+AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_clean.csv')
+```
+# Notes: 
+ - Have note removed outliers from data.
+
+# Neuroforecasting: First Week US.
+## M1: Behavioral data 
+```{r, echo = FALSE}
+M1 <- lm(scale(Gross_US_W1_num) ~ Type 
+         + scale(Theaters_US_W1_num)
+         #+ Total_weeks 
+         #+ Weeks_avg_per_theater
+         #+ scale(Pos_arousal_scaled) 
+         #+ scale(Neg_arousal_scaled)
+         #+ Type:scale(Pos_arousal_scaled)
+         #+ Type:scale(Neg_arousal_scaled)
+         + Type:scale(Theaters_US_W1_num)
+         , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M1)
+r.squaredGLMM(M1)
+AIC(M1)
+```
+
+
+## M2: Affective data alone
+```{r, echo = FALSE}
+M2 <- lm(scale(Gross_US_W1_num) ~ Type 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + Type:scale(Pos_arousal_scaled)
+         + Type:scale(Neg_arousal_scaled)
+         , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M2)
+r.squaredGLMM(M2)
+AIC(M2)
+```
+
+## M3: Aggregate and affective data alone
+```{r, echo = FALSE}
+M3 <- lm(scale(Gross_US_W1_num) ~ Type 
+         + scale(Theaters_US_W1_num)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + Type:scale(Theaters_US_W1_num)
+         + Type:scale(Pos_arousal_scaled)
+         + Type:scale(Neg_arousal_scaled)
+         , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M3)
+r.squaredGLMM(M3)
+AIC(M3)
+```
+
+# M4: ISC data alone
+```{r, echo = FALSE}
+M4 <- lm(scale(Gross_US_W1_num) ~ Type + 
+              + scale(NAcc_ISC) 
+              + scale(AIns_ISC) 
+              + scale(MPFC_ISC) 
+              + Type:scale(NAcc_ISC) 
+              + Type:scale(AIns_ISC) 
+              + Type:scale(MPFC_ISC) 
+              , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M4)
+r.squaredGLMM(M4)
+AIC(M4)
+```
+
+# M5: ISC data + affective data + behavioral data
+```{r, echo = FALSE}
+M5 <- lm(scale(Gross_US_W1_num) ~ Type 
+             + scale(Theaters_US_W1_num) 
+             + scale(Pos_arousal_scaled) 
+             + scale(Neg_arousal_scaled)  
+             #+ scale(W_score_scaled) 
+             + scale(NAcc_ISC) 
+             + scale(AIns_ISC) 
+             + scale(MPFC_ISC) 
+             + Type:scale(Theaters_US_W1_num) # For some reason, adding this interaction kills the significance of NAcc.
+             + Type:scale(Pos_arousal_scaled)
+             + Type:scale(Neg_arousal_scaled)
+             #+ Type:scale(W_score_scaled)
+             + Type:scale(NAcc_ISC) 
+             + Type:scale(AIns_ISC) 
+             + Type:scale(MPFC_ISC)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M5)
+r.squaredGLMM(M5)
+AIC(M5)
+```
+
+# M6: Neural whole data alone
+```{r, echo = FALSE}
+M6 <- lm(scale(Gross_US_W1_num) ~ Type + 
+              #+ Theaters_US_W1_num 
+              + scale(NAcc_whole) 
+              + scale(AIns_whole) 
+              + scale(MPFC_whole) 
+              + Type:scale(NAcc_whole) 
+              + Type:scale(AIns_whole) 
+              + Type:scale(MPFC_whole) 
+              , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M6)
+r.squaredGLMM(M6)
+AIC(M6)
+```
+
+# M7: Neural whole data + affective data + behavioral data
+```{r, echo = FALSE}
+M7 <- lm(scale(Gross_US_W1_num) ~ Type 
+             + scale(Theaters_US_W1_num)
+             #+ Total_weeks 
+             #+ Weeks_avg_per_theater
+             + scale(Pos_arousal_scaled) 
+             + scale(Neg_arousal_scaled)  
+             #+ scale(W_score_scaled) 
+             + scale(NAcc_whole) 
+             + scale(AIns_whole) 
+             + scale(MPFC_whole) 
+             + Type:scale(Theaters_US_W1_num)
+             + Type:scale(Pos_arousal_scaled)
+             + Type:scale(Neg_arousal_scaled)
+             + Type:scale(NAcc_whole) 
+             + Type:scale(AIns_whole) 
+             + Type:scale(MPFC_whole)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M7)
+r.squaredGLMM(M7)
+AIC(M7)
+```
+
+# M8: Neural onset data alone
+```{r, echo = FALSE}
+M8 <- lm(scale(Gross_US_W1_num) ~ Type + 
+              + scale(NAcc_onset) 
+              + scale(AIns_onset) 
+              + scale(MPFC_onset) 
+              + Type:scale(NAcc_onset) 
+              + Type:scale(AIns_onset) 
+              + Type:scale(MPFC_onset) 
+              , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M8)
+r.squaredGLMM(M8)
+AIC(M8)
+```
+
+# M9: Neural onset data + affective data + behavioral data
+```{r, echo = FALSE}
+M9 <- lm(scale(Gross_US_W1_num) ~ Type 
+             + scale(Theaters_US_W1_num)
+             #+ Total_weeks 
+             #+ Weeks_avg_per_theater
+             + scale(Pos_arousal_scaled) 
+             + scale(Neg_arousal_scaled)  
+             #+ scale(W_score_scaled) 
+             + scale(NAcc_onset) 
+             + scale(AIns_onset) 
+             + scale(MPFC_onset) 
+             + Type:scale(Theaters_US_W1_num)
+             + Type:scale(Pos_arousal_scaled)
+             + Type:scale(Neg_arousal_scaled)
+             #+ Type:scale(W_score_scaled)
+             + Type:scale(NAcc_onset) 
+             + Type:scale(AIns_onset) 
+             + Type:scale(MPFC_onset)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M9)
+r.squaredGLMM(M9)
+AIC(M9)
+```
+
+# M10: Neural middle data alone
+```{r, echo = FALSE}
+M10 <- lm(scale(Gross_US_W1_num) ~ Type + 
+              + scale(NAcc_middle) 
+              + scale(AIns_middle) 
+              + scale(MPFC_middle) 
+              + Type:scale(NAcc_middle) 
+              + Type:scale(AIns_middle) 
+              + Type:scale(MPFC_middle) 
+              , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M10)
+r.squaredGLMM(M10)
+AIC(M10)
+```
+
+# M11: Neural middle data + affective data + behavioral data
+```{r, echo = FALSE}
+M11 <- lm(scale(Gross_US_W1_num) ~ Type 
+             + scale(Theaters_US_W1_num)
+             #+ Total_weeks 
+             #+ Weeks_avg_per_theater
+             + scale(Pos_arousal_scaled) 
+             + scale(Neg_arousal_scaled)  
+             #+ scale(W_score_scaled) 
+             + scale(NAcc_middle) 
+             + scale(AIns_middle) 
+             + scale(MPFC_middle) 
+             + Type:scale(Theaters_US_W1_num)
+             + Type:scale(Pos_arousal_scaled)
+             + Type:scale(Neg_arousal_scaled)
+             + Type:scale(NAcc_middle) 
+             + Type:scale(AIns_middle) 
+             + Type:scale(MPFC_middle)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M11)
+r.squaredGLMM(M11)
+AIC(M11)
+```
+
+# M12: Neural offset data alone
+```{r, echo = FALSE}
+M12 <- lm(scale(Gross_US_W1_num) ~ Type + 
+              + scale(NAcc_offset) 
+              + scale(AIns_offset) 
+              + scale(MPFC_offset) 
+              + Type:scale(NAcc_offset) 
+              + Type:scale(AIns_offset) 
+              + Type:scale(MPFC_offset) 
+              , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M12)
+r.squaredGLMM(M12)
+AIC(M12)
+```
+
+# M13: Neural offset data + affective data + behavioral data
+```{r, echo = FALSE}
+M13 <- lm(scale(Gross_US_W1_num) ~ Type 
+             + scale(Theaters_US_W1_num)
+             #+ Total_weeks 
+             #+ Weeks_avg_per_theater
+             + scale(Pos_arousal_scaled) 
+             + scale(Neg_arousal_scaled)  
+             #+ scale(W_score_scaled) 
+             + scale(NAcc_offset) 
+             + scale(AIns_offset) 
+             + scale(MPFC_offset) 
+             + Type:scale(Theaters_US_W1_num)
+             + Type:scale(Pos_arousal_scaled)
+             + Type:scale(Neg_arousal_scaled)
+             + Type:scale(NAcc_offset) 
+             + Type:scale(AIns_offset) 
+             + Type:scale(MPFC_offset)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+summary(M13)
+r.squaredGLMM(M13)
+AIC(M13)
+```
