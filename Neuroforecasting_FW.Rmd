@@ -27,7 +27,7 @@ library(lmtest)
 library(boot)
 ```
 
-Read dataset
+# Read datasets
 ```{r}
 AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_clean.csv')
 
