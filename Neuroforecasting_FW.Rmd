@@ -30,26 +30,199 @@ library(boot)
 Read dataset
 ```{r}
 AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_clean.csv')
+
+AllSubs_NeuralActivation_Comedy <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_Comedy_clean.csv')
+
+AllSubs_NeuralActivation_Horror <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_Horror_clean.csv')
+
 ```
 # Notes: 
  - Have note removed outliers from data.
+
+# Create data frames for each model.
+```{r}
+# Define aggregate variables. 
+All_Gross_W1_log <- log(AllSubs_NeuralActivation$Gross_US_W1_num)
+All_Theaters_W1 <- AllSubs_NeuralActivation$Theaters_US_W1_num
+
+Comedy_Gross_W1_log <- log(AllSubs_NeuralActivation_Comedy$Gross_US_W1_num)
+Comedy_Theaters_W1 <- AllSubs_NeuralActivation_Comedy$Theaters_US_W1_num
+
+Horror_Gross_W1_log <- log(AllSubs_NeuralActivation_Horror$Gross_US_W1_num)
+Horror_Theaters_W1 <- AllSubs_NeuralActivation_Horror$Theaters_US_W1_num
+  
+M1_df <- data.frame(All_Gross_W1_log, All_Theaters_W1) 
+M1_C_df <- data.frame(Comedy_Gross_W1_log, Comedy_Theaters_W1) 
+M1_H_df <- data.frame(Horror_Gross_W1_log, Horror_Theaters_W1) 
+
+# Define affect variables.
+All_PA <- AllSubs_NeuralActivation$Pos_arousal_scaled
+All_NA <- AllSubs_NeuralActivation$Neg_arousal_scaled
+
+Comedy_PA <- AllSubs_NeuralActivation_Comedy$Pos_arousal_scaled
+Comedy_NA <- AllSubs_NeuralActivation_Comedy$Neg_arousal_scaled
+
+Horror_PA <- AllSubs_NeuralActivation_Horror$Pos_arousal_scaled
+Horror_NA <- AllSubs_NeuralActivation_Horror$Neg_arousal_scaled
+
+M2_df <- data.frame(All_Gross_W1_log, All_PA, All_NA) 
+M2_C_df <- data.frame(Comedy_Gross_W1_log, Comedy_PA, Comedy_NA) 
+M2_H_df <- data.frame(Horror_Gross_W1_log, Horror_PA, Horror_NA) 
+```
+
+```{r}
+# Define ISC variables. 
+All_NAcc_ISC <- AllSubs_NeuralActivation$NAcc_ISC
+All_AIns_ISC <- AllSubs_NeuralActivation$AIns_ISC
+All_MPFC_ISC <- AllSubs_NeuralActivation$MPFC_ISC
+
+Comedy_NAcc_ISC <- AllSubs_NeuralActivation_Comedy$NAcc_ISC
+Comedy_AIns_ISC <- AllSubs_NeuralActivation_Comedy$AIns_ISC
+Comedy_MPFC_ISC <- AllSubs_NeuralActivation_Comedy$MPFC_ISC
+
+Horror_NAcc_ISC <- AllSubs_NeuralActivation_Horror$NAcc_ISC
+Horror_AIns_ISC <- AllSubs_NeuralActivation_Horror$AIns_ISC
+Horror_MPFC_ISC <- AllSubs_NeuralActivation_Horror$MPFC_ISC
+
+# Define models. 
+M4_df <- data.frame(All_NAcc_ISC, All_AIns_ISC, All_MPFC_ISC) 
+M4_C_df <- data.frame(Comedy_NAcc_ISC, Comedy_AIns_ISC, Comedy_MPFC_ISC) 
+M4_H_df <- data.frame(Horror_NAcc_ISC, Horror_AIns_ISC, Horror_MPFC_ISC) 
+
+M5_df <- data.frame(All_Gross_W1_log, All_PA, All_NA, All_NAcc_ISC, All_AIns_ISC, All_MPFC_ISC) 
+M5_C_df <- data.frame(Comedy_Gross_W1_log, Comedy_PA, Comedy_NA, Comedy_NAcc_ISC, Comedy_AIns_ISC, Comedy_MPFC_ISC) 
+M5_H_df <- data.frame(Horror_Gross_W1_log, Horror_PA, Horror_NA, Horror_NAcc_ISC, Horror_AIns_ISC, Horror_MPFC_ISC) 
+```
+
+```{r}
+# Define whole variables. 
+All_NAcc_whole <- AllSubs_NeuralActivation$NAcc_whole
+All_AIns_whole <- AllSubs_NeuralActivation$AIns_whole
+All_MPFC_whole <- AllSubs_NeuralActivation$MPFC_whole
+
+Comedy_NAcc_whole <- AllSubs_NeuralActivation_Comedy$NAcc_whole
+Comedy_AIns_whole <- AllSubs_NeuralActivation_Comedy$AIns_whole
+Comedy_MPFC_whole <- AllSubs_NeuralActivation_Comedy$MPFC_whole
+
+Horror_NAcc_whole <- AllSubs_NeuralActivation_Horror$NAcc_whole
+Horror_AIns_whole <- AllSubs_NeuralActivation_Horror$AIns_whole
+Horror_MPFC_whole <- AllSubs_NeuralActivation_Horror$MPFC_whole
+
+# Define models. 
+M6_df <- data.frame(All_NAcc_whole, All_AIns_whole, All_MPFC_whole) 
+M6_C_df <- data.frame(Comedy_NAcc_whole, Comedy_AIns_whole, Comedy_MPFC_whole) 
+M6_H_df <- data.frame(Horror_NAcc_whole, Horror_AIns_whole, Horror_MPFC_whole) 
+
+M7_df <- data.frame(All_Gross_W1_log, All_PA, All_NA, All_NAcc_whole, All_AIns_whole, All_MPFC_whole) 
+M7_C_df <- data.frame(Comedy_Gross_W1_log, Comedy_PA, Comedy_NA, Comedy_NAcc_whole,
+                      Comedy_AIns_whole, Comedy_MPFC_whole) 
+M7_H_df <- data.frame(Horror_Gross_W1_log, Horror_PA, Horror_NA, Horror_NAcc_whole,
+                      Horror_AIns_whole, Horror_MPFC_whole) 
+```
+
+```{r}
+# Define onset variables. 
+All_NAcc_onset <- AllSubs_NeuralActivation$NAcc_onset
+All_AIns_onset <- AllSubs_NeuralActivation$AIns_onset
+All_MPFC_onset <- AllSubs_NeuralActivation$MPFC_onset
+
+Comedy_NAcc_onset <- AllSubs_NeuralActivation_Comedy$NAcc_onset
+Comedy_AIns_onset <- AllSubs_NeuralActivation_Comedy$AIns_onset
+Comedy_MPFC_onset <- AllSubs_NeuralActivation_Comedy$MPFC_onset
+
+Horror_NAcc_onset <- AllSubs_NeuralActivation_Horror$NAcc_onset
+Horror_AIns_onset <- AllSubs_NeuralActivation_Horror$AIns_onset
+Horror_MPFC_onset <- AllSubs_NeuralActivation_Horror$MPFC_onset
+
+# Define models. 
+M8_df <- data.frame(All_NAcc_onset, All_AIns_onset, All_MPFC_onset) 
+M8_C_df <- data.frame(Comedy_NAcc_onset, Comedy_AIns_onset, Comedy_MPFC_onset) 
+M8_H_df <- data.frame(Horror_NAcc_onset, Horror_AIns_onset, Horror_MPFC_onset) 
+
+M9_df <- data.frame(All_Gross_W1_log, All_PA, All_NA, All_NAcc_onset, All_AIns_onset, All_MPFC_onset) 
+M9_C_df <- data.frame(Comedy_Gross_W1_log, Comedy_PA, Comedy_NA, Comedy_NAcc_onset,
+                      Comedy_AIns_onset, Comedy_MPFC_onset) 
+M9_H_df <- data.frame(Horror_Gross_W1_log, Horror_PA, Horror_NA, Horror_NAcc_onset,
+                      Horror_AIns_onset, Horror_MPFC_onset) 
+```
+
+```{r}
+# Define middle variables. 
+All_NAcc_middle <- AllSubs_NeuralActivation$NAcc_middle
+All_AIns_middle <- AllSubs_NeuralActivation$AIns_middle
+All_MPFC_middle <- AllSubs_NeuralActivation$MPFC_middle
+
+Comedy_NAcc_middle <- AllSubs_NeuralActivation_Comedy$NAcc_middle
+Comedy_AIns_middle <- AllSubs_NeuralActivation_Comedy$AIns_middle
+Comedy_MPFC_middle <- AllSubs_NeuralActivation_Comedy$MPFC_middle
+
+Horror_NAcc_middle <- AllSubs_NeuralActivation_Horror$NAcc_middle
+Horror_AIns_middle <- AllSubs_NeuralActivation_Horror$AIns_middle
+Horror_MPFC_middle <- AllSubs_NeuralActivation_Horror$MPFC_middle
+
+# Define models. 
+M10_df <- data.frame(All_NAcc_middle, All_AIns_middle, All_MPFC_middle) 
+M10_C_df <- data.frame(Comedy_NAcc_middle, Comedy_AIns_middle, Comedy_MPFC_middle) 
+M10_H_df <- data.frame(Horror_NAcc_middle, Horror_AIns_middle, Horror_MPFC_middle) 
+
+M11_df <- data.frame(All_Gross_W1_log, All_PA, All_NA, All_NAcc_middle, All_AIns_middle, All_MPFC_middle) 
+M11_C_df <- data.frame(Comedy_Gross_W1_log, Comedy_PA, Comedy_NA, Comedy_NAcc_middle,
+                      Comedy_AIns_middle, Comedy_MPFC_middle) 
+M11_H_df <- data.frame(Horror_Gross_W1_log, Horror_PA, Horror_NA, Horror_NAcc_middle,
+                      Horror_AIns_middle, Horror_MPFC_middle) 
+```
+
+```{r}
+# Define middle variables. 
+All_NAcc_offset <- AllSubs_NeuralActivation$NAcc_offset
+All_AIns_offset <- AllSubs_NeuralActivation$AIns_offset
+All_MPFC_offset <- AllSubs_NeuralActivation$MPFC_offset
+
+Comedy_NAcc_offset <- AllSubs_NeuralActivation_Comedy$NAcc_offset
+Comedy_AIns_offset <- AllSubs_NeuralActivation_Comedy$AIns_offset
+Comedy_MPFC_offset <- AllSubs_NeuralActivation_Comedy$MPFC_offset
+
+Horror_NAcc_offset <- AllSubs_NeuralActivation_Horror$NAcc_offset
+Horror_AIns_offset <- AllSubs_NeuralActivation_Horror$AIns_offset
+Horror_MPFC_offset <- AllSubs_NeuralActivation_Horror$MPFC_offset
+
+# Define models. 
+M12_df <- data.frame(All_NAcc_offset, All_AIns_offset, All_MPFC_offset) 
+M12_C_df <- data.frame(Comedy_NAcc_offset, Comedy_AIns_offset, Comedy_MPFC_offset) 
+M12_H_df <- data.frame(Horror_NAcc_offset, Horror_AIns_offset, Horror_MPFC_offset) 
+
+M13_df <- data.frame(All_Gross_W1_log, All_PA, All_NA, All_NAcc_offset, All_AIns_offset, All_MPFC_offset) 
+M13_C_df <- data.frame(Comedy_Gross_W1_log, Comedy_PA, Comedy_NA, Comedy_NAcc_offset,
+                      Comedy_AIns_offset, Comedy_MPFC_offset) 
+M13_H_df <- data.frame(Horror_Gross_W1_log, Horror_PA, Horror_NA, Horror_NAcc_offset,
+                      Horror_AIns_offset, Horror_MPFC_offset) 
+```
+
+```{r}
+
+M14_df <- data.frame(All_Gross_W1_log, All_PA, All_NA, All_NAcc_onset, All_AIns_middle, All_MPFC_offset) 
+M14_C_df <- data.frame(Comedy_Gross_W1_log, Comedy_PA, Comedy_NA, Comedy_NAcc_onset,
+                      Comedy_AIns_middle, Comedy_MPFC_offset) 
+M14_H_df <- data.frame(Horror_Gross_W1_log, Horror_PA, Horror_NA, Horror_NAcc_onset,
+                      Horror_AIns_middle, Horror_MPFC_offset) 
+```
+
 
 # Neuroforecasting: First Week US.
 ## M1: Behavioral data 
 ```{r, echo = FALSE}
 M1 <- lm(log(Gross_US_W1_num) ~ Type 
          + scale(Theaters_US_W1_num)
-         #+ Total_weeks 
-         #+ Weeks_avg_per_theater
-         #+ scale(Pos_arousal_scaled) 
-         #+ scale(Neg_arousal_scaled)
-         #+ Type:scale(Pos_arousal_scaled)
-         #+ Type:scale(Neg_arousal_scaled)
          + Type:scale(Theaters_US_W1_num)
          , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
 summary(M1)
 r.squaredGLMM(M1)
 AIC(M1)
+
+# Create pairs plot. 
+ggpairs(M1_df)
+ggpairs(M1_C_df)
+ggpairs(M1_H_df)
 ```
 
 
@@ -64,6 +237,11 @@ M2 <- lm(log(Gross_US_W1_num) ~ Type
 summary(M2)
 r.squaredGLMM(M2)
 AIC(M2)
+
+# Create pairs plot. 
+ggpairs(M2_df)
+ggpairs(M2_C_df)
+ggpairs(M2_H_df)
 ```
 
 ## M3: Aggregate and affective data alone
@@ -79,6 +257,7 @@ M3 <- lm(log(Gross_US_W1_num) ~ Type
 summary(M3)
 r.squaredGLMM(M3)
 AIC(M3)
+
 ```
 
 # M4: ISC data alone
@@ -94,6 +273,11 @@ M4 <- lm(log(Gross_US_W1_num) ~ Type +
 summary(M4)
 r.squaredGLMM(M4)
 AIC(M4)
+
+# Create pairs plot. 
+ggpairs(M4_df)
+ggpairs(M4_C_df)
+ggpairs(M4_H_df)
 ```
 
 # M5: ISC data + affective data + behavioral data
@@ -117,6 +301,11 @@ M5 <- lm(log(Gross_US_W1_num) ~ Type
 summary(M5)
 r.squaredGLMM(M5)
 AIC(M5)
+
+# Create pairs plot. 
+ggpairs(M5_df)
+ggpairs(M5_C_df)
+ggpairs(M5_H_df)
 ```
 
 # M6: Neural whole data alone
@@ -133,6 +322,11 @@ M6 <- lm(log(Gross_US_W1_num) ~ Type +
 summary(M6)
 r.squaredGLMM(M6)
 AIC(M6)
+
+# Create pairs plot. 
+ggpairs(M6_df)
+ggpairs(M6_C_df)
+ggpairs(M6_H_df)
 ```
 
 # M7: Neural whole data + affective data + behavioral data
@@ -157,6 +351,11 @@ M7 <- lm(log(Gross_US_W1_num) ~ Type
 summary(M7)
 r.squaredGLMM(M7)
 AIC(M7)
+
+# Create pairs plot. 
+ggpairs(M7_df)
+ggpairs(M7_C_df)
+ggpairs(M7_H_df)
 ```
 
 # M8: Neural onset data alone
@@ -172,6 +371,11 @@ M8 <- lm(log(Gross_US_W1_num) ~ Type +
 summary(M8)
 r.squaredGLMM(M8)
 AIC(M8)
+
+# Create pairs plot. 
+ggpairs(M8_df)
+ggpairs(M8_C_df)
+ggpairs(M8_H_df)
 ```
 
 # M9: Neural onset data + affective data + behavioral data
@@ -193,6 +397,11 @@ M9 <- lm(log(Gross_US_W1_num) ~ Type
 summary(M9)
 r.squaredGLMM(M9)
 AIC(M9)
+
+# Create pairs plot. 
+ggpairs(M9_df)
+ggpairs(M9_C_df)
+ggpairs(M9_H_df)
 ```
 
 # M10: Neural middle data alone
@@ -208,6 +417,11 @@ M10 <- lm(log(Gross_US_W1_num) ~ Type +
 summary(M10)
 r.squaredGLMM(M10)
 AIC(M10)
+
+# Create pairs plot. 
+ggpairs(M10_df)
+ggpairs(M10_C_df)
+ggpairs(M10_H_df)
 ```
 
 # M11: Neural middle data + affective data + behavioral data
@@ -229,6 +443,11 @@ M11 <- lm(log(Gross_US_W1_num) ~ Type
 summary(M11)
 r.squaredGLMM(M11)
 AIC(M11)
+
+# Create pairs plot. 
+ggpairs(M11_df)
+ggpairs(M11_C_df)
+ggpairs(M11_H_df)
 ```
 
 # M12: Neural offset data alone
@@ -244,6 +463,11 @@ M12 <- lm(log(Gross_US_W1_num) ~ Type +
 summary(M12)
 r.squaredGLMM(M12)
 AIC(M12)
+
+# Create pairs plot. 
+ggpairs(M12_df)
+ggpairs(M12_C_df)
+ggpairs(M12_H_df)
 ```
 
 # M13: Neural offset data + affective data + behavioral data
@@ -265,11 +489,16 @@ M13 <- lm(log(Gross_US_W1_num) ~ Type
 summary(M13)
 r.squaredGLMM(M13)
 AIC(M13)
+
+# Create pairs plot. 
+ggpairs(M13_df)
+ggpairs(M13_C_df)
+ggpairs(M13_H_df)
 ```
 
 # M14: Sequence model
 ```{r, echo = FALSE}
-M13 <- lm(log(Gross_US_W1_num) ~ Type 
+M14 <- lm(log(Gross_US_W1_num) ~ Type 
              + scale(Theaters_US_W1_num)
              + scale(Pos_arousal_scaled) 
              + scale(Neg_arousal_scaled)  
@@ -283,7 +512,12 @@ M13 <- lm(log(Gross_US_W1_num) ~ Type
              + Type:scale(AIns_middle) 
              + Type:scale(MPFC_offset)
              , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
-summary(M13)
-r.squaredGLMM(M13)
-AIC(M13)
+summary(M14)
+r.squaredGLMM(M14)
+AIC(M14)
+
+# Create pairs plot. 
+ggpairs(M14_df)
+ggpairs(M14_C_df)
+ggpairs(M14_H_df)
 ```
