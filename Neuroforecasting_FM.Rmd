@@ -172,7 +172,7 @@ M11_H_df <- data.frame(Horror_Gross_M1_log, Horror_PA, Horror_NA, Horror_NAcc_mi
 ```
 
 ```{r}
-# Define middle variables. 
+# Define offset variables. 
 All_NAcc_offset <- AllSubs_NeuralActivation$NAcc_offset
 All_AIns_offset <- AllSubs_NeuralActivation$AIns_offset
 All_MPFC_offset <- AllSubs_NeuralActivation$MPFC_offset
