@@ -9,6 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Load libraries
 ```{r}
+library(car)
 library(knitr)
 library(rmdformats)
 library(ggplot2)
@@ -505,7 +506,7 @@ M14 <- lm(log(Gross_US_W1_num) ~ Type
              + scale(NAcc_onset) 
              + scale(AIns_middle) 
              + scale(MPFC_offset) 
-             + Type:scale(Theaters_US_W1_num)
+             #+ Type:scale(Theaters_US_W1_num) # This improved the results. 
              + Type:scale(Pos_arousal_scaled)
              + Type:scale(Neg_arousal_scaled)
              #+ Type:scale(W_score_scaled)
@@ -518,7 +519,8 @@ r.squaredGLMM(M14)
 AIC(M14)
 
 # Create pairs plot. 
-ggpairs(M14_df)
-ggpairs(M14_C_df)
-ggpairs(M14_H_df)
+#ggpairs(M14_df)
+#ggpairs(M14_C_df)
+#ggpairs(M14_H_df)
+vif(M14)
 ```

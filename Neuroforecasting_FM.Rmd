@@ -507,23 +507,27 @@ ggpairs(M13_H_df)
 
 # M14: Sequence Model
 ```{r, echo = FALSE}
-M14 <- lm(log(Gross_US_M1) ~ Type 
-             + scale(Theaters_US_M1)
+M14 <- lm(rank(Gross_Total_US_bytheater) ~ Type 
+             #+ scale(Theaters_US_M1)
              #+ Total_weeks 
              #+ Weeks_avg_per_theater
              #+ scale(Pos_arousal_scaled) 
              #+ scale(Neg_arousal_scaled)  
              #+ scale(W_score_scaled) 
-             + scale(NAcc_onset) 
-             + scale(AIns_middle) 
-             + scale(MPFC_offset) 
+             + scale(Nacc_peak) 
+             # + scale(AIns_middle) 
+             # + scale(MPFC_offset) 
              #+ Type:scale(Theaters_US_M1)
              #+ Type:scale(Pos_arousal_scaled)
              #+ Type:scale(Neg_arousal_scaled)
-             + Type:scale(NAcc_onset) 
-             + Type:scale(AIns_middle) 
-             + Type:scale(MPFC_offset)
-             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
+             + Type:scale(Nacc_peak) 
+             # + Type:scale(AIns_middle) 
+             # + Type:scale(MPFC_offset)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy")),
+                                                          Gross_Total_US_bytheater = Gross_Total_US/Total_Theaters_US,
+                                                          Gross_US_M1_bytheater = Gross_US_M1/Theaters_US_W4_num) %>%
+            group_by(Trailer) %>%
+            mutate(Nacc_peak = max(c_across(c(NAcc_onset, NAcc_middle, NAcc_offset)), na.rm = TRUE)))
 summary(M14)
 r.squaredGLMM(M14)
 AIC(M14)
@@ -539,21 +543,34 @@ M15 <- lm(log(Gross_US_M1) ~ Type
              + scale(Pos_arousal_scaled) 
              + scale(Neg_arousal_scaled)  
              + scale(NAcc_onset) 
-             + scale(AIns_middle) 
-             + scale(MPFC_offset) 
-             + Type:scale(Theaters_US_M1) # Should we have a theaters interaction? 
+             + scale(AIns_onset) 
+             + scale(MPFC_middle) 
+             #+ Type:scale(Theaters_US_M1) # Should we have a theaters interaction? 
              + Type:scale(Pos_arousal_scaled)
              + Type:scale(Neg_arousal_scaled)
              + Type:scale(NAcc_onset) 
-             + Type:scale(AIns_middle) 
-             + Type:scale(MPFC_offset)
+             + Type:scale(AIns_onset) 
+             + Type:scale(MPFC_middle)
              , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("horror", "comedy"))))
 summary(M15)
 r.squaredGLMM(M15)
 AIC(M15)
 
 # Create pairs plot. 
-ggpairs(M14_df)
-ggpairs(M14_C_df)
-ggpairs(M14_H_df)
+#ggpairs(M14_df)
+#ggpairs(M14_C_df)
+#ggpairs(M14_H_df)
+vif(M15)
 ```
+
+
+```{r}
+Type <- AllSubs_NeuralActivation$Type
+M14_df <- data.frame(Type, All_Gross_M1_log, All_PA, All_NA, All_NAcc_onset, All_AIns_middle, All_MPFC_offset) 
+ggpairs(M14_df,
+        columnLabels = c("Type","Gross M1","PA",
+                 "NA","NAcc on","AIns mid", "MPFC of"),
+        aes(color=Type, alpha = 0.5), upper = list(continuous = wrap("cor", size = 2.5) ))
+
+```
+

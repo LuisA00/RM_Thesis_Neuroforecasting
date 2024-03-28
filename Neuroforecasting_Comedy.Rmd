@@ -521,20 +521,33 @@ ggpairs(FM_US_M26_df)
 ```
 # Total_US_M27: Seq data + affective data + behavioral data
 ```{r, echo = FALSE}
-Total_US_M27 <- lm(log(Gross_Total_US) ~  
-             + Total_Theaters_US 
-             #+ Total_weeks 
+Total_US_M27 <- lm(rank(Gross_Total_US_bytheater) ~  
+             #+ scale(Total_Theaters_US)
+             #+ Total_weeks
              #+ Weeks_avg_per_theater
-             + scale(Pos_arousal_scaled) 
-             + scale(Neg_arousal_scaled)  
-             #+ scale(W_score_scaled) 
-             + scale(NAcc_onset) 
-             + scale(AIns_middle) 
-             + scale(MPFC_offset) 
-            , data = AllSubs_NeuralActivation)
+             # + scale(Pos_arousal_scaled)
+             # + scale(Neg_arousal_scaled)
+             #+ scale(W_score_scaled)
+             + scale(NAcc_onset)
+             # + scale(AIns_middle)
+             # + scale(MPFC_offset)
+            , data = AllSubs_NeuralActivation %>%
+               mutate(Gross_Total_US_bytheater = Gross_Total_US/Total_Theaters_US,
+                      Gross_US_M1_bytheater = Gross_US_M1/Theaters_US_W4_num
+                      ))
 summary(Total_US_M27)
 r.squaredGLMM(Total_US_M27)
 AIC(Total_US_M27)
+vif(Total_US_M27)
+
+ggplot(AllSubs_NeuralActivation %>%
+               mutate(Gross_Total_US_bytheater = Gross_Total_US/Total_Theaters_US,
+                      Gross_US_M1_bytheater = Gross_US_M1/Theaters_US_W4_num
+                      ), aes(x = NAcc_onset, y = rank(Gross_Total_US_bytheater))) +
+  geom_point() +
+  geom_smooth(method = "lm")
+  stat_cor()
+
 
 ```
 
