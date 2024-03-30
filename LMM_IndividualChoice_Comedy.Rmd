@@ -66,7 +66,7 @@ AIC(M3_C)
 M4_C <- lmer(scale(W_score_scaled) ~ 
                scale(NAcc_onset) + 
                scale(AIns_onset) + 
-               #scale(MPFC_onset) +
+               scale(MPFC_onset) +
             (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
 summary(M4_C)
 r.squaredGLMM(M4_C)

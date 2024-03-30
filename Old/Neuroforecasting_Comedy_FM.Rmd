@@ -1,0 +1,301 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load libraries
+```{r}
+library(knitr)
+library(rmdformats)
+library(ggplot2)
+library(ggpubr)
+library(GGally)
+library(car)
+```
+
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library("MuMIn")
+library(lmtest)
+library(boot)
+```
+
+# Read dataset
+```{r}
+AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_Comedy_clean.csv')
+```
+# Create data frames for each model.
+```{r}
+# Define aggregate variables. 
+GoT_W1 <- (log(AllSubs_NeuralActivation$Gross_US_W1_num) / AllSubs_NeuralActivation$Theaters_US_W1_num)
+GoT_M1 <- (log(AllSubs_NeuralActivation$Gross_US_M1) / AllSubs_NeuralActivation$Theaters_US_M1)
+GoT_total <- (log(AllSubs_NeuralActivation$Gross_Total_US) / AllSubs_NeuralActivation$Total_Theaters_US)
+
+All_Gross_W1_log <- log(AllSubs_NeuralActivation$Gross_US_W1_num)
+All_Theaters_W1 <- AllSubs_NeuralActivation$Theaters_US_W1_num
+
+All_Gross_M1_log <- log(AllSubs_NeuralActivation$Gross_US_M1)
+All_Theaters_M1 <- AllSubs_NeuralActivation$Theaters_US_M1
+
+# Define affect variables.
+All_PA <- AllSubs_NeuralActivation$Pos_arousal_scaled
+All_NA <- AllSubs_NeuralActivation$Neg_arousal_scaled
+
+FW_US_M1_df <- data.frame(All_Gross_W1_log, All_Theaters_W1) 
+FM_US_M14_df <- data.frame(All_Gross_M1_log, All_Theaters_M1) 
+```
+# Neural signals.  
+```{r}
+# Define ISC variables. 
+All_NAcc_ISC <- AllSubs_NeuralActivation$NAcc_ISC
+All_AIns_ISC <- AllSubs_NeuralActivation$AIns_ISC
+All_MPFC_ISC <- AllSubs_NeuralActivation$MPFC_ISC
+
+All_NAcc_whole <- AllSubs_NeuralActivation$NAcc_whole
+All_AIns_whole <- AllSubs_NeuralActivation$AIns_whole
+All_MPFC_whole <- AllSubs_NeuralActivation$MPFC_whole
+
+All_NAcc_onset <- AllSubs_NeuralActivation$NAcc_onset
+All_AIns_onset <- AllSubs_NeuralActivation$AIns_onset
+All_MPFC_onset <- AllSubs_NeuralActivation$MPFC_onset
+
+All_NAcc_middle <- AllSubs_NeuralActivation$NAcc_middle
+All_AIns_middle <- AllSubs_NeuralActivation$AIns_middle
+All_MPFC_middle <- AllSubs_NeuralActivation$MPFC_middle
+
+All_NAcc_offset <- AllSubs_NeuralActivation$NAcc_offset
+All_AIns_offset <- AllSubs_NeuralActivation$AIns_offset
+All_MPFC_offset <- AllSubs_NeuralActivation$MPFC_offset
+
+All_NAcc_ind_peak_pos <- AllSubs_NeuralActivation$NAcc_ind_peaks_pos
+All_AIns_ind_peak_pos <- AllSubs_NeuralActivation$AIns_ind_peaks_pos
+All_MPFC_ind_peak_pos <- AllSubs_NeuralActivation$MPFC_ind_peaks_pos
+
+All_NAcc_ind_peak_neg <- AllSubs_NeuralActivation$NAcc_ind_peaks_neg
+All_AIns_ind_peak_neg <- AllSubs_NeuralActivation$AIns_ind_peaks_neg
+All_MPFC_ind_peak_neg <- AllSubs_NeuralActivation$MPFC_ind_peaks_neg
+
+All_NAcc_tr_peak_pos <- AllSubs_NeuralActivation$NAcc_trailer_peak_pos
+All_AIns_tr_peak_pos <- AllSubs_NeuralActivation$AIns_trailer_peak_pos
+All_MPFC_tr_peak_pos <- AllSubs_NeuralActivation$MPFC_trailer_peak_pos
+
+All_NAcc_tr_peak_neg <- AllSubs_NeuralActivation$NAcc_trailer_peak_neg
+All_AIns_tr_peak_neg <- AllSubs_NeuralActivation$AIns_trailer_peak_neg
+All_MPFC_tr_peak_neg <- AllSubs_NeuralActivation$MPFC_trailer_peak_neg
+```
+
+# Neuroforecasting: First month.
+## M1: Aggregate data 
+```{r, echo = FALSE}
+FM_US_M1 <- lm(All_Gross_M1_log ~ scale(All_Theaters_M1)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M1)
+r.squaredGLMM(FM_US_M1)
+AIC(FM_US_M1)
+```
+
+## M2: Affect data 
+```{r, echo = FALSE}
+FM_US_M2 <- lm(All_Gross_M1_log ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M2)
+r.squaredGLMM(FM_US_M2)
+AIC(FM_US_M2)
+#ggpairs(FW_US_M1_df)
+```
+## M3: Sequence neural signals.
+```{r}
+FM_US_M3 <- lm((All_Gross_M1_log) ~ 
+         + scale(NAcc_onset) 
+         + scale(AIns_middle)
+         + scale(MPFC_offset)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M3)
+r.squaredGLMM(FM_US_M3)
+AIC(FM_US_M3)
+```
+## M4: Full model: theaters + affect + neural signals.
+```{r}
+FM_US_M4 <- lm((All_Gross_M1_log) ~ 
+         + scale(All_Theaters_M1)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_onset) 
+         + scale(AIns_middle)
+         + scale(MPFC_offset)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M4)
+r.squaredGLMM(FM_US_M4)
+AIC(FM_US_M4)
+vif(FM_US_M4)
+```
+## M5: Sequence neural signals.
+```{r}
+FM_US_M5 <- lm((All_Gross_M1_log) ~ 
+         + scale(NAcc_ISC) 
+         + scale(AIns_ISC)
+         + scale(MPFC_ISC)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M5)
+r.squaredGLMM(FM_US_M5)
+AIC(FM_US_M5)
+```
+## M6: Full model: theaters + affect + neural ISC
+```{r}
+FM_US_M6 <- lm((All_Gross_M1_log) ~ 
+         + scale(All_Theaters_M1)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_ISC) 
+         + scale(AIns_ISC)
+         + scale(MPFC_ISC)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M6)
+r.squaredGLMM(FM_US_M6)
+AIC(FM_US_M6)
+vif(FM_US_M6)
+```
+## M7: Neural positive peaks (individual).
+```{r}
+FM_US_M7 <- lm((All_Gross_M1_log) ~ 
+         + scale(NAcc_ind_peaks_pos) 
+         + scale(AIns_ind_peaks_pos)
+         + scale(MPFC_ind_peaks_pos)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M7)
+r.squaredGLMM(FM_US_M7)
+AIC(FM_US_M7)
+```
+## M8: Full model: theaters + affect + neural ind positive peaks.
+```{r}
+FM_US_M8 <- lm((All_Gross_M1_log) ~ 
+         + scale(All_Theaters_M1)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_ind_peaks_pos) 
+         + scale(AIns_ind_peaks_pos)
+         + scale(MPFC_ind_peaks_pos)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M8)
+r.squaredGLMM(FM_US_M8)
+AIC(FM_US_M8)
+vif(FM_US_M8)
+```
+## M9: Neural negative peaks (individual).
+```{r}
+FM_US_M9 <- lm((All_Gross_M1_log) ~ 
+         + scale(NAcc_ind_peaks_neg) 
+         + scale(AIns_ind_peaks_neg)
+         + scale(MPFC_ind_peaks_neg)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M9)
+r.squaredGLMM(FM_US_M9)
+AIC(FM_US_M9)
+```
+## M10: Full model: theaters + affect + neural ind negative peaks.
+```{r}
+FM_US_M10 <- lm((All_Gross_M1_log) ~ 
+         + scale(All_Theaters_M1)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_ind_peaks_neg) 
+         + scale(AIns_ind_peaks_neg)
+         + scale(MPFC_ind_peaks_neg)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M10)
+r.squaredGLMM(FM_US_M10)
+AIC(FM_US_M10)
+vif(FM_US_M10)
+```
+## M11: Neural positive peaks (trailer).
+```{r}
+FM_US_M11 <- lm((All_Gross_M1_log) ~ 
+         + scale(NAcc_trailer_peak_pos) 
+         + scale(AIns_trailer_peak_pos)
+         + scale(MPFC_trailer_peak_pos)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M11)
+r.squaredGLMM(FM_US_M11)
+AIC(FM_US_M11)
+```
+## M12: Full model: theaters + affect + neural trailer positive peaks.
+```{r}
+FM_US_M12 <- lm((All_Gross_M1_log) ~ 
+         + scale(All_Theaters_M1)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_trailer_peak_pos) 
+         + scale(AIns_trailer_peak_pos)
+         + scale(MPFC_trailer_peak_pos)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M12)
+r.squaredGLMM(FM_US_M12)
+AIC(FM_US_M12)
+vif(FM_US_M12)
+```
+## M13: Neural negative peaks (trailer).
+```{r}
+FM_US_M13 <- lm((All_Gross_M1_log) ~ 
+         + scale(NAcc_trailer_peak_neg) 
+         + scale(AIns_trailer_peak_neg)
+         + scale(MPFC_trailer_peak_neg)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M13)
+r.squaredGLMM(FM_US_M13)
+AIC(FM_US_M13)
+```
+## M14: Full model: theaters + affect + neural trailer positive peaks.
+```{r}
+FM_US_M14 <- lm((All_Gross_M1_log) ~ 
+         + scale(All_Theaters_M1)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_trailer_peak_neg) 
+         + scale(AIns_trailer_peak_neg)
+         + scale(MPFC_trailer_peak_neg)
+            , data = AllSubs_NeuralActivation )
+summary(FM_US_M14)
+r.squaredGLMM(FM_US_M14)
+AIC(FM_US_M14)
+vif(FM_US_M14)
+```
+# Neuroforecasting: First month controlling for number of theaters. 
+
+
+## M15: affect model.
+```{r}
+FMT_M15 <- lm((All_Gross_M1_log) ~ 
+
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_trailer_peak_neg) 
+         + scale(AIns_trailer_peak_neg)
+         + scale(MPFC_trailer_peak_neg)
+            , data = AllSubs_NeuralActivation )
+summary(FMT_M15)
+r.squaredGLMM(FMT_M15)
+AIC(FMT_M15)
+vif(FMT_M15)
+```
+
+
+
+
+```{r}
+ggplot(AllSubs_NeuralActivation, aes(x = NAcc_onset, y = (GoT_total))) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor()
+```
+

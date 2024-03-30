@@ -224,9 +224,9 @@ r.squaredGLMM(M3)
 AIC(M3)
 
 # Create pairs plot. 
-ggpairs(M3_df)
-ggpairs(M3_C_df)
-ggpairs(M3_H_df)
+#ggpairs(M3_df)
+#ggpairs(M3_C_df)
+#ggpairs(M3_H_df)
 ```
 
 # M4: Neural data onset
@@ -265,9 +265,9 @@ r.squaredGLMM(M5)
 AIC(M5)
 
 # Create pairs plot. 
-ggpairs(M5_df)
-ggpairs(M5_C_df)
-ggpairs(M5_H_df)
+#ggpairs(M5_df)
+#ggpairs(M5_C_df)
+#ggpairs(M5_H_df)
 ```
 
 # M6: Neural data offset
@@ -306,9 +306,9 @@ r.squaredGLMM(M7)
 AIC(M7)
 
 # Create pairs plot. 
-ggpairs(M7_df)
-ggpairs(M7_C_df)
-ggpairs(M7_H_df)
+#ggpairs(M7_df)
+#ggpairs(M7_C_df)
+#ggpairs(M7_H_df)
 ```
 
 # M8: Neural data middle
@@ -348,9 +348,9 @@ r.squaredGLMM(M9)
 AIC(M9)
 
 # Create pairs plot. 
-ggpairs(M9_df)
-ggpairs(M9_C_df)
-ggpairs(M9_H_df)
+#ggpairs(M9_df)
+#ggpairs(M9_C_df)
+#ggpairs(M9_H_df)
 ```
 
 # M10: Neural ISC data 
@@ -389,9 +389,9 @@ r.squaredGLMM(M11)
 AIC(M11)
 
 # Create pairs plot. 
-ggpairs(M11_df)
-ggpairs(M11_C_df)
-ggpairs(M11_H_df)
+#ggpairs(M11_df)
+#ggpairs(M11_C_df)
+#ggpairs(M11_H_df)
 ```
 
 # Sequence Test
@@ -416,14 +416,31 @@ r.squaredGLMM(M12)
 M12 <- lmer(scale(W_score_scaled) ~ Type  
              + scale(Pos_arousal_scaled)  
              + scale(Neg_arousal_scaled) 
-             + scale(NAcc_onset) 
-             + scale(AIns_middle)  
-             + scale(MPFC_offset)  
+             + scale(NAcc_middle) 
+             + scale(AIns_offset)  
+             + scale(MPFC_middle)  
              + Type:scale(Neg_arousal_scaled) 
              + Type:scale(Pos_arousal_scaled) 
-             + Type:scale(NAcc_onset)  
-             + Type:scale(AIns_middle)  
-             + Type:scale(MPFC_offset)  
+             + Type:scale(NAcc_middle)  
+             + Type:scale(AIns_offset)  
+             + Type:scale(MPFC_middle)  
+             + (1|Participant) + (1|Trailer)
+             , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
+summary(M12)
+r.squaredGLMM(M12)
+```
+```{r, echo = FALSE}
+M12 <- lmer(scale(W_score_scaled) ~ Type  
+             + scale(Pos_arousal_scaled)  
+             + scale(Neg_arousal_scaled) 
+             + scale(NAcc_ind_peaks_neg) 
+             + scale(AIns_ind_peaks_neg)  
+             + scale(MPFC_ind_peaks_neg)  
+             + Type:scale(Neg_arousal_scaled) 
+             + Type:scale(Pos_arousal_scaled) 
+             + Type:scale(NAcc_ind_peaks_neg)  
+             + Type:scale(AIns_ind_peaks_neg)  
+             + Type:scale(MPFC_ind_peaks_neg)  
              + (1|Participant) + (1|Trailer)
              , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M12)
