@@ -1,0 +1,259 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Load libraries
+```{r, warning = FALSE, message = FALSE}
+library(knitr)
+library(rmdformats)
+library(ggplot2)
+library(ggpubr)
+library(GGally)
+library(car)
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library("MuMIn")
+library(lmtest)
+library(boot)
+library(modelsummary)
+library(pandoc)
+library(tinytable)
+```
+
+# Read dataset
+```{r}
+AllSubs_IndividualChoice_C <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_ISC_Comedy.csv')
+```
+
+# M1_C: Behavioral data
+```{r, echo = FALSE}
+M1_C <- lmer(scale(W_score_scaled) ~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) + 
+             (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+#summary(M1_C)
+#r.squaredGLMM(M1_C)
+#confint(M1_C)
+#AIC(M1_C)
+```
+
+# Neural ISC 
+```{r, echo = FALSE}
+M2_C <- lmer(scale(W_score_scaled) ~ 
+               #scale(NAcc_ISC) + 
+               scale(AIns_ISC) + 
+               scale(MPFC_ISC) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+
+M3_C <- lmer(scale(W_score_scaled) ~ 
+               scale(Pos_arousal_scaled) + 
+               scale(Neg_arousal_scaled) + 
+               #scale(NAcc_ISC) + 
+               scale(AIns_ISC) + 
+               scale(MPFC_ISC) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+
+ISC_list <- list(
+  "Affect" = M1_C, 
+  "Neuro ISC" = M2_C, 
+  "Affect & Neuro ISC" = M3_C)
+
+ISC_models <- modelsummary(ISC_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+ISC_models
+
+```
+Are NAcc_ISC and MPFC co-linear? 
+```{r}
+ggplot(AllSubs_IndividualChoice_C, aes(x = NAcc_ISC, y = (MPFC_ISC))) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() 
+  #geom_text(aes(label = Trailer), vjust = 2)
+```
+
+
+# Neural sequence models
+```{r, echo = FALSE}
+M4_C <- lmer(scale(W_score_scaled) ~ 
+               scale(NAcc_onset) + 
+               scale(AIns_middle) + 
+               scale(MPFC_offset) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+
+M5_C <- lmer(scale(W_score_scaled) ~ 
+               scale(Pos_arousal_scaled) + 
+               scale(Neg_arousal_scaled) + 
+               scale(NAcc_onset) + 
+               scale(AIns_middle) + 
+               scale(MPFC_offset) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+
+Seq_list <- list(
+  "Affect" = M1_C, 
+  "Neuro seq" = M4_C, 
+  "Affect & Neuro seq" = M5_C)
+
+Seq_models <- modelsummary(Seq_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+Seq_models
+```
+
+# Neural dem peaks
+```{r, echo = FALSE}
+M6_C <- lmer(scale(W_score_scaled) ~ 
+               scale(NAcc_dem_peak_pos_yes) + 
+               #scale(AIns_dem_peak_pos_yes) + 
+               #scale(MPFC_dem_peak_pos_yes) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+
+M7_C <- lmer(scale(W_score_scaled) ~ 
+               scale(Pos_arousal_scaled) + 
+               scale(Neg_arousal_scaled) + 
+               scale(NAcc_dem_peak_pos_yes) + 
+               #scale(AIns_dem_peak_pos_yes) + 
+               #scale(MPFC_dem_peak_pos_yes) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+
+Dem_peaks_list <- list(
+  "Affect" = M1_C, 
+  "Neuro dem peaks" = M6_C, 
+  "Affect & Neuro dem peaks" = M7_C)
+
+Dem_peaks_list <- modelsummary(Dem_peaks_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+Dem_peaks_list
+```
+
+
+# M5_C: Neural activation (onset) + Behavioral data
+```{r, echo = FALSE}
+M5_C <- lmer(scale(W_score_scaled) ~ 
+              + scale(Pos_arousal_scaled) 
+              + scale(Neg_arousal_scaled) 
+              + scale(NAcc_onset) 
+              + scale(AIns_onset) 
+              + scale(MPFC_onset) 
+              + (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M5_C)
+r.squaredGLMM(M5_C)
+confint(M5_C)
+AIC(M5_C)
+```
+
+# M6_C: Neural activation (middle)
+```{r, echo = FALSE}
+M6_C <- lmer(scale(W_score_scaled) ~ 
+               scale(NAcc_middle) + 
+               scale(AIns_middle) + 
+               scale(MPFC_middle) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M6_C)
+r.squaredGLMM(M6_C)
+confint(M6_C)
+AIC(M6_C)
+```
+
+# M7_C: Neural activation (middle) + Behavioral data
+```{r, echo = FALSE}
+M7_C <- lmer(scale(W_score_scaled) ~ 
+              + scale(Pos_arousal_scaled) 
+              + scale(Neg_arousal_scaled) 
+              + scale(NAcc_middle) 
+              + scale(AIns_middle) 
+              + scale(MPFC_middle) 
+              + (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M7_C)
+r.squaredGLMM(M7_C)
+confint(M7_C)
+AIC(M7_C)
+```
+
+# M8_C: Neural activation (offset)
+```{r, echo = FALSE}
+M8_C <- lmer(scale(W_score_scaled) ~ 
+               scale(NAcc_offset) + 
+               scale(AIns_offset) + 
+               scale(MPFC_offset) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M8_C)
+r.squaredGLMM(M8_C)
+confint(M8_C)
+AIC(M8_C)
+```
+
+# M9_C: Neural activation (offset) + Behavioral data
+```{r, echo = FALSE}
+
+optimal_NAcc_df <- mutate(AllSubs_IndividualChoice_C, 
+                          NAcc_opt = rowMeans(select(AllSubs_IndividualChoice_C, 
+                          c("NAcc_TR5", "NAcc_TR6", "NAcc_TR7", "NAcc_TR8"))))
+
+
+M9_C <- lmer(scale(W_score_scaled) ~ 
+              + scale(Pos_arousal_scaled) 
+              + scale(Neg_arousal_scaled) 
+              + scale(NAcc_onset) 
+              #+ scale(AIns_middle) 
+              + scale(MPFC_middle) 
+              + (1|Participant) + (1|Trailer), data = optimal_NAcc_df)
+summary(M9_C)
+r.squaredGLMM(M9_C)
+AIC(M9_C)
+#optimal_NAcc_df
+```
+
+# M10_C: Neural ISC 
+```{r, echo = FALSE}
+M10_C <- lmer(scale(W_score_scaled) ~ 
+               + scale(NAcc_ISC) 
+               + scale(AIns_ISC) 
+               + scale(MPFC_ISC) 
+               + (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M10_C)
+r.squaredGLMM(M10_C)
+AIC(M10_C)
+vif(M10_C)
+```
+
+# M11_C: Neural ISC + Behavioral data
+```{r, echo = FALSE}
+M11_C <- lmer(scale(W_score_scaled)~ 
+               + scale(Pos_arousal_scaled) 
+               + scale(Neg_arousal_scaled)
+               + scale(NAcc_ISC) 
+               + scale(AIns_ISC) 
+               + scale(MPFC_ISC) 
+               + (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M11_C)
+r.squaredGLMM(M11_C)
+AIC(M11_C)
+vif(M11_C)
+```
+
+
+
+# M8_C: Neural activation (offset)
+```{r, echo = FALSE}
+M8_C <- lmer(scale(W_score_scaled) ~ 
+               scale(Pos_arousal_scaled) +
+               scale(Neg_arousal_scaled) +
+               scale(NAcc_ind_peaks_pos) +
+               scale(AIns_ind_peaks_pos) + # 5
+               scale(MPFC_ind_peaks_pos) + # 7
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+summary(M8_C)
+r.squaredGLMM(M8_C)
+#confint(M8_C)
+AIC(M8_C)
+```
+
+```{r}
+optimal_NAcc_df <- mutate(AllSubs_IndividualChoice_C, 
+                          NAcc_opt = rowMeans(select(AllSubs_IndividualChoice_C, 
+                          c("NAcc_TR5", "NAcc_TR6", "NAcc_TR7", "NAcc_TR8"))))
+
+# na.rm = TRUE
+ggplot(optimal_NAcc_df, aes(x=NAcc_dem_peak_pos_yes, y = (W_score_scaled))) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor()
+```
+

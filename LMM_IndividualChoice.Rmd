@@ -168,6 +168,17 @@ M11_C_df <- data.frame(Comedy_W, Comedy_PA, Comedy_NA, Comedy_NAcc_ISC, Comedy_A
 M11_H_df <- data.frame(Horror_W, Horror_PA, Horror_NA, Horror_NAcc_ISC, Horror_AIns_ISC, Horror_MPFC_ISC) 
 ```
 
+# Plotting stuff. 
+```{r}
+
+ggplot(AllSubs_NeuralActivation, aes(x=NAcc_ISC, y = (W_score_scaled), fill=Type)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor()
+
+```
+
+
 # M1: Behavioral data 
 ```{r, echo = FALSE}
 M1 <- lmer(scale(W_score_scaled) ~ Type +
@@ -251,13 +262,13 @@ M5 <- lmer(scale(W_score_scaled) ~ Type
              + scale(Pos_arousal_scaled) 
              + scale(Neg_arousal_scaled) 
              + scale(NAcc_onset)  
-             + scale(AIns_onset)  
-             + scale(MPFC_onset)  
+             + scale(AIns_middle)  
+             + scale(MPFC_offset)  
              + Type:scale(Neg_arousal_scaled) 
              + Type:scale(Pos_arousal_scaled)  
              + Type:scale(NAcc_onset) 
-             + Type:scale(AIns_onset)  
-             + Type:scale(MPFC_onset) 
+             + Type:scale(AIns_middle)  
+             + Type:scale(MPFC_offset) 
              + (1|Participant) + (1|Trailer)
              , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M5)
@@ -433,14 +444,14 @@ r.squaredGLMM(M12)
 M12 <- lmer(scale(W_score_scaled) ~ Type  
              + scale(Pos_arousal_scaled)  
              + scale(Neg_arousal_scaled) 
-             + scale(NAcc_ind_peaks_neg) 
-             + scale(AIns_ind_peaks_neg)  
-             + scale(MPFC_ind_peaks_neg)  
+             + scale(NAcc_ind_peaks_pos) 
+             + scale(AIns_ind_peaks_pos)  
+             + scale(MPFC_ind_peaks_pos)  
              + Type:scale(Neg_arousal_scaled) 
              + Type:scale(Pos_arousal_scaled) 
-             + Type:scale(NAcc_ind_peaks_neg)  
-             + Type:scale(AIns_ind_peaks_neg)  
-             + Type:scale(MPFC_ind_peaks_neg)  
+             + Type:scale(NAcc_ind_peaks_pos)  
+             + Type:scale(AIns_ind_peaks_pos)  
+             + Type:scale(MPFC_ind_peaks_pos)  
              + (1|Participant) + (1|Trailer)
              , data = AllSubs_NeuralActivation %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy"))))
 summary(M12)
