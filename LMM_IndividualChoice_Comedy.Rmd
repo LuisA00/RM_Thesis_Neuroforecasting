@@ -20,6 +20,8 @@ library(boot)
 library(modelsummary)
 library(pandoc)
 library(tinytable)
+library(ggpubr)
+library(cowplot)
 ```
 
 # Read dataset
@@ -27,9 +29,23 @@ library(tinytable)
 AllSubs_IndividualChoice_C <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_ISC_Comedy.csv')
 
 # Filter outliers. 
-AllSubs_IndividualChoice_C <- filter(AllSubs_IndividualChoice_C, Avg_peaks_pos_yes_cooks < 0.1)
+#AllSubs_IndividualChoice_C <- filter(AllSubs_IndividualChoice_C, Avg_peaks_pos_yes_cooks < 0.1)
 
 ```
+
+```{r}
+#AllSubs_IndividualChoice_C$NAcc_LC_ISC
+
+```
+
+
+```{r}
+ggplot(AllSubs_IndividualChoice_C, aes(x = AIns_DC_ISC, y = (W_score_scaled), color=C_preference)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() 
+```
+
 
 # M1_C: Behavioral data
 ```{r, echo = FALSE}
@@ -63,7 +79,10 @@ ISC_list <- list(
   "Neuro ISC" = M2_C, 
   "Affect & Neuro ISC" = M3_C)
 
-ISC_models <- modelsummary(ISC_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+ISC_models <- modelsummary(ISC_list, stars=TRUE, statistic = c("t = {statistic}", "s.e. = {std.error}"), output = "ISC_models_C.docx", gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)")
+#ISC_models <- modelsummary(ISC_list, stars=TRUE, statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+#                           output = "dataframe", gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)")  %>% #select(-part, -statistic)
+
 ISC_models
 
 ```
@@ -78,18 +97,19 @@ ggplot(AllSubs_IndividualChoice_C, aes(x = NAcc_ISC, y = (MPFC_ISC))) +
 
 
 # Neural sequence models
+Idk why, 'MPFC_middle' is so strong if it's barely correlated with 'W_score_scaled.'
 ```{r, echo = FALSE}
 M4_C <- lmer(scale(W_score_scaled) ~ 
-               #scale(NAcc_onset) + 
-               #scale(AIns_middle) + 
+               scale(NAcc_onset) + 
+               scale(AIns_middle) + 
                scale(MPFC_middle) +
             (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
 
 M5_C <- lmer(scale(W_score_scaled) ~ 
                scale(Pos_arousal_scaled) + 
                scale(Neg_arousal_scaled) + 
-               #scale(NAcc_onset) + 
-               #scale(AIns_middle) + 
+               scale(NAcc_onset) + 
+               scale(AIns_middle) + 
                scale(MPFC_middle) +
             (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
 
@@ -98,12 +118,19 @@ Seq_list <- list(
   "Neuro seq" = M4_C, 
   "Affect & Neuro seq" = M5_C)
 
-Seq_models <- modelsummary(Seq_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+Seq_models <- modelsummary(Seq_list, stars=TRUE, 
+                           statistic = c("t = {statistic}", "s.e. = {std.error}"),
+                           #output = "Seq_models_C.docx",
+                           output = "dataframe",
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") 
+
+#Seq_models <- modelsummary(Seq_list, stars=TRUE, statistic = c("t = {statistic}", "s.e. = {std.error}"),
+#                           output = "dataframe", gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+
 Seq_models
 ```
-Why is MPFC_middle so strong in the full model?
 ```{r}
-ggplot(AllSubs_IndividualChoice_C, aes(x = MPFC_middle, y = (AIns_middle))) +
+ggplot(AllSubs_IndividualChoice_C, aes(x = MPFC_middle, y = (W_score_scaled))) +
   geom_point() +
   geom_smooth(method = "lm") +
   stat_cor() 
@@ -129,7 +156,16 @@ Dem_peaks_list <- list(
   "Neuro dem peaks" = M6_C, 
   "Affect & Neuro dem peaks" = M7_C)
 
-Dem_peaks_list <- modelsummary(Dem_peaks_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+Dem_peaks_list <- modelsummary(Dem_peaks_list, stars=TRUE, 
+                               statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                               #output = "Dem_peaks_C.docx", 
+                               output = "dataframe",
+                               gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)")
+#Dem_peaks_list <- modelsummary(Dem_peaks_list, stars=TRUE, 
+#                               statistic = c("t = {statistic}", "s.e. = {std.error}"),
+#                               output = "dataframe", 
+#                               gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") %>% 
+#                               select(-part, -statistic)
 Dem_peaks_list
 ```
 # Neural dem peaks yes
@@ -153,12 +189,23 @@ Dem_peaks_yes_list <- list(
   "Neuro dem peaks yes" = M8_C, 
   "Affect & Neuro dem peaks yes" = M9_C)
 
-Dem_peaks_yes_list <- modelsummary(Dem_peaks_yes_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+Dem_peaks_yes_list <- modelsummary(Dem_peaks_yes_list, stars=TRUE, 
+                                   statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                                   #output = "Dem_peaks_yes_C.docx",
+                                   output = "dataframe",
+                                   gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") 
+#Dem_peaks_yes_list <- modelsummary(Dem_peaks_yes_list, stars=TRUE, 
+#                                   statistic = c("t = {statistic}", "s.e. = {std.error}"),
+#                                   output = "dataframe", 
+#                                   gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") %>% #select(-part, -statistic)
 Dem_peaks_yes_list
+# Maybe it is the case that, even though in the neuro model NAcc is a stronger predictor than MPFC, 
+# in the full model PA eats a bit of NAcc and that is why MPFC turns out stronger.
 ```
 Are NAcc_dem_peaks_pos_yes and MPFC_dem_peaks_pos_yes co-linear? 
 ```{r}
-ggplot(AllSubs_IndividualChoice_C, aes(x = NAcc_onset, y = (W_score_scaled))) +
+ggplot(AllSubs_IndividualChoice_C, aes(x = NAcc_avg_peak_yes_pos, y = (W_score_scaled), #color=C_preference
+            )) +
   geom_point() +
   geom_smooth(method = "lm") +
   stat_cor() 
@@ -167,26 +214,33 @@ ggplot(AllSubs_IndividualChoice_C, aes(x = NAcc_onset, y = (W_score_scaled))) +
 
 ```{r}
 M10_C <- lmer(scale(W_score_scaled) ~ 
-               scale(NAcc_dem_peak_pos_yes) + 
-               scale(AIns_dem_peak_pos_yes) + 
-               scale(MPFC_dem_peak_pos_yes) +
+               scale(NAcc_avg_peak_pos) + 
+               scale(AIns_avg_peak_pos) + 
+               scale(MPFC_avg_peak_pos) +
             (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
 
 M11_C <- lmer(scale(W_score_scaled) ~ 
                scale(Pos_arousal_scaled) + 
                scale(Neg_arousal_scaled) + 
-               scale(NAcc_dem_peak_pos_yes) + 
-               scale(AIns_dem_peak_pos_yes) + 
-               scale(MPFC_dem_peak_pos_yes) +
+               scale(NAcc_avg_peak_pos) + 
+               scale(AIns_avg_peak_pos) + 
+               scale(MPFC_avg_peak_pos) +
             (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
 
-Dem_peaks_yes_list <- list(
+Avg_peaks_list <- list(
   "Affect" = M1_C, 
-  "Neuro dem peaks yes" = M8_C, 
-  "Affect & Neuro dem peaks yes" = M9_C)
+  "Neuro AVG " = M10_C, 
+  "Affect & Neuro AVG" = M11_C)
 
-Dem_peaks_yes_list <- modelsummary(Dem_peaks_yes_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
-Dem_peaks_yes_list
+Avg_peaks_list <- modelsummary(Avg_peaks_list, stars=TRUE, 
+                               statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                               #output = "Avg_peaks_C.docx", 
+                               output = "dataframe",
+                               gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") 
+#Avg_peaks_list <- modelsummary(Avg_peaks_list, stars=TRUE, 
+#                                   statistic = c("t = {statistic}", "s.e. = {std.error}"),
+#                                   output = "dataframe", gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+Avg_peaks_list
 ```
 
 ```{r}
@@ -209,7 +263,16 @@ Avg_peaks_yes_list <- list(
   "Neuro avg peaks yes" = M12_C, 
   "Affect & Neuro dem peaks yes" = M13_C)
 
-Avg_peaks_yes_list <- modelsummary(Avg_peaks_yes_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+Avg_peaks_yes_list <- modelsummary(Avg_peaks_yes_list, stars=TRUE, 
+                                   statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                                   #output = "Avg_peaks_yes_C.docx", 
+                                   output = "dataframe",
+                                   gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") 
+#Avg_peaks_yes_list <- modelsummary(Avg_peaks_yes_list, stars=TRUE, 
+#                                   statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+#                                   output = "dataframe", 
+#                                   gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") %>% 
+#                                   select(-part, -statistic)
 Avg_peaks_yes_list
 ```
 ```{r}
@@ -218,7 +281,57 @@ ggplot(AllSubs_IndividualChoice_C, aes(x = NAcc_avg_peak_yes_pos, y = (W_score_s
   geom_smooth(method = "lm") +
   stat_cor() 
 ```
+Plot graphs for NAcc.
+```{r}
+ggplot(AllSubs_IndividualChoice_C, aes(x=NAcc_dem_peak_pos_yes, y=(W_score_scaled),)) +
+  labs(y = "Watch Score", x = "NAcc DPy") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor(aes()) +
+  theme(legend.position="none")
+```
 
+
+```{r}
+#NAcc onset.
+NAcc_plot_1 <- ggplot(AllSubs_IndividualChoice_C, aes(x=NAcc_onset, y=(W_score_scaled))) +
+  labs(y = "Watch Score", x = "NAcc onset") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor(aes(color = "cyan")) +
+  theme(legend.position="none")
+#NAcc_dem_peak_pos
+NAcc_plot_2 <- ggplot(AllSubs_IndividualChoice_C, aes(x=NAcc_dem_peak_pos, y = (W_score_scaled))) +
+  labs(y = "Watch Score", x = "NAcc DP") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() 
+#NAcc_dem_peak_pos_yes
+NAcc_plot_3 <- ggplot(AllSubs_IndividualChoice_C, aes(x=NAcc_dem_peak_pos_yes, y = (W_score_scaled))) +
+  labs(y = "Watch Score", x = "NAcc DPy") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() 
+#NAcc_avg_peak_yes_pos
+NAcc_plot_4 <- ggplot(AllSubs_IndividualChoice_C, aes(x=NAcc_avg_peak_yes_pos, y = (W_score_scaled))) +
+  labs(y = "Watch Score", x = "NAcc AVGy") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() 
+
+#ggarrange(NAcc_plot_1, NAcc_plot_2, NAcc_plot_3, NAcc_plot_4, 
+          #labels = c("NAcc onset", "NAcc DP", "NAcc DPy", "NAcc AVGy"),
+          #ncol = 4, nrow = 1, align="h")
+
+plot_grid(NAcc_plot_1, NAcc_plot_2, nrow=1, align="v")
+
+#ggdraw() +
+  #draw_plot(NAcc_plot_1, x = 0.5, y = 0.5, width = .35, height = .55) 
+  #draw_plot(NAcc_plot_2, x = .29, y = .4, width = .35, height = .55) 
+  #draw_plot(NAcc_plot_3, x = .5, y = 0, width = .5, height = .5) +
+  #draw_plot(NAcc_plot_4, x = 0, y = 0, width = .5, height = .5) 
+
+```
 
 
 

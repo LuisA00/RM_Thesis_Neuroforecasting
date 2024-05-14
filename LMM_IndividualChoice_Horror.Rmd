@@ -24,13 +24,22 @@ library(tinytable)
 
 # Read dataset
 ```{r}
-AllSubs_IndividualChoice_C <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_ISC_Comedy.csv')
+AllSubs_IndividualChoice_H <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_ISC_Horror.csv')
+#AllSubs_IndividualChoice_H <- filter(AllSubs_IndividualChoice, Type=="Horror")
 ```
+
+```{r}
+ggplot(AllSubs_IndividualChoice_H, aes(x = NAcc_LH_ISC, y = (W_score_scaled), color=H_preference)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() 
+```
+
 
 # M1_C: Behavioral data
 ```{r, echo = FALSE}
-M1_C <- lmer(scale(W_score_scaled) ~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) + 
-             (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+M1_H <- lmer(scale(W_score_scaled) ~ scale(Pos_arousal_scaled) + scale(Neg_arousal_scaled) + 
+             (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
 #summary(M1_C)
 #r.squaredGLMM(M1_C)
 #confint(M1_C)
@@ -40,32 +49,35 @@ M1_C <- lmer(scale(W_score_scaled) ~ scale(Pos_arousal_scaled) + scale(Neg_arous
 # Neural ISC 
 Note it appears that in the full model NAcc is being flipped by positive arousal and MPFC. 
 ```{r, echo = FALSE}
-M2_C <- lmer(scale(W_score_scaled) ~ 
+M2_H <- lmer(scale(W_score_scaled) ~ 
                scale(NAcc_ISC) + 
                scale(AIns_ISC) + 
                scale(MPFC_ISC) +
-            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
 
-M3_C <- lmer(scale(W_score_scaled) ~ 
+M3_H <- lmer(scale(W_score_scaled) ~ 
                scale(Pos_arousal_scaled) + 
                scale(Neg_arousal_scaled) + 
                scale(NAcc_ISC) + 
                scale(AIns_ISC) + 
                scale(MPFC_ISC) +
-            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
 
 ISC_list <- list(
-  "Affect" = M1_C, 
-  "Neuro ISC" = M2_C, 
-  "Affect & Neuro ISC" = M3_C)
+  "Affect" = M1_H, 
+  "Neuro ISC" = M2_H, 
+  "Affect & Neuro ISC" = M3_H)
 
-ISC_models <- modelsummary(ISC_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+ISC_models <- modelsummary(ISC_list, stars=TRUE, 
+                           statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                           output = "ISC_models_H.docx", 
+                           gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") #%>% select(-part, -statistic)
 ISC_models
 
 ```
 Are NAcc_ISC and MPFC co-linear? 
 ```{r}
-ggplot(AllSubs_IndividualChoice_C, aes(x = NAcc_ISC, y = (MPFC_ISC))) +
+ggplot(AllSubs_IndividualChoice_H, aes(x = AIns_ISC, y = (W_score_scaled))) +
   geom_point() +
   geom_smooth(method = "lm") +
   stat_cor() 
@@ -75,92 +87,172 @@ ggplot(AllSubs_IndividualChoice_C, aes(x = NAcc_ISC, y = (MPFC_ISC))) +
 
 # Neural sequence models
 ```{r, echo = FALSE}
-M4_C <- lmer(scale(W_score_scaled) ~ 
-               #scale(NAcc_onset) + 
-               #scale(AIns_middle) + 
-               scale(MPFC_middle) +
-            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+M4_H <- lmer(scale(W_score_scaled) ~ 
+               scale(NAcc_offset) + 
+               scale(AIns_offset) + 
+               #scale(MPFC_offset) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
 
-M5_C <- lmer(scale(W_score_scaled) ~ 
+M5_H <- lmer(scale(W_score_scaled) ~ 
                scale(Pos_arousal_scaled) + 
                scale(Neg_arousal_scaled) + 
-               #scale(NAcc_onset) + 
-               #scale(AIns_middle) + 
-               scale(MPFC_middle) +
-            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+               scale(NAcc_offset) + 
+               scale(AIns_offset) + 
+               #scale(MPFC_offset) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
 
 Seq_list <- list(
-  "Affect" = M1_C, 
-  "Neuro seq" = M4_C, 
-  "Affect & Neuro seq" = M5_C)
+  "Affect" = M1_H, 
+  "Neuro seq" = M4_H, 
+  "Affect & Neuro seq" = M5_H)
 
-Seq_models <- modelsummary(Seq_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+Seq_models <- modelsummary(Seq_list, stars=TRUE, 
+                           statistic = c("t = {statistic}", "s.e. = {std.error}"),  
+                           output = "Seq_models_H.docx", 
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") #%>% select(-part, -statistic)
 Seq_models
 ```
 Why is MPFC_middle so strong in the full model?
 ```{r}
-ggplot(AllSubs_IndividualChoice_C, aes(x = MPFC_middle, y = (AIns_middle))) +
+ggplot(AllSubs_IndividualChoice_H, aes(x = NAcc_dem_peak_pos_yes, y = (W_score_scaled), color=H_preference)) +
+  #labs(y = "Watch Score", x = "NAcc AVGy") + 
   geom_point() +
   geom_smooth(method = "lm") +
   stat_cor() 
 ```
 # Neural dem peaks
 ```{r, echo = FALSE}
-M6_C <- lmer(scale(W_score_scaled) ~ 
+M6_H <- lmer(scale(W_score_scaled) ~ 
                scale(NAcc_dem_peak_pos) + 
                scale(AIns_dem_peak_pos) + 
                scale(MPFC_dem_peak_pos) +
-            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
 
-M7_C <- lmer(scale(W_score_scaled) ~ 
+M7_H <- lmer(scale(W_score_scaled) ~ 
                scale(Pos_arousal_scaled) + 
                scale(Neg_arousal_scaled) + 
                scale(NAcc_dem_peak_pos) + 
                scale(AIns_dem_peak_pos) + 
                scale(MPFC_dem_peak_pos) +
-            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
 
 Dem_peaks_list <- list(
-  "Affect" = M1_C, 
-  "Neuro dem peaks" = M6_C, 
-  "Affect & Neuro dem peaks" = M7_C)
+  "Affect" = M1_H, 
+  "Neuro dem peaks" = M6_H, 
+  "Affect & Neuro dem peaks" = M7_H)
 
-Dem_peaks_list <- modelsummary(Dem_peaks_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+Dem_peaks_list <- modelsummary(Dem_peaks_list, stars=TRUE, 
+                               statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                               output = "Dem_models_H.docx", 
+                               gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") #%>% select(-part, -statistic)
 Dem_peaks_list
 ```
-# Neural dem peaks yes
 ```{r}
-M8_C <- lmer(scale(W_score_scaled) ~ 
-               scale(NAcc_dem_peak_pos_yes) + 
-               scale(AIns_dem_peak_pos_yes) + 
-               scale(MPFC_dem_peak_pos_yes) +
-            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
-
-M9_C <- lmer(scale(W_score_scaled) ~ 
-               scale(Pos_arousal_scaled) + 
-               scale(Neg_arousal_scaled) + 
-               scale(NAcc_dem_peak_pos_yes) + 
-               scale(AIns_dem_peak_pos_yes) + 
-               scale(MPFC_dem_peak_pos_yes) +
-            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_C)
-
-Dem_peaks_yes_list <- list(
-  "Affect" = M1_C, 
-  "Neuro dem peaks yes" = M8_C, 
-  "Affect & Neuro dem peaks yes" = M9_C)
-
-Dem_peaks_yes_list <- modelsummary(Dem_peaks_yes_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
-Dem_peaks_yes_list
-```
-Are NAcc_dem_peaks_pos_yes and MPFC_dem_peaks_pos_yes co-linear? 
-```{r}
-ggplot(AllSubs_IndividualChoice_C, aes(x = NAcc_dem_peak_pos_yes, y = (W_score_scaled))) +
+ggplot(AllSubs_IndividualChoice_H, aes(x=NAcc_dem_peak_pos, y=(W_score_scaled))) +
   geom_point() +
   geom_smooth(method = "lm") +
   stat_cor() 
-  # + geom_text(aes(label = Trailer), vjust = 2)
 ```
 
 
+# Neural dem peaks yes
+```{r}
+M8_H <- lmer(scale(W_score_scaled) ~ 
+               scale(NAcc_dem_peak_pos_yes) + 
+               scale(AIns_dem_peak_pos_yes) + 
+               scale(MPFC_dem_peak_pos_yes) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
+
+M9_H <- lmer(scale(W_score_scaled) ~ 
+               scale(Pos_arousal_scaled) + 
+               scale(Neg_arousal_scaled) + 
+               scale(NAcc_dem_peak_pos_yes) + 
+               scale(AIns_dem_peak_pos_yes) + 
+               scale(MPFC_dem_peak_pos_yes) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
+
+Dem_peaks_yes_list <- list(
+  "Affect" = M1_H, 
+  "Neuro dem peaks yes" = M8_H, 
+  "Affect & Neuro dem peaks yes" = M9_H)
+
+Dem_peaks_yes_list <- modelsummary(Dem_peaks_yes_list, stars=TRUE, 
+                                   statistic = c("t = {statistic}", "s.e. = {std.error}"),
+                                   output = "Dem_yes_models_H.docx", 
+                                   gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") #%>% select(-part, -statistic)
+Dem_peaks_yes_list
+```
+```{r}
+ggplot(AllSubs_IndividualChoice_H, aes(x = NAcc_dem_peak_pos_yes, y = (W_score_scaled))) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() 
+  #geom_text(aes(label = Trailer, colour=Trailer), vjust = 2)
+```
+
+```{r}
+M10_H <- lmer(scale(W_score_scaled) ~ 
+               scale(NAcc_avg_peak_pos) + 
+               scale(AIns_avg_peak_pos) + 
+               scale(MPFC_avg_peak_pos) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
+
+M11_H <- lmer(scale(W_score_scaled) ~ 
+               scale(Pos_arousal_scaled) + 
+               scale(Neg_arousal_scaled) + 
+               scale(NAcc_avg_peak_pos) + 
+               scale(AIns_avg_peak_pos) + 
+               scale(MPFC_avg_peak_pos) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
+
+Avg_peaks_list <- list(
+  "Affect" = M1_H, 
+  "Neuro avg peaks" = M10_H, 
+  "Affect & Neuro avg peaks" = M11_H)
+
+Avg_peaks_list <- modelsummary(Avg_peaks_list, stars=TRUE, 
+                               statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                               output = "Avg_peaks_H.docx", 
+                               gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") #%>% select(-part, -statistic)
+Avg_peaks_list
+```
+
+
+```{r}
+M12_H <- lmer(scale(W_score_scaled) ~ 
+               scale(NAcc_avg_peak_yes_pos) + 
+               scale(AIns_avg_peak_yes_pos) + 
+               scale(MPFC_avg_peak_yes_pos) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
+
+M13_H <- lmer(scale(W_score_scaled) ~ 
+               scale(Pos_arousal_scaled) + 
+               scale(Neg_arousal_scaled) + 
+               scale(NAcc_avg_peak_yes_pos) + 
+               scale(AIns_avg_peak_yes_pos) + 
+               scale(MPFC_avg_peak_yes_pos) +
+            (1|Participant) + (1|Trailer), data = AllSubs_IndividualChoice_H)
+
+Avg_peaks_yes_list <- list(
+  "Affect" = M1_H, 
+  "Neuro avg peaks yes" = M12_H, 
+  "Affect & Neuro dem peaks yes" = M13_H)
+
+Avg_peaks_yes_list <- modelsummary(Avg_peaks_yes_list, stars=TRUE, 
+                                   statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                                   output = "Avg_peaks_yes_H.docx", 
+                                   gof_omit = "F|RMSE|Log|Num.Obs.|SD (Observations)") #%>% select(-part, -statistic)
+Avg_peaks_yes_list
+```
+
+
+
+# Look into sub-groups differences. 
+```{r}
+ggplot(AllSubs_IndividualChoice_H, aes(x =Neg_arousal_scaled, y=(AIns_dem_peak_pos8), color=H_preference)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() 
+```
 
 

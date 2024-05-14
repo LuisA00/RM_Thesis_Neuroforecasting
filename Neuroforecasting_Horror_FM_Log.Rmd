@@ -27,11 +27,14 @@ library(boot)
 library(modelsummary)
 library(pandoc)
 library(tinytable)
+library(cowplot)
 ```
 
 # Read dataset
 ```{r}
 AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_Horror_clean.csv')
+
+
 ```
 # Create data frames for each model.
 ```{r}
@@ -39,6 +42,7 @@ AllSubs_NeuralActivation <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_The
 GoT_W1 <- (log(AllSubs_NeuralActivation$Gross_US_W1_num / AllSubs_NeuralActivation$Theaters_US_W1_num))
 GoT_M1 <- (log(AllSubs_NeuralActivation$Gross_US_M1 / AllSubs_NeuralActivation$Theaters_US_M1))
 GoT_total <- (log(AllSubs_NeuralActivation$Gross_Total_US / AllSubs_NeuralActivation$Total_Theaters_US))
+GoTW_total <- log((AllSubs_NeuralActivation$Gross_Total_US / AllSubs_NeuralActivation$Total_Theaters_US)/AllSubs_NeuralActivation$Total_weeks)
 
 All_Gross_W1_log <- log(AllSubs_NeuralActivation$Gross_US_W1_num)
 All_Theaters_W1 <- AllSubs_NeuralActivation$Theaters_US_W1_num
@@ -97,40 +101,136 @@ All_MPFC_tr_peak_neg <- AllSubs_NeuralActivation$MPFC_trailer_peak_neg
 ggplot(AllSubs_NeuralActivation, aes(x = Budget, y = (All_Theaters_M1))) +
   geom_point() +
   geom_smooth(method = "lm") +
-  stat_cor()
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
 ```
 ```{r}
-ggplot(AllSubs_NeuralActivation, aes(x = rank(AIns_ind_peaks_neg - NAcc_ind_peaks_pos), y = rank(Pos_arousal_scaled))) +
+ggplot(AllSubs_NeuralActivation, aes(x = rank(AIns_ind_peaks_neg - (NAcc_ind_peaks_pos)/sqrt(2)), y = rank(GoT_M1))) +
   geom_point() +
   geom_smooth(method = "lm") +
   stat_cor() +
   geom_text(aes(label = Trailer), vjust = 2)
 ```
 
-```{r}
-# rank(AIns_ind_peaks_neg - NAcc_ind_peaks_pos)/
-# rank(AIns_ind_peaks_neg - NAcc_ind_peaks_pos/sqrt(2))
-# rank( (AIns_ind_peaks_neg - NAcc_ind_peaks_pos)/sqrt(2)
-# rank( (AIns_ind_peaks_neg - (NAcc_ind_peaks_pos/sqrt(2)) )/sqrt(2)
 
-ggplot(AllSubs_NeuralActivation, aes(x = rank( (AIns_ind_peaks_pos - (NAcc_ind_peaks_pos/sqrt(2)) )/sqrt(2)), y = rank(GoT_M1))) +
+```{r}
+#All_trailers_df <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate.csv') #%>%
+  #filter(Trailer!="uh2")
+  #filter(Trailer!="uc3", Trailer!="rc11", Trailer!="rc7")
+
+GoT_M1 <- (log(AllSubs_NeuralActivation$Gross_US_M1 / AllSubs_NeuralActivation$Theaters_US_M1))
+All_Gross_M1_log <- log(AllSubs_NeuralActivation$Gross_US_M1)
+GoT_M1_rank <- (rank(AllSubs_NeuralActivation$Gross_US_M1 / AllSubs_NeuralActivation$Theaters_US_M1))
+All_Gross_M1_rank <- rank(AllSubs_NeuralActivation$Gross_US_M1)
+
+
+NAcc_onset_plot <- ggplot(AllSubs_NeuralActivation, aes(x = (NAcc_avg_peak_pos2), y = (All_Gross_M1_log))) +
+  labs(y = "Gross M1 Log", x = "NAcc AVG2") + 
   geom_point() +
   geom_smooth(method = "lm") +
   stat_cor() +
   geom_text(aes(label = Trailer), vjust = 2)
-```
 
-```{r}
-# log( (AIns_trailer_peak_pos - (NAcc_trailer_peak_pos/sqrt(2)) )/sqrt(2) ) 
-# 
-
-ggplot(AllSubs_NeuralActivation, aes(x = (NAcc_ISC), y = rank(GoT_M1))) +
+NAcc_onset_plot2 <- ggplot(AllSubs_NeuralActivation, aes(x = (NAcc_avg_peak_pos2), y = (GoT_M1))) +
+  labs(y = "Gross/Theaters M1 Log", x = "NAcc AVG2") + 
   geom_point() +
   geom_smooth(method = "lm") +
   stat_cor() +
   geom_text(aes(label = Trailer), vjust = 2)
+
+NAcc_onset_plot3 <- ggplot(AllSubs_NeuralActivation, aes(x = (NAcc_avg_peak_pos2), y = (All_Gross_M1_rank))) +
+  labs(y = "Gross M1 Rank", x = "NAcc AVG2") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+
+NAcc_onset_plot4 <- ggplot(AllSubs_NeuralActivation, aes(x = (NAcc_avg_peak_pos2), y = (GoT_M1_rank))) +
+  labs(y = "Gross/Theaters M1 Rank", x = "NAcc AVG2") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+
+plot_grid(NAcc_onset_plot, NAcc_onset_plot2, NAcc_onset_plot3, NAcc_onset_plot4, nrow=2)
+
+
 ```
 
+```{r}
+AIns_DP6_plot <- ggplot(AllSubs_NeuralActivation, aes(x = (AIns_dem_peak_pos6), y = (All_Gross_M1_log))) +
+  labs(y = "Gross M1 Log", x = "AIns DP6") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+
+AIns_DP6_plot2 <- ggplot(AllSubs_NeuralActivation, aes(x = (AIns_dem_peak_pos6), y = (GoT_M1))) +
+  labs(y = "Gross/Theaters M1 Log", x = "AIns DP6") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+
+AIns_DP6_plot3 <- ggplot(AllSubs_NeuralActivation, aes(x = (AIns_dem_peak_pos6), y = (All_Gross_M1_rank))) +
+  labs(y = "Gross M1 Rank", x = "AIns DP6") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+
+AIns_DP6_plot4 <- ggplot(AllSubs_NeuralActivation, aes(x = (AIns_dem_peak_pos6), y = (GoT_M1_rank))) +
+  labs(y = "Gross/Theaters M1 Rank", x = "AIns DP6") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+
+plot_grid(AIns_DP6_plot, AIns_DP6_plot2, AIns_DP6_plot3, AIns_DP6_plot4, nrow=2)
+
+```
+
+```{r}
+All_trailers_df <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate.csv') #%>%
+  #filter(Trailer!="uh2")
+  #filter(Trailer!="uc3", Trailer!="rc11", Trailer!="rc7")
+
+GoT_M1 <- (log(All_trailers_df$Gross_US_M1 / All_trailers_df$Theaters_US_M1))
+All_Gross_M1_log <- log(All_trailers_df$Gross_US_M1)
+GoT_M1_rank <- (rank(All_trailers_df$Gross_US_M1 / All_trailers_df$Theaters_US_M1))
+All_Gross_M1_rank <- rank(All_trailers_df$Gross_US_M1)
+
+ROI_pot <- ggplot(All_trailers_df, aes(x = (NAcc_dem_peak_pos_yes), y = (All_Gross_M1_log))) +
+  labs(y = "Gross M1 Log", x = "AIns DP6") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+
+ROI_pot2 <- ggplot(All_trailers_df, aes(x = (NAcc_dem_peak_pos_yes), y = (GoT_M1))) +
+  labs(y = "Gross/Theaters M1 Log", x = "AIns DP6") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+
+ROI_pot3 <- ggplot(All_trailers_df, aes(x = (NAcc_dem_peak_pos_yes), y = (All_Gross_M1_rank))) +
+  labs(y = "Gross M1 Rank", x = "AIns DP6") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+
+ROI_pot4 <- ggplot(All_trailers_df, aes(x = (NAcc_dem_peak_pos_yes), y = (GoT_M1_rank))) +
+  labs(y = "Gross/Theaters M1 Rank", x = "AIns DP6") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+
+plot_grid(ROI_pot, ROI_pot2, ROI_pot3, ROI_pot4, nrow=2)
+
+```
 
 # Neuroforecasting: First month.
 ```{r, echo = FALSE}
@@ -160,13 +260,23 @@ FMGT_M4 <- lm((GoT_M1) ~
 
 ```
 
+
+```{r}
+ggplot(AllSubs_NeuralActivation, aes(x = rank(AIns_ind_peaks_neg - (NAcc_ind_peaks_pos)/sqrt(2)), y = rank(GoT_M1))) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+```
+
+
 ## Sequence neural signals.
 ```{r}
 # M5: Sequence neural signals.
 FMG_US_M5 <- lm((All_Gross_M1_log) ~ 
-         + scale(NAcc_onset) 
+         + scale(NAcc_offset) 
          + scale(AIns_middle)
-         + scale(MPFC_offset)
+         + scale(MPFC_middle)
             , data = AllSubs_NeuralActivation )
 
 # M6: Full model = Aggregate + affect + neural.
@@ -175,16 +285,16 @@ FMG_US_M6 <- lm((All_Gross_M1_log) ~
          + scale(IMDb_rating)
          + scale(Pos_arousal_scaled) 
          + scale(Neg_arousal_scaled)
-         + scale(NAcc_onset) 
+         + scale(NAcc_offset) 
          + scale(AIns_middle)
-         + scale(MPFC_offset)
+         + scale(MPFC_middle)
             , data = AllSubs_NeuralActivation)
 
 # M7: Neural sequence.
 FMGT_M7 <- lm((GoT_M1) ~ 
-         + scale(NAcc_onset) 
+         + scale(NAcc_offset) 
          + scale(AIns_middle)
-         + scale(MPFC_offset)
+         + scale(MPFC_middle)
             , data = AllSubs_NeuralActivation )
 
 # # M8: Full model: affect + neural sequence.
@@ -192,9 +302,9 @@ FMGT_M8 <- lm((GoT_M1) ~
          + scale(IMDb_rating)
          + scale(Pos_arousal_scaled) 
          + scale(Neg_arousal_scaled)
-         + scale(NAcc_onset) 
+         + scale(NAcc_offset) 
          + scale(AIns_middle)
-         + scale(MPFC_offset)
+         + scale(MPFC_middle)
             , data = AllSubs_NeuralActivation )
 
 Log_seq_list = list(
@@ -207,9 +317,11 @@ Log_seq_list = list(
   "Neuro_GT" = FMGT_M7,
   "Full_GT" = FMGT_M8)
 
-Log_seq_models <- modelsummary(Log_seq_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
-    #|>
-    #group_tt(j = list("Gross (GT)" = 2:5, "Gross/Theaters (GT)" = 6:9))
+Log_seq_models <- modelsummary(Log_seq_list, stars=TRUE, 
+                               statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                               #output = "Agg_sec_horror_models.docx", 
+                               output="dataframe",
+                               gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
 Log_seq_models
 ```
 
@@ -260,48 +372,47 @@ Log_isc_list = list(
   "Neuro_GT" = FMGT_M11,
   "Full_GT" = FMGT_M12)
 
-Log_isc_models <- modelsummary(Log_isc_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+Log_isc_models <- modelsummary(Log_isc_list, stars=TRUE, 
+                               statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                               #output = "Agg_ISC_horror_models.docx",
+                               output="dataframe",
+                               gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
 Log_isc_models
 ```
-
-## Neural Individual Positive Peaks.
+## Neural Dem Positive Peaks.
 ```{r}
-# G: Neural positive peaks (individual).
 FM_US_M13 <- lm((All_Gross_M1_log) ~ 
-         + scale(NAcc_ind_peaks_pos) 
-         + scale(AIns_ind_peaks_pos)
-         + scale(MPFC_ind_peaks_pos)
+         + scale(NAcc_dem_peak_pos) 
+         + scale(AIns_dem_peak_pos)
+         + scale(MPFC_dem_peak_pos)
             , data = AllSubs_NeuralActivation )
 
-# G: Full model: theaters + affect + neural ind positive peaks.
 FM_US_M14 <- lm((All_Gross_M1_log) ~ 
          + scale(All_Theaters_M1)
          + scale(IMDb_rating)
          + scale(Pos_arousal_scaled) 
          + scale(Neg_arousal_scaled)
-         + scale(NAcc_ind_peaks_pos) 
-         + scale(AIns_ind_peaks_pos)
-         + scale(MPFC_ind_peaks_pos)
+         + scale(NAcc_dem_peak_pos) 
+         + scale(AIns_dem_peak_pos)
+         + scale(MPFC_dem_peak_pos)
             , data = AllSubs_NeuralActivation )
 
-# GT: Neural Ind Pos Peak
 FMGT_M15 <- lm((GoT_M1) ~ 
-         + scale(NAcc_ind_peaks_pos) 
-         + scale(AIns_ind_peaks_pos)
-         + scale(MPFC_ind_peaks_pos)
+         + scale(NAcc_dem_peak_pos) 
+         + scale(AIns_dem_peak_pos)
+         + scale(MPFC_dem_peak_pos)
             , data = AllSubs_NeuralActivation )
 
-# # GT: Full model: affect + neural ind pos peak
 FMGT_M16 <- lm((GoT_M1) ~ 
          + scale(IMDb_rating)
          + scale(Pos_arousal_scaled) 
          + scale(Neg_arousal_scaled)
-         + scale(NAcc_ind_peaks_pos) 
-         + scale(AIns_ind_peaks_pos)
-         + scale(MPFC_ind_peaks_pos)
+         + scale(NAcc_dem_peak_pos) 
+         + scale(AIns_dem_peak_pos)
+         + scale(MPFC_dem_peak_pos)
             , data = AllSubs_NeuralActivation )
 
-Log_ind_pos_peak_list = list(
+Dem_pos_peak_list = list(
   "Aggregate_G" = FMG_US_M1, 
   "Affect_G" = FMG_US_M2, 
   "Neuro_G" = FM_US_M13,
@@ -311,46 +422,47 @@ Log_ind_pos_peak_list = list(
   "Neuro_GT" = FMGT_M15,
   "Full_GT" = FMGT_M16)
 
-Log_ind_pos_peak_models <- modelsummary(Log_ind_pos_peak_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
-Log_ind_pos_peak_models
+Dem_pos_peak_models <- modelsummary(Dem_pos_peak_list, stars=TRUE, 
+                                    statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                                    #output = "Agg_dem_horror_models.docx",
+                                    output="dataframe",
+                                    gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+Dem_pos_peak_models
 ```
-## Neural Individual Negative Peaks.
+## Neural Dem Positive Peaks Yes.
 ```{r}
 FM_US_M17 <- lm((All_Gross_M1_log) ~ 
-         + scale(NAcc_ind_peaks_neg) 
-         + scale(AIns_ind_peaks_neg)
-         + scale(MPFC_ind_peaks_neg)
-            , data = AllSubs_NeuralActivation)
+         + scale(NAcc_dem_peak_pos_yes) 
+         + scale(AIns_dem_peak_pos_yes)
+         + scale(MPFC_dem_peak_pos_yes)
+            , data = AllSubs_NeuralActivation )
 
-# M10: Full model: theaters + affect + neural ind negative peaks.
 FM_US_M18 <- lm((All_Gross_M1_log) ~ 
          + scale(All_Theaters_M1)
          + scale(IMDb_rating)
          + scale(Pos_arousal_scaled) 
          + scale(Neg_arousal_scaled)
-         + scale(NAcc_ind_peaks_neg) 
-         + scale(AIns_ind_peaks_neg)
-         + scale(MPFC_ind_peaks_neg)
-            , data = AllSubs_NeuralActivation)
-
-# GT: Neural Ind Pos Peak
-FMGT_M19 <- lm((GoT_M1) ~ 
-         + scale(NAcc_ind_peaks_neg) 
-         + scale(AIns_ind_peaks_neg)
-         + scale(MPFC_ind_peaks_neg)
+         + scale(NAcc_dem_peak_pos_yes) 
+         + scale(AIns_dem_peak_pos_yes)
+         + scale(MPFC_dem_peak_pos_yes)
             , data = AllSubs_NeuralActivation )
 
-# # GT: Full model: affect + neural ind pos peak
+FMGT_M19 <- lm((GoT_M1) ~ 
+         + scale(NAcc_dem_peak_pos_yes) 
+         + scale(AIns_dem_peak_pos_yes)
+         + scale(MPFC_dem_peak_pos_yes)
+            , data = AllSubs_NeuralActivation )
+
 FMGT_M20 <- lm((GoT_M1) ~ 
          + scale(IMDb_rating)
          + scale(Pos_arousal_scaled) 
          + scale(Neg_arousal_scaled)
-         + scale(NAcc_ind_peaks_neg) 
-         + scale(AIns_ind_peaks_neg)
-         + scale(MPFC_ind_peaks_neg)
+         + scale(NAcc_dem_peak_pos_yes) 
+         + scale(AIns_dem_peak_pos_yes)
+         + scale(MPFC_dem_peak_pos_yes)
             , data = AllSubs_NeuralActivation )
 
-Log_ind_neg_peak_list = list(
+Dem_pos_peak_yes_list = list(
   "Aggregate_G" = FMG_US_M1, 
   "Affect_G" = FMG_US_M2, 
   "Neuro_G" = FM_US_M17,
@@ -360,48 +472,47 @@ Log_ind_neg_peak_list = list(
   "Neuro_GT" = FMGT_M19,
   "Full_GT" = FMGT_M20)
 
-Log_ind_neg_peak_models <- modelsummary(Log_ind_neg_peak_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
-Log_ind_neg_peak_models
+Dem_pos_peak_yes_models <- modelsummary(Dem_pos_peak_yes_list, stars=TRUE, 
+                                        statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                                        #output = "Agg_dem_yes_horror_models.docx", 
+                                        output="dataframe",
+                                        gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+Dem_pos_peak_yes_models
 ```
-
-## Neural Trailer Positive Peaks.
+## Neural Avg Positive Peaks.
 ```{r}
-# G: Neural positive peaks (trailer).
 FM_US_M21 <- lm((All_Gross_M1_log) ~ 
-         + scale(NAcc_trailer_peak_pos) 
-         + scale(AIns_trailer_peak_pos)
-         + scale(MPFC_trailer_peak_pos)
+         + scale(NAcc_avg_peak_pos) 
+         + scale(AIns_avg_peak_pos)
+         + scale(MPFC_avg_peak_pos)
             , data = AllSubs_NeuralActivation )
 
-# G: Full model: theaters + affect + neural trailer positive peaks.
 FM_US_M22 <- lm((All_Gross_M1_log) ~ 
          + scale(All_Theaters_M1)
          + scale(IMDb_rating)
          + scale(Pos_arousal_scaled) 
          + scale(Neg_arousal_scaled)
-         + scale(NAcc_trailer_peak_pos) 
-         + scale(AIns_trailer_peak_pos)
-         + scale(MPFC_trailer_peak_pos)
-            , data = AllSubs_NeuralActivation)
-
-# GT: Neural Ind Pos Peak
-FMGT_M23 <- lm((GoT_M1) ~ 
-         + scale(NAcc_trailer_peak_pos) 
-         + scale(AIns_trailer_peak_pos)
-         + scale(MPFC_trailer_peak_pos)
+         + scale(NAcc_avg_peak_pos) 
+         + scale(AIns_avg_peak_pos)
+         + scale(MPFC_avg_peak_pos)
             , data = AllSubs_NeuralActivation )
 
-# # GT: Full model: affect + neural ind pos peak
+FMGT_M23 <- lm((GoT_M1) ~ 
+         + scale(NAcc_avg_peak_pos) 
+         + scale(AIns_avg_peak_pos)
+         + scale(MPFC_avg_peak_pos)
+            , data = AllSubs_NeuralActivation )
+
 FMGT_M24 <- lm((GoT_M1) ~ 
          + scale(IMDb_rating)
          + scale(Pos_arousal_scaled) 
          + scale(Neg_arousal_scaled)
-         + scale(NAcc_trailer_peak_pos) 
-         + scale(AIns_trailer_peak_pos)
-         + scale(MPFC_trailer_peak_pos)
+         + scale(NAcc_avg_peak_pos) 
+         + scale(AIns_avg_peak_pos)
+         + scale(MPFC_avg_peak_pos)
             , data = AllSubs_NeuralActivation )
 
-Log_tra_pos_peak_list = list(
+Avg_pos_peak_list = list(
   "Aggregate_G" = FMG_US_M1, 
   "Affect_G" = FMG_US_M2, 
   "Neuro_G" = FM_US_M21,
@@ -411,48 +522,48 @@ Log_tra_pos_peak_list = list(
   "Neuro_GT" = FMGT_M23,
   "Full_GT" = FMGT_M24)
 
-Log_tra_pos_peak_models <- modelsummary(Log_tra_pos_peak_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
-Log_tra_pos_peak_models
+Avg_pos_peak_models <- modelsummary(Avg_pos_peak_list, stars=TRUE, 
+                                    statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                                    #output = "Agg_avg_horror_models.docx", 
+                                    output="dataframe",
+                                    gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+Avg_pos_peak_models
 ```
 
-## Neural Trailer Negative Peaks.
+## Neural Avg Positive Peaks Yes.
 ```{r}
-# G: Neural negative peaks (trailer).
 FM_US_M25 <- lm((All_Gross_M1_log) ~ 
-         + scale(NAcc_trailer_peak_neg) 
-         + scale(AIns_trailer_peak_neg)
-         + scale(MPFC_trailer_peak_neg)
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos)
+         + scale(MPFC_avg_peak_yes_pos)
             , data = AllSubs_NeuralActivation )
 
-# G: Full model: theaters + affect + neural trailer negative peaks.
 FM_US_M26 <- lm((All_Gross_M1_log) ~ 
          + scale(All_Theaters_M1)
          + scale(IMDb_rating)
          + scale(Pos_arousal_scaled) 
          + scale(Neg_arousal_scaled)
-         + scale(NAcc_trailer_peak_neg) 
-         + scale(AIns_trailer_peak_neg)
-         + scale(MPFC_trailer_peak_neg)
-            , data = AllSubs_NeuralActivation)
-
-# GT: Neural Tra Neg Peak
-FMGT_M27 <- lm((GoT_M1) ~ 
-         + scale(NAcc_trailer_peak_neg) 
-         + scale(AIns_trailer_peak_neg)
-         + scale(MPFC_trailer_peak_neg)
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos)
+         + scale(MPFC_avg_peak_yes_pos)
             , data = AllSubs_NeuralActivation )
 
-# # GT: Full model: affect + neural tra neg peak
+FMGT_M27 <- lm((GoT_M1) ~ 
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos)
+         + scale(MPFC_avg_peak_yes_pos)
+            , data = AllSubs_NeuralActivation )
+
 FMGT_M28 <- lm((GoT_M1) ~ 
          + scale(IMDb_rating)
          + scale(Pos_arousal_scaled) 
          + scale(Neg_arousal_scaled)
-         + scale(NAcc_trailer_peak_neg) 
-         + scale(AIns_trailer_peak_neg)
-         + scale(MPFC_trailer_peak_neg)
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos)
+         + scale(MPFC_avg_peak_yes_pos)
             , data = AllSubs_NeuralActivation )
 
-Log_tra_neg_peak_list = list(
+Avg_pos_peak_yes_list = list(
   "Aggregate_G" = FMG_US_M1, 
   "Affect_G" = FMG_US_M2, 
   "Neuro_G" = FM_US_M25,
@@ -462,8 +573,171 @@ Log_tra_neg_peak_list = list(
   "Neuro_GT" = FMGT_M27,
   "Full_GT" = FMGT_M28)
 
-Log_tra_neg_peak_models <- modelsummary(Log_tra_neg_peak_list, stars=TRUE, statistic=NULL, output = "dataframe", gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
-Log_tra_neg_peak_models
+Avg_pos_peak_yes_models <- modelsummary(Avg_pos_peak_yes_list, 
+                                        statistic = c("t = {statistic}", "s.e. = {std.error}"),  
+                                        #output = "Agg_avg_yes_horror_models.docx",
+                                        output="dataframe",
+                                        gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+Avg_pos_peak_yes_models
 ```
+
+## Neural Avg Positive Peaks2.
+```{r}
+FM_US_M29 <- lm((All_Gross_M1_log) ~ 
+         + scale(NAcc_avg_peak_pos2) 
+         + scale(AIns_avg_peak_pos2)
+         + scale(MPFC_avg_peak_pos2)
+            , data = AllSubs_NeuralActivation )
+
+FM_US_M30 <- lm((All_Gross_M1_log) ~ 
+         + scale(All_Theaters_M1)
+         + scale(IMDb_rating)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_avg_peak_pos2) 
+         + scale(AIns_avg_peak_pos2)
+         + scale(MPFC_avg_peak_pos2)
+            , data = AllSubs_NeuralActivation )
+
+FMGT_M31 <- lm((GoT_M1) ~ 
+         + scale(NAcc_avg_peak_pos2) 
+         + scale(AIns_avg_peak_pos2)
+         + scale(MPFC_avg_peak_pos2)
+            , data = AllSubs_NeuralActivation )
+
+FMGT_M32 <- lm((GoT_M1) ~ 
+         + scale(IMDb_rating)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_avg_peak_pos2) 
+         + scale(AIns_avg_peak_pos2)
+         + scale(MPFC_avg_peak_pos2)
+            , data = AllSubs_NeuralActivation )
+
+Avg_pos_peak2_list = list(
+  "Aggregate_G" = FMG_US_M1, 
+  "Affect_G" = FMG_US_M2, 
+  "Neuro_G" = FM_US_M29,
+  "Full_G" = FM_US_M30, 
+  "Aggregate_GT" = FMGT_M3,
+  "Affect_GT" = FMGT_M4, 
+  "Neuro_GT" = FMGT_M31,
+  "Full_GT" = FMGT_M32)
+
+Avg_pos_peak2_models <- modelsummary(Avg_pos_peak2_list, stars=TRUE, 
+                                     statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                                     #output = "Agg_avg2_horror_models.docx", 
+                                     output="dataframe",
+                                     gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+Avg_pos_peak2_models
+```
+
+```{r}
+ggplot(AllSubs_NeuralActivation, aes(x = (NAcc_avg_peak_pos2), y = (GoT_M1))) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+```
+
+
+## Neural Avg Positive Peaks Yes2.
+```{r}
+FM_US_M33 <- lm((All_Gross_M1_log) ~ 
+         + scale(NAcc_onset) 
+         + scale(AIns_dem_peak_pos6)
+         + scale(MPFC_avg_peak_yes_pos2)
+            , data = AllSubs_NeuralActivation )
+
+FM_US_M34 <- lm((All_Gross_M1_log) ~ 
+         + scale(All_Theaters_M1)
+         + scale(IMDb_rating)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_onset) 
+         + scale(AIns_dem_peak_pos6)
+         + scale(MPFC_avg_peak_yes_pos2)
+            , data = AllSubs_NeuralActivation )
+
+FMGT_M35 <- lm((GoT_M1) ~ 
+         + scale(NAcc_onset) 
+         + scale(AIns_dem_peak_pos6)
+         + scale(MPFC_avg_peak_yes_pos2)
+            , data = AllSubs_NeuralActivation )
+
+FMGT_M36 <- lm((GoT_M1) ~ 
+         + scale(IMDb_rating)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_onset) 
+         + scale(AIns_dem_peak_pos6)
+         + scale(MPFC_avg_peak_yes_pos2)
+            , data = AllSubs_NeuralActivation )
+
+Avg_pos_peak_yes2_list = list(
+  "Aggregate_G" = FMG_US_M1, 
+  "Affect_G" = FMG_US_M2, 
+  "Neuro_G" = FM_US_M33,
+  "Full_G" = FM_US_M34, 
+  "Aggregate_GT" = FMGT_M3,
+  "Affect_GT" = FMGT_M4, 
+  "Neuro_GT" = FMGT_M35,
+  "Full_GT" = FMGT_M36)
+
+Avg_pos_peak_yes2_models <- modelsummary(Avg_pos_peak_yes2_list, stars=TRUE, 
+                                         statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                                         output = "dataframe", 
+                                         gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+Avg_pos_peak_yes2_models
+```
+```{r}
+FM_US_M38 <- lm((All_Gross_M1_log) ~ 
+         + scale(NAcc_onset) 
+         + scale(AIns_dem_peak_pos6)
+         + scale(MPFC_avg_peak_pos)
+            , data = AllSubs_NeuralActivation )
+
+FM_US_M39 <- lm((All_Gross_M1_log) ~ 
+         + scale(All_Theaters_M1)
+         + scale(IMDb_rating)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_onset) 
+         + scale(AIns_dem_peak_pos6)
+         + scale(MPFC_avg_peak_pos)
+            , data = AllSubs_NeuralActivation )
+
+FMGT_M40 <- lm((GoT_M1) ~ 
+         + scale(NAcc_onset) 
+         + scale(AIns_dem_peak_pos6)
+         + scale(MPFC_avg_peak_pos)
+            , data = AllSubs_NeuralActivation )
+
+FMGT_M41 <- lm((GoT_M1) ~ 
+         + scale(IMDb_rating)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_onset) 
+         + scale(AIns_dem_peak_pos6)
+         + scale(MPFC_avg_peak_pos)
+            , data = AllSubs_NeuralActivation )
+
+Avg_pos_peak_yes2_list = list(
+  "Aggregate_G" = FMG_US_M1, 
+  "Affect_G" = FMG_US_M2, 
+  "Neuro_G" = FM_US_M38,
+  "Full_G" = FM_US_M39, 
+  "Aggregate_GT" = FMGT_M3,
+  "Affect_GT" = FMGT_M4, 
+  "Neuro_GT" = FMGT_M40,
+  "Full_GT" = FMGT_M41)
+
+Avg_pos_peak_yes2_models <- modelsummary(Avg_pos_peak_yes2_list, stars=TRUE, 
+                                         statistic = c("t = {statistic}", "s.e. = {std.error}"), 
+                                         output = "dataframe", 
+                                         gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+Avg_pos_peak_yes2_models
+```
+
 
 

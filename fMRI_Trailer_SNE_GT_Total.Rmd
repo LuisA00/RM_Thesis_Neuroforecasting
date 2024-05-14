@@ -1,0 +1,892 @@
+---
+title: "fMRI_Trailer_SNE_GT_Total"
+author: "Luis A."
+date: "2024-05-07"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+library(rmdformats)
+library(ggplot2)
+library(ggpubr)
+library(GGally)
+library(car)
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library("MuMIn")
+library(lmtest)
+library(boot)
+library(modelsummary)
+library(pandoc)
+library(tinytable)
+```
+
+
+```{r, echo=FALSE}
+
+Individual_comedy_df <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_ISC_Comedy.csv')
+
+Aggregate_comedy_df <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_Comedy_filtered.csv')
+
+Individual_horror_df <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_ISC_Horror.csv')
+
+Aggregate_horror_df <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_Horror_filtered.csv')
+
+Individual_BothTrailers_df <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_ISC.csv') %>% mutate(Type = factor(Type, levels = c("Comedy", "Horror")))
+
+Aggregate_BothTrailers_df <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_filtered.csv') %>% mutate(Type = factor(Type, levels = c("comedy", "horror")))
+
+```
+
+# Invididual Choice Comedy (IndCom) Trailers.
+## IndCom: Sequence model.
+```{r, echo=FALSE}
+# Create affect only model. 
+IndCom_Affect <- lmer(scale(W_score_scaled) ~ 
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        (1|Participant) + (1|Trailer), data = Individual_comedy_df)
+
+# Create neuro sequence only model.
+IndCom_SeqNeuro <- lmer(scale(W_score_scaled) ~ 
+                        scale(NAcc_seg2) + 
+                        scale(AIns_seg2) + 
+                        scale(MPFC_seg5) +
+                        (1|Participant) + (1|Trailer), data = Individual_comedy_df)
+
+# Create affect and neuro sequence model.
+IndCom_Affect_and_SeqNeuro <- lmer(scale(W_score_scaled) ~ 
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        scale(NAcc_seg2) + 
+                        scale(AIns_seg2) + 
+                        scale(MPFC_seg5) +
+                        (1|Participant) + (1|Trailer), data = Individual_comedy_df)
+
+# Create list with all models.
+IndCom_Seq_list <- list(
+  "Affect" = IndCom_Affect, 
+  "Neuro seq" = IndCom_SeqNeuro, 
+  "Affect & Neuro seq" = IndCom_Affect_and_SeqNeuro)
+
+# Make table with all models. 
+IndCom_Seq_models <- modelsummary(IndCom_Seq_list, stars=TRUE, 
+                           statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           #output = "Seq_models_C.docx",
+                           output = "html",
+                           #output="dataframe",
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)",
+                           title = 'Individual Choice (Comedy): Sequence Models.')# %>% select(-part, -statistic)
+
+IndCom_Seq_models
+```
+
+```{r, echo=FALSE}
+W_score_C <- Individual_comedy_df$W_score_scaled
+PA_C <- Individual_comedy_df$Pos_arousal_scaled
+NA_C <- Individual_comedy_df$Neg_arousal_scaled
+NAcc_s2_C <- Individual_comedy_df$NAcc_seg2
+AIns_s2_C <- Individual_comedy_df$AIns_seg2
+MPFC_s5_C <- Individual_comedy_df$MPFC_seg5
+
+IndCom_Seq_df <- tibble(W_score_C, PA_C, NA_C, NAcc_s2_C, AIns_s2_C, MPFC_s5_C) 
+ggpairs(IndCom_Seq_df)
+```
+
+
+## IndCom: Modal Peak (MP) Model.
+```{r, echo=FALSE}
+# Create neuro MP only model.
+IndCom_MP <- lmer(scale(W_score_scaled) ~ 
+                        scale(NAcc_avg_peak_yes_pos) + 
+                        scale(AIns_avg_peak_yes_pos) + 
+                        scale(MPFC_avg_peak_yes_pos) +
+                        (1|Participant) + (1|Trailer), data = Individual_comedy_df)
+
+# Create affect and neuro MP model.
+IndCom_Affect_and_MP <- lmer(scale(W_score_scaled) ~ 
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        scale(NAcc_avg_peak_yes_pos) + 
+                        scale(AIns_avg_peak_yes_pos) + 
+                        scale(MPFC_avg_peak_yes_pos) +
+                        (1|Participant) + (1|Trailer), data = Individual_comedy_df)
+
+# Create list with all models.
+IndCom_MP_list <- list(
+  "Affect" = IndCom_Affect, 
+  "Neuro MP" = IndCom_MP, 
+  "Affect & Neuro MP" = IndCom_Affect_and_MP)
+
+# Make table with all models. 
+IndCom_MP <- modelsummary(IndCom_MP_list, stars=TRUE, 
+                           statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           output = "html",
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)",
+                           title = 'Individual Choice (Comedy): Modal Peaks Models.') #%>% select(-part, -statistic)
+
+IndCom_MP
+```
+
+```{r, echo=FALSE}
+W_score <- Individual_comedy_df$W_score_scaled
+PA <- Individual_comedy_df$Pos_arousal_scaled
+NA_ <- Individual_comedy_df$Neg_arousal_scaled
+NAcc_MP <- Individual_comedy_df$NAcc_avg_peak_yes_pos
+AIns_MP <- Individual_comedy_df$AIns_avg_peak_yes_pos
+MPFC_MP <- Individual_comedy_df$MPFC_avg_peak_yes_pos
+
+IndCom_MP_df <- tibble(W_score, PA, NA_, NAcc_MP, AIns_MP, MPFC_MP) 
+ggpairs(IndCom_MP_df)
+
+```
+
+
+# Aggregate Results Comedy Trailers.
+```{r, echo=FALSE}
+# Create aggregate base and affect models for comedy trailers.
+
+# Create base aggregate model for first month gross (raw).
+AggCom_G_raw <- lm(scale(GrossM1) ~ scale(TheatersM1)
+            , data = Aggregate_comedy_df)
+
+# Create base aggregate model for first month gross (log).
+AggCom_G_log <- lm(log(GrossM1) ~ scale(TheatersM1)
+            , data = Aggregate_comedy_df)
+
+# Create base aggregate model for first month gross (log).
+AggCom_G_rank <- lm(rank(GrossM1) ~ scale(TheatersM1)
+            , data = Aggregate_comedy_df)
+
+# Create affect aggregate model for first month gross (raw).
+AggCom_Affect_G_raw <- lm(scale(GrossM1) ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+            , data = Aggregate_comedy_df)
+
+# Create affect aggregate model for first month gross (log).
+AggCom_Affect_G_log <- lm(log(GrossM1) ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+            , data = Aggregate_comedy_df)
+
+# Create affect aggregate model for first month gross (rank).
+AggCom_Affect_G_rank <- lm(rank(GrossM1) ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+            , data = Aggregate_comedy_df)
+
+# Create aggregate model for first month gross (raw) controlling for number of theaters.
+AggCom_GT_raw <- lm(scale(GrossTheatersM1) ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+            , data = Aggregate_comedy_df)
+
+# Create aggregate model for first month gross (log) controlling for number of theaters.
+AggCom_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+            , data = Aggregate_comedy_df)
+
+# Create aggregate model for first month gross (log) controlling for number of theaters.
+ChoiceCom_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(W_score_scaled) 
+            , data = Aggregate_comedy_df)
+
+# Create aggregate model for first month gross (rank) controlling for number of theaters.
+AggCom_GT_rank <- lm(rank(GrossTheatersM1) ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+            , data = Aggregate_comedy_df )
+
+```
+## AggCom: Seq Models.
+```{r, echo=FALSE}
+
+# Create aggregate model for comedy neuro seq (raw) controlling for number of theaters.
+AggCom_Seq_GT_log <- lm(log(GrossTheatersM1) ~ 
+          + scale(NAcc_seg2)  
+          + scale(AIns_seg4) 
+          + scale(MPFC_seg5) 
+            , data = Aggregate_comedy_df)
+
+AggCom_AffectNeuroSeq_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+          + scale(NAcc_seg2)  
+          + scale(AIns_seg4) 
+          + scale(MPFC_seg5) 
+            , data = Aggregate_comedy_df)
+
+# Create aggregate model for comedy neuro seq (raw) and affect controlling for number of theaters.
+AggCom_FullSeq_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(W_score_scaled) 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+          + scale(NAcc_seg2)  
+          + scale(AIns_seg4) 
+          + scale(MPFC_seg5) 
+            , data = Aggregate_comedy_df)
+
+AggCom_Seq_list = list(
+  "Affect GT" = AggCom_GT_log,
+  "Choice GT" = ChoiceCom_GT_log,
+  "Neuro Seq GT" = AggCom_Seq_GT_log,
+  "Affect Neuro Seq GT" = AggCom_AffectNeuroSeq_GT_log,
+  "Full Seq GT" = AggCom_FullSeq_GT_log)
+
+AggCom_Seq_models <- modelsummary(AggCom_Seq_list, stars=TRUE, 
+                               statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                               #output="AggRank_seq_comedy_models.docx", 
+                               #output="dataframe",
+                               output="html",
+                               gof_omit = "F|RMSE|Log") #%>% select(-part, -statistic)
+AggCom_Seq_models
+```
+
+```{r}
+GT_M1 <- log(Aggregate_comedy_df$GrossTheatersM1)
+W_score_C <- Aggregate_comedy_df$W_score_scaled
+PA_C <- Aggregate_comedy_df$Pos_arousal_scaled
+NA_C <- Aggregate_comedy_df$Neg_arousal_scaled
+NAcc_seg2 <- Aggregate_comedy_df$NAcc_seg2
+AIns_seg4 <- Aggregate_comedy_df$AIns_seg4
+MPFC_seg5 <- Aggregate_comedy_df$MPFC_seg5
+
+AggCom_Seq_df <- tibble(GT_M1, W_score_C, PA_C, NA_C, NAcc_seg2, AIns_seg4, MPFC_seg5) 
+ggpairs(AggCom_Seq_df)
+```
+
+
+## AggCom: Modal Peak (MP) Models.
+```{r, echo=FALSE}
+
+# Create aggregate model for comedy neuro MP (log) controlling for number of theaters.
+AggCom_MP_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos)
+         + scale(MPFC_avg_peak_yes_pos)
+            , data = Aggregate_comedy_df)
+
+AggCom_MPAffect_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos)
+         + scale(MPFC_avg_peak_yes_pos)
+            , data = Aggregate_comedy_df)
+
+# Create aggregate model for comedy neuro MP (log) and affect controlling for number of theaters.
+AggCom_FullMPA_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(W_score_scaled) 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos)
+         + scale(MPFC_avg_peak_yes_pos)
+            , data = Aggregate_comedy_df)
+
+AggCom_MP_list = list(
+  "Affect GT" = AggCom_GT_log, 
+  "Choice GT" = ChoiceCom_GT_log,
+  "Neuro MP GT" = AggCom_MP_GT_log,
+  "Affect Neuro MP GT" = AggCom_MPAffect_GT_log,
+  "Full MP GT" = AggCom_FullMPA_GT_log)
+
+AggCom_MP_models <- modelsummary(AggCom_MP_list, stars=TRUE, 
+                               statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                               #output="AggRank_seq_comedy_models.docx", 
+                               #output="dataframe",
+                               output="html",
+                               gof_omit = "F|RMSE|Log") #%>% select(-part, -statistic)
+AggCom_MP_models
+
+```
+
+```{r}
+
+# Apparently, we can correct for this outlier with a log transform.
+
+AllSubs_NeuralActivation <-  read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_Comedy_filtered.csv') #%>%
+  #filter(Trailer!="rc1")
+  #filter(Trailer!="uc2")
+  #filter(Trailer!="uc3", Trailer!="rc11", Trailer!="rc7")
+
+ggplot(AllSubs_NeuralActivation, aes(x = (NAcc_dem_peak_pos), y = log(GT_AVG_Total))) +
+  #labs(y = "First month Gross/Theaters", x = "NAcc Modal Peak") + 
+  #ggtitle("Neuroforecasting Comedy Trailers NAcc Modal Peak") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+```
+```{r}
+ggplot(AllSubs_NeuralActivation, aes(x = log(GT_AVG_Total), y = log(GT_AVG_M1))) +
+  #labs(y = "First month Gross/Theaters", x = "NAcc Modal Peak") + 
+  #ggtitle("Neuroforecasting Comedy Trailers NAcc Modal Peak") + 
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+```
+
+
+
+```{r}
+
+
+
+GT_M1 <- log(Aggregate_comedy_df$GrossTheatersM1)
+W_C <- Aggregate_comedy_df$W_score_scaled
+PA_C <- Aggregate_comedy_df$Pos_arousal_scaled
+NA_C <- Aggregate_comedy_df$Neg_arousal_scaled
+NAcc_MP <- Aggregate_comedy_df$NAcc_avg_peak_yes_pos
+AIns_MP <- Aggregate_comedy_df$AIns_avg_peak_yes_pos
+MPFC_MP <- Aggregate_comedy_df$MPFC_avg_peak_yes_pos
+
+AggCom_MP_df <- tibble(GT_M1, W_C, PA_C, NA_C, NAcc_MP, AIns_MP, MPFC_MP) 
+ggpairs(AggCom_MP_df)
+```
+
+# Individual Results Horror Trailers. 
+## IndHor: Sequence models.
+```{r, echo=FALSE}
+# Create affect only model. 
+IndHor_Affect <- lmer(scale(W_score_scaled) ~ 
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        (1|Participant) + (1|Trailer), data = Individual_horror_df)
+
+# Create neuro sequence only model.
+IndHor_SeqNeuro <- lmer(scale(W_score_scaled) ~ 
+                        scale(NAcc_seg2) +
+                        scale(AIns_seg4) +
+                        scale(MPFC_seg5) +
+                        (1|Participant) + (1|Trailer), data = Individual_horror_df)
+
+# Create affect and neuro sequence model.
+IndHor_Affect_and_SeqNeuro <- lmer(scale(W_score_scaled) ~ 
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        scale(NAcc_seg2) +
+                        scale(AIns_seg4) +
+                        scale(MPFC_seg5) +
+                        (1|Participant) + (1|Trailer), data = Individual_horror_df)
+
+# Create list with all models.
+IndHor_Seq_list <- list(
+  "Affect" = IndHor_Affect, 
+  "Neuro seq" = IndHor_SeqNeuro, 
+  "Affect & Neuro seq" = IndHor_Affect_and_SeqNeuro)
+
+# Make table with all models. 
+IndHor_Seq_models <- modelsummary(IndHor_Seq_list, stars=TRUE, 
+                           statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           output = "html",
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)")
+                           #title = 'Individual Choice (Horror): Sequence Models.') #%>% select(-part, -statistic)
+
+IndHor_Seq_models
+```
+
+```{r, echo=FALSE}
+W_score_H <- Individual_horror_df$W_score_scaled
+PA_H <- Individual_horror_df$Pos_arousal_scaled
+NA_H <- Individual_horror_df$Neg_arousal_scaled
+NAcc_seg2 <- Individual_horror_df$NAcc_seg2
+AIns_seg4 <- Individual_horror_df$AIns_seg4
+MPFC_seg5 <- Individual_horror_df$MPFC_seg5
+
+IndHor_MP_df <- tibble(W_score_H, PA_H, NA_H, NAcc_seg2, AIns_seg4, MPFC_seg5) 
+ggpairs(IndHor_MP_df)
+```
+
+
+## IndHor: Modal Peak (MP) Model.
+```{r, echo=FALSE}
+# Create neuro MP only model.
+IndHor_MP <- lmer(scale(W_score_scaled) ~ 
+                        scale(NAcc_avg_peak_yes_pos) + 
+                        scale(AIns_avg_peak_yes_pos) + 
+                        scale(MPFC_avg_peak_yes_pos) +
+                        (1|Participant) + (1|Trailer), data = Individual_horror_df)
+
+# Create affect and neuro MP model.
+IndHor_Affect_and_MP <- lmer(scale(W_score_scaled) ~ 
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        scale(NAcc_avg_peak_yes_pos) + 
+                        scale(AIns_avg_peak_yes_pos) + 
+                        scale(MPFC_avg_peak_yes_pos) +
+                        (1|Participant) + (1|Trailer), data = Individual_horror_df)
+
+# Create list with all models.
+IndHor_MP_list <- list(
+  "Affect" = IndHor_Affect, 
+  "Neuro MP" = IndHor_MP, 
+  "Affect & Neuro MP" = IndHor_Affect_and_MP)
+
+# Make table with all models. 
+IndHor_MP <- modelsummary(IndHor_MP_list, stars=TRUE, 
+                           statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           output = "html",
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)")
+                           #title = 'Individual Choice (Comedy): Modal Peaks Models.') #%>% select(-part, -statistic)
+
+IndHor_MP
+```
+
+```{r, echo=FALSE}
+W_score_H <- Individual_horror_df$W_score_scaled
+PA_H <- Individual_horror_df$Pos_arousal_scaled
+NA_H <- Individual_horror_df$Neg_arousal_scaled
+NAcc_MP <- Individual_horror_df$NAcc_avg_peak_yes_pos
+AIns_MP <- Individual_horror_df$AIns_avg_peak_yes_pos
+MPFC_MP <- Individual_horror_df$MPFC_avg_peak_yes_pos
+
+IndHor_MP_df <- tibble(W_score_H, PA_H, NA_H, NAcc_MP, AIns_MP, MPFC_MP) 
+ggpairs(IndHor_MP_df)
+```
+
+# Aggregate Results Horror Trailers. 
+```{r, echo=FALSE}
+# Create base aggregate model for first month gross (log).
+AggHor_G_log <- lm(log(GrossM1) ~ scale(TheatersM1)
+            , data = Aggregate_horror_df)
+
+# Create affect aggregate model for first month gross (log).
+AggHor_Affect_G_log <- lm(log(GrossM1) ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+            , data = Aggregate_horror_df)
+
+# Create aggregate model for first month gross (log) controlling for number of theaters.
+AggHor_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+            , data = Aggregate_horror_df)
+
+# Create aggregate model for first month gross (log) controlling for number of theaters.
+AggHor_Choice_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(W_score_scaled) 
+            , data = Aggregate_horror_df)
+```
+
+## AggHor: Seq Models.
+```{r, echo=FALSE}
+
+# Create aggregate model for comedy neuro seq (log) controlling for number of theaters.
+AggHor_Seq_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(NAcc_seg2) 
+         + scale(AIns_seg4)
+         + scale(MPFC_seg5)
+            , data = Aggregate_horror_df)
+
+AggHor_SeqAffect_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+          + scale(NAcc_seg2) 
+         + scale(AIns_seg4)
+         + scale(MPFC_seg5)
+            , data = Aggregate_horror_df)
+
+# Create aggregate model for comedy neuro seq (log) and affect controlling for number of theaters.
+AggHor_FullSeq_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(W_score_scaled) 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_seg2) 
+         + scale(AIns_seg4)
+         + scale(MPFC_seg5)
+            , data = Aggregate_horror_df)
+
+AggHor_Seq_list = list(
+  "Affect GT" = AggHor_GT_log, 
+  "Choice GT" = AggHor_Choice_GT_log,
+  "Neuro Seq GT" = AggHor_Seq_GT_log,
+  "Affect Neuro Seq GT" = AggHor_SeqAffect_GT_log,
+  "Full Seq GT" = AggHor_FullSeq_GT_log)
+
+AggHor_Seq_models <- modelsummary(AggHor_Seq_list, stars=TRUE, 
+                               statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                               #output="dataframe",
+                               output="html",
+                               gof_omit = "F|RMSE|Log") #%>% select(-part, -statistic)
+AggHor_Seq_models
+
+```
+
+```{r, echo=FALSE}
+GrossTheatersM1_Log_H <- log(Aggregate_horror_df$GrossTheatersM1)
+W_score_H <- Aggregate_horror_df$W_score_scaled
+PA_H <- Aggregate_horror_df$Pos_arousal_scaled
+NA_H <- Aggregate_horror_df$Neg_arousal_scaled
+NAcc_seg2 <- Aggregate_horror_df$NAcc_seg2
+AIns_seg4 <- Aggregate_horror_df$AIns_seg4
+MPFC_seg5 <- Aggregate_horror_df$MPFC_seg5
+
+AggHor_Seq_df <- tibble(GrossTheatersM1_Log_H, W_score_H, PA_H, NA_H, NAcc_seg2, AIns_seg4, MPFC_seg5) 
+ggpairs(AggHor_Seq_df)
+```
+
+
+## AggHor: Modal Peak (MP) Models.
+```{r, echo=FALSE}
+
+# Create aggregate model for horror neuro MP (raw) controlling for number of theaters.
+AggHor_MP_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos)
+         + scale(MPFC_avg_peak_yes_pos)
+            , data = Aggregate_horror_df)
+
+AggHor_MPAffect_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos)
+         + scale(MPFC_avg_peak_yes_pos)
+            , data = Aggregate_horror_df)
+
+# Create aggregate model for horror neuro MP (raw) and affect controlling for number of theaters.
+AggHor_FullMP_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + scale(W_score_scaled)
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos)
+         + scale(MPFC_avg_peak_yes_pos)
+            , data = Aggregate_horror_df)
+
+AggHor_MP_list = list(
+  "Affect GT" = AggHor_GT_log, 
+  "Choice GT" = AggHor_Choice_GT_log,
+  "Neuro MP GT" = AggHor_MP_GT_log,
+  "Affect Neuro MP GT" = AggHor_MPAffect_GT_log,
+  "Full MP GT" = AggHor_FullMP_GT_log)
+
+AggHor_MP_models <- modelsummary(AggHor_MP_list, stars=TRUE, 
+                               statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                               #output="AggRank_seq_comedy_models.docx", 
+                               #output="dataframe",
+                               output="html",
+                               gof_omit = "F|RMSE|Log") #%>% select(-part, -statistic)
+AggHor_MP_models
+
+```
+
+```{r, echo=FALSE}
+GT_M1 <- log(Aggregate_horror_df$GrossTheatersM1)
+W_score_H <- Aggregate_horror_df$W_score_scaled
+PA_H <- Aggregate_horror_df$Pos_arousal_scaled
+NA_H <- Aggregate_horror_df$Neg_arousal_scaled
+NAcc_MP <- Aggregate_horror_df$NAcc_avg_peak_yes_pos
+AIns_MP <- Aggregate_horror_df$AIns_avg_peak_yes_pos
+MPFC_MP <- Aggregate_horror_df$MPFC_avg_peak_yes_pos
+
+AggHor_MP_df <- tibble(GT_M1, W_score_H, PA_H, NA_H, NAcc_MP, AIns_MP, MPFC_MP) 
+ggpairs(AggHor_MP_df)
+```
+
+# Invididual Choice Both Trailers.
+## IndBoth: Sequence models.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+Individual_BothTrailers_df <- read.csv('/Users/luisalvarez/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_ISC.csv') %>% mutate(Type = factor(Type, levels = c("Horror", "Comedy")))
+
+contrasts(Individual_BothTrailers_df$Type) <- rbind(-1, 1)
+colnames(contrasts(Individual_BothTrailers_df$Type)) <- levels(Individual_BothTrailers_df$Type)[2]
+
+# Create affect only model. 
+IndBoth_Affect <- lmer(scale(W_score_scaled) ~ 
+                        Type +
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        Type:scale(Pos_arousal_scaled) +
+                        Type:scale(Neg_arousal_scaled) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df) 
+
+# Create neuro sequence only model.
+IndBoth_SeqNeuro <- lmer(scale(W_score_scaled) ~
+                        Type +   
+                        scale(NAcc_seg2) + 
+                        scale(AIns_seg4) + 
+                        scale(MPFC_seg5) +
+                        Type:scale(NAcc_seg2) + 
+                        Type:scale(AIns_seg4) + 
+                        Type:scale(MPFC_seg5) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df) 
+
+# Create affect and neuro sequence model.
+IndBoth_Affect_and_SeqNeuro <- lmer(scale(W_score_scaled) ~
+                        Type +              
+                        scale(Pos_arousal_scaled) +
+                        scale(Neg_arousal_scaled) +
+                        scale(NAcc_seg2) +
+                        scale(AIns_seg4) +
+                        scale(MPFC_seg5) +
+                        Type:scale(Pos_arousal_scaled) +
+                        Type:scale(Neg_arousal_scaled) +
+                        Type:scale(NAcc_seg2) +
+                        Type:scale(AIns_seg4) +
+                        Type*scale(MPFC_seg5) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df) 
+
+#summary(IndBoth_Affect_and_SeqNeuro) 
+# Create list with all models.
+IndBoth_Seq_list <- list(
+  "Affect" = IndBoth_Affect, 
+  "Neuro seq" = IndBoth_SeqNeuro, 
+  "Affect & Neuro seq" = IndBoth_Affect_and_SeqNeuro)
+
+# Make table with all models. 
+IndBoth_Seq_models <- modelsummary(IndBoth_Seq_list, stars=TRUE, 
+                           statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           output = "html",
+                           #output = "dataframe",
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") #%>% select(-part, -statistic)
+
+
+print(contrasts(Individual_BothTrailers_df$Type))
+IndBoth_Seq_models
+```
+
+## IndBoth: MP models.
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# Create neuro sequence only model.
+IndBoth_MPNeuro <- lmer(scale(W_score_scaled) ~
+                        Type +   
+                        scale(NAcc_avg_peak_yes_pos) +
+                        scale(AIns_avg_peak_yes_pos) +
+                        scale(MPFC_avg_peak_yes_pos) +
+                        Type:scale(NAcc_avg_peak_yes_pos) + 
+                        Type:scale(AIns_avg_peak_yes_pos) + 
+                        Type:scale(MPFC_avg_peak_yes_pos) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df) 
+                        #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+# Create affect and neuro sequence model.
+IndBoth_Affect_and_MPNeuro <- lmer(scale(W_score_scaled) ~
+                        Type +              
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        scale(NAcc_avg_peak_yes_pos) +
+                        scale(AIns_avg_peak_yes_pos) +
+                        scale(MPFC_avg_peak_yes_pos) +
+                        Type:scale(Pos_arousal_scaled) +
+                        Type:scale(Neg_arousal_scaled) +
+                        Type:scale(NAcc_avg_peak_yes_pos) + 
+                        Type:scale(AIns_avg_peak_yes_pos) + 
+                        Type:scale(MPFC_avg_peak_yes_pos) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df)
+                        #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+#, data = Aggregate_BothTrailers_df %>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+# Create list with all models.
+IndBoth_MP_list <- list(
+  "Affect" = IndBoth_Affect, 
+  "Neuro seq" = IndBoth_MPNeuro, 
+  "Affect & Neuro seq" = IndBoth_Affect_and_MPNeuro)
+
+# Make table with all models. 
+IndBoth_MP_models <- modelsummary(IndBoth_MP_list, stars=TRUE, 
+                           statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           output = "html",
+                           #output = "dataframe",
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") #%>% select(-part, -statistic)
+
+print(contrasts(Individual_BothTrailers_df$Type))
+IndBoth_MP_models
+```
+
+# Aggregate Results Both Trailers. 
+## AggBoth: Seq Models.
+```{r, echo=FALSE}
+Aggregate_BothTrailers_df <- mutate(Aggregate_BothTrailers_df, Type = factor(Type, levels = c("horror", "comedy")))
+contrasts(Aggregate_BothTrailers_df$Type) <- rbind(-1, 1)
+colnames(contrasts(Aggregate_BothTrailers_df$Type)) <- levels(Aggregate_BothTrailers_df$Type)[2]
+
+# Create aggregate model for first month gross (log) controlling for number of theaters.
+AggBoth_Affect_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + Type                      
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+            , data = Aggregate_BothTrailers_df)
+
+# Create aggregate model for first month gross (log) controlling for number of theaters.
+AggBoth_Choice_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + Type
+         + scale(W_score_scaled) 
+         + Type:scale(W_score_scaled)  
+            , data = Aggregate_BothTrailers_df)
+
+# Create aggregate model for comedy neuro seq (log) controlling for number of theaters.
+AggBoth_Seq_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + Type
+         + scale(NAcc_seg2) 
+         + scale(AIns_seg4)
+         + scale(MPFC_seg5)
+         + Type:scale(NAcc_seg2)
+         + Type:scale(AIns_seg4)
+         + Type:scale(MPFC_seg5)
+            , data = Aggregate_BothTrailers_df)
+
+# Create aggregate model for comedy neuro seq (log) and affect controlling for number of theaters.
+AggBoth_SeqAffect_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + Type                        
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_seg2) 
+         + scale(AIns_seg4)
+         + scale(MPFC_seg5)
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+         + Type:scale(NAcc_seg2)
+         + Type:scale(AIns_seg4)
+         + Type:scale(MPFC_seg5)
+            , data = Aggregate_BothTrailers_df) 
+
+
+AggBoth_FullSeq_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + Type                        
+         + scale(W_score_scaled) 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_seg2) 
+         + scale(AIns_seg4)
+         + scale(MPFC_seg5)
+         + Type:scale(W_score_scaled) 
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+         + Type:scale(NAcc_seg2)
+         + Type:scale(AIns_seg4)
+         + Type:scale(MPFC_seg5)
+            , data = Aggregate_BothTrailers_df) 
+
+AggBoth_Seq_list = list(
+  "Affect GT" = AggBoth_Affect_GT_log, 
+  "Choice GT" = AggBoth_Choice_GT_log,
+  "Neuro Seq GT" = AggBoth_Seq_GT_log,
+  "Affect Neuro Seq GT" = AggBoth_SeqAffect_GT_log,
+  "Full Seq GT" = AggBoth_FullSeq_GT_log)
+
+AggBoth_Seq_models <- modelsummary(AggBoth_Seq_list, stars=TRUE, 
+                               statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                               #output="dataframe",
+                               output="html",
+                               gof_omit = "F|RMSE|Log") #%>% select(-part, -statistic)
+
+print(contrasts(Aggregate_BothTrailers_df$Type))
+AggBoth_Seq_models
+
+```
+
+## AggBoth: Modal Peak (MP) Models.
+```{r, echo=FALSE}
+
+Aggregate_BothTrailers_df <- mutate(Aggregate_BothTrailers_df, Type = factor(Type, levels = c("horror", "comedy")))
+contrasts(Aggregate_BothTrailers_df$Type) <- rbind(-1, 1)
+colnames(contrasts(Aggregate_BothTrailers_df$Type)) <- levels(Aggregate_BothTrailers_df$Type)[2]
+
+# Create aggregate model for first month gross (log) controlling for number of theaters.
+AggBoth_Affect_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + Type                      
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+            , data = Aggregate_BothTrailers_df)
+
+# Create aggregate model for first month gross (log) controlling for number of theaters.
+AggBoth_Choice_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + Type
+         + scale(W_score_scaled) 
+         + Type:scale(W_score_scaled)  
+            , data = Aggregate_BothTrailers_df)
+
+# Create aggregate model for comedy neuro seq (log) controlling for number of theaters.
+AggBoth_MP_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + Type
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos) 
+         + scale(MPFC_avg_peak_yes_pos) 
+         + Type:scale(NAcc_avg_peak_yes_pos) 
+         + Type:scale(AIns_avg_peak_yes_pos)
+         + Type:scale(MPFC_avg_peak_yes_pos)
+            , data = Aggregate_BothTrailers_df )
+         #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+# Create aggregate model for comedy neuro seq (log) and affect controlling for number of theaters.
+AggBoth_MPAffect_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + Type                        
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos) 
+         + scale(MPFC_avg_peak_yes_pos) 
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+         + Type:scale(NAcc_avg_peak_yes_pos) 
+         + Type:scale(AIns_avg_peak_yes_pos)
+         + Type:scale(MPFC_avg_peak_yes_pos)
+            , data = Aggregate_BothTrailers_df)
+          #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+AggBoth_FullMPA_GT_log <- lm(log(GrossTheatersM1) ~ 
+         + Type                        
+         + scale(W_score_scaled) 
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_avg_peak_yes_pos) 
+         + scale(AIns_avg_peak_yes_pos) 
+         + scale(MPFC_avg_peak_yes_pos) 
+         + Type:scale(W_score_scaled) 
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+         + Type:scale(NAcc_avg_peak_yes_pos) 
+         + Type:scale(AIns_avg_peak_yes_pos)
+         + Type:scale(MPFC_avg_peak_yes_pos)
+            , data = Aggregate_BothTrailers_df) 
+         #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+AggBoth_MP_list = list(
+  "Affect GT" = AggBoth_Affect_GT_log, 
+  "Choice GT" = AggBoth_Choice_GT_log,
+  "Neuro MP GT" = AggBoth_MP_GT_log,
+  "Affect Neuro MP GT" = AggBoth_MPAffect_GT_log,
+  "Full MP GT" = AggBoth_FullMPA_GT_log)
+
+AggBoth_MP_models <- modelsummary(AggBoth_MP_list, stars=TRUE, 
+                               statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                               #output="dataframe",
+                               output="html",
+                               gof_omit = "F|RMSE|Log") #%>% select(-part, -statistic)
+
+print(contrasts(Aggregate_BothTrailers_df$Type))
+AggBoth_MP_models
+
+```
+
+
+
+
+
