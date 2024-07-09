@@ -1,0 +1,636 @@
+---
+title: "Processing_AFNI"
+author: "LA"
+date: "2024-06-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(rmdformats)
+library(ggplot2)
+library(ggpubr)
+library(GGally)
+library(car)
+library(tidyverse)
+#library(lme4)
+#library(lmerTest)
+#library("MuMIn")
+#library(lmtest)
+#library(boot)
+#library(modelsummary)
+#library(pandoc)
+#library(tinytable)
+#library(cowplot)
+#library(ramify)
+#library(DescTools)
+```
+
+```{r}
+# missing sub 24 (kp231213)
+```
+
+
+## Create functions. 
+```{r}
+get_peak1_id <- function(time_series) {
+  
+  peak_id <- which.max(time_series)
+  
+  return (peak_id)
+  
+}
+
+
+get_peak2_id <- function(time_series) {
+  
+  # Get first peak id.
+  peak1_id <- which.max(time_series)
+  
+  # Create new vector with replaced max value. 
+  replace_vector <- replace(time_series, peak1_id, -100) 
+  
+  # Get second peak id.
+  peak2_id <- which.max(replace_vector)
+  
+  return (peak2_id)
+  
+}
+
+get_MP <- function(time_series, peak_id, tail) {
+  
+  # Select sub-set of time series
+  time_series_sub <- c(time_series[peak_id: (peak_id+tail)])
+  
+  MP_value <- mean(time_series_sub, na.rm = TRUE)
+  
+  return (MP_value)
+  
+}
+
+test_vector <- c(8, 6, 8, 2 ,5, 6, 5)
+
+test_peak_id1 <- get_peak1_id(test_vector)
+
+test_peak_id2 <- get_peak2_id(test_vector)
+
+#test_MP <- get_MP(test_vector, 2, 1)
+print(test_vector)
+print(test_peak_id1)
+print(test_peak_id2)
+
+# Note, in the case of two peaks with the same value, the function returns the peak occurring first.  
+```
+
+```{r}
+test_df <- filter(all_participants_peaks_ids, Trailer== "rc9") 
+
+test_peaks <- c(test_df$NAcc_peak1_id, test_df$NAcc_peak2_id)
+
+test_peaks_numeric <- as.numeric(as.character(test_peaks))
+
+print(Mode(test_peaks_numeric))
+
+print(test_peaks_numeric)
+
+hist(test_peaks_numeric, breaks = 16, col = "blue", border = "black", 
+     main = "Histogram of test_peaks", xlab = "Peaks", ylab = "Frequency")
+```
+
+
+
+## Load data. 
+```{r}
+# Load raw data. 
+all_participants_wide = read.csv("/Users/la/Documents/GitHub/RM_Thesis_Neuroforecasting/AllSubs_Neuro_AFNI_Wide.csv")
+
+# Select relevant columns and rename them. 
+all_participants_wide_reformated <- select(all_participants_wide, subject, label, watch, valence, arousal,
+                                pos_arousal, neg_arousal, watch_meancenter, pos_arousal_meancenter,
+                                neg_arousal_meancenter, 
+                                # NAcc columns.
+                                nacc8mm_TR3, nacc8mm_TR4, nacc8mm_TR5, nacc8mm_TR6, nacc8mm_TR7, nacc8mm_TR8, 
+                                nacc8mm_TR9, nacc8mm_TR10, nacc8mm_TR11, nacc8mm_TR12, nacc8mm_TR13, nacc8mm_TR14,
+                                nacc8mm_TR15, nacc8mm_TR16, nacc8mm_TR17,
+                                #AIns columns. 
+                                anteriorinsula8mmkg_mni_TR3, anteriorinsula8mmkg_mni_TR4, anteriorinsula8mmkg_mni_TR5,
+                                anteriorinsula8mmkg_mni_TR6, anteriorinsula8mmkg_mni_TR7, anteriorinsula8mmkg_mni_TR8,
+                                anteriorinsula8mmkg_mni_TR9, anteriorinsula8mmkg_mni_TR10, anteriorinsula8mmkg_mni_TR11,
+                                anteriorinsula8mmkg_mni_TR12, anteriorinsula8mmkg_mni_TR13,anteriorinsula8mmkg_mni_TR14,
+                                anteriorinsula8mmkg_mni_TR15, anteriorinsula8mmkg_mni_TR16, anteriorinsula8mmkg_mni_TR17,
+                                # Amyg columns. 
+                                amygdala_TR3, amygdala_TR4, amygdala_TR5, amygdala_TR6, amygdala_TR7, amygdala_TR8,
+                                amygdala_TR9, amygdala_TR10, amygdala_TR11, amygdala_TR12, amygdala_TR13,
+                                amygdala_TR14, amygdala_TR15, amygdala_TR16, amygdala_TR17,
+                                # MPFC columns. 
+                                mpfc8mm_TR3, mpfc8mm_TR4, mpfc8mm_TR5, mpfc8mm_TR6, mpfc8mm_TR7, mpfc8mm_TR8,
+                                mpfc8mm_TR9, mpfc8mm_TR10, mpfc8mm_TR11, mpfc8mm_TR12, mpfc8mm_TR13, mpfc8mm_TR14, 
+                                mpfc8mm_TR15, mpfc8mm_TR16, mpfc8mm_TR17) %>% 
+                                rename(Participant = subject, Trailer = label, W_score = watch, Valence = valence, 
+                                       Arousal =  arousal, PA_score = pos_arousal, NA_score =  neg_arousal, 
+                                       W_score_centered = watch_meancenter, PA_score_centered = pos_arousal_meancenter, 
+                                       NA_score_centered = neg_arousal_meancenter,
+                                       # NAcc renaming. 
+                                       NAcc_TR1 = nacc8mm_TR3, NAcc_TR2 = nacc8mm_TR4, NAcc_TR3 = nacc8mm_TR5, 
+                                       NAcc_TR4 = nacc8mm_TR6, NAcc_TR5 = nacc8mm_TR7, NAcc_TR6 = nacc8mm_TR8, 
+                                       NAcc_TR7 = nacc8mm_TR9, NAcc_TR8 = nacc8mm_TR10, NAcc_TR9 = nacc8mm_TR11, 
+                                       NAcc_TR10 = nacc8mm_TR12, NAcc_TR11 = nacc8mm_TR13, NAcc_TR12 = nacc8mm_TR14,
+                                       NAcc_TR13 = nacc8mm_TR15, NAcc_TR14 = nacc8mm_TR16, NAcc_TR15 = nacc8mm_TR17,
+                                       # AIns renaming. 
+                                       AIns_TR1 = anteriorinsula8mmkg_mni_TR3, AIns_TR2 = anteriorinsula8mmkg_mni_TR4,
+                                       AIns_TR3 = anteriorinsula8mmkg_mni_TR5, AIns_TR4 = anteriorinsula8mmkg_mni_TR6,
+                                       AIns_TR5 = anteriorinsula8mmkg_mni_TR7, AIns_TR6 = anteriorinsula8mmkg_mni_TR8,
+                                       AIns_TR7 = anteriorinsula8mmkg_mni_TR9, AIns_TR8 = anteriorinsula8mmkg_mni_TR10,
+                                       AIns_TR9 = anteriorinsula8mmkg_mni_TR11, AIns_TR10 = anteriorinsula8mmkg_mni_TR12,
+                                       AIns_TR11 = anteriorinsula8mmkg_mni_TR13, AIns_TR12 = anteriorinsula8mmkg_mni_TR14,
+                                       AIns_TR13 = anteriorinsula8mmkg_mni_TR15, AIns_TR14 = anteriorinsula8mmkg_mni_TR16,
+                                       AIns_TR15 = anteriorinsula8mmkg_mni_TR17,
+                                       # Amyg renaming.
+                                       Amyg_TR1 = amygdala_TR3, Amyg_TR2 = amygdala_TR4, Amyg_TR3 = amygdala_TR5, 
+                                       Amyg_TR4 = amygdala_TR6, Amyg_TR5 = amygdala_TR7, Amyg_TR6 = amygdala_TR8,
+                                       Amyg_TR7 = amygdala_TR9, Amyg_TR8 = amygdala_TR10, Amyg_TR9 = amygdala_TR11,
+                                       Amyg_TR10 = amygdala_TR12, Amyg_TR11 = amygdala_TR13, Amyg_TR12 = amygdala_TR14,
+                                       Amyg_TR13 = amygdala_TR15, Amyg_TR14 = amygdala_TR16, Amyg_TR15 = amygdala_TR17,
+                                       # MPFC renaming.
+                                       MPFC_TR1 = mpfc8mm_TR3, MPFC_TR2 = mpfc8mm_TR4, MPFC_TR3 = mpfc8mm_TR5, 
+                                       MPFC_TR4 = mpfc8mm_TR6, MPFC_TR5 = mpfc8mm_TR7, MPFC_TR6 = mpfc8mm_TR8,
+                                       MPFC_TR7 = mpfc8mm_TR9, MPFC_TR8 = mpfc8mm_TR10, MPFC_TR9 = mpfc8mm_TR11, 
+                                       MPFC_TR10 = mpfc8mm_TR12, MPFC_TR11 = mpfc8mm_TR13, MPFC_TR12 = mpfc8mm_TR14, 
+                                       MPFC_TR13 = mpfc8mm_TR15, MPFC_TR14 = mpfc8mm_TR16, MPFC_TR15 = mpfc8mm_TR17)
+        
+# Remove high motion participants.
+#all_participants_wide <- filter(all_participants_wide, Participant != "by231212", Participant != "cg231116", 
+#                                Participant != "jz231215", Participant != "kp231213",
+#                                 Participant !="aw231111",  Participant !="hb231201")
+
+all_participants_wide <- filter(all_participants_wide_reformated, Participant != "by231212", Participant != "cg231116", 
+                                 Participant != "jz231215", #Participant != "hh231209",
+                                Participant != "kp231213", Participant != "aw231111") 
+
+
+
+
+```
+
+```{r}
+
+# Notes.
+# Dropping: by231212, cg231116, jz231215, kp231213, aw231111, hb231201
+# Comedy Agg -> TR3=0.5*; DP=0.16; DP1=0.61*; DP2=0.69*
+
+# Dropping: by231212, cg231116, jz231215, kp231213, aw231111
+# Comedy Agg -> TR3=0.5*; DP=0.26; DP1=0.65*; DP2=0.75*; DP3=0.48
+
+# Dropping: by231212, cg231116, jz231215, kp231213
+#Comedy Agg -> TR3=0.52; DP=0.24; DP1=0.50; DP2=0.61*; DP3=0.39
+
+# Dropping: by231212, cg231116, jz231215
+#Comedy Agg -> TR3=0.54; DP=0.27; DP1=0.53*; DP2=0.61*; DP3=0.43
+
+# Dropping: by231212, cg231116, km231214, kp231213
+# Comedy Agg -> TR3=0.54*; DP=0.01; DP1=0.19; DP2=0.52; DP3=0.40
+
+# Dropping: by231212, cg231116, km231214
+# Comedy Agg -> TR3=0.56*; DP=0.06; DP1=0.28; DP2=0.56*; DP3=0.50
+
+# Dropping: by231212, cg231116, kp231213
+# Comedy Agg -> TR3=0.52*; DP=0.15; DP1=0.43; DP2=0.60*; DP3=0.37
+
+# Dropping: by231212, km231214, kp231213
+# Comedy Agg -> TR3=0.54*; DP=0.00; DP1=0.19; DP2=0.48; DP3=0.43
+
+# Dropping: by231212, cg231116, hh231209, jz231215, kp231213, jw231213, mm231117
+# Comedy Agg -> TR3=0.40*; DP=0.04; DP1=0.13; DP2=0.13; DP3=0.08
+
+# Dropping: by231212, cg231116, hh231209, jz231215, kp231213, aw231111
+# Comedy Agg -> TR3=0.44*; DP=0.10; DP1=0.51; DP2=0.70*; DP3=0.44
+
+# Dropping: by231212, cg231116, jz231215, kp231213, aw231111
+# Comedy Agg -> TR3=0.50*; DP=0.26; DP1=0.65*; DP2=0.75*; DP3=0.48
+
+```
+
+
+```{r}
+
+#test_df <- filter(all_participants_wide, Participant == "ab231203")
+
+#test_df2 <- data.frame(matrix(ncol = 70, nrow = 0)) 
+
+
+```
+
+
+```{r}
+
+# Create empty dataframe. 
+all_participants_peaks_ids <- data.frame() 
+
+# Get list of 32 trailers. 
+trailer_list = unique(all_participants_wide$Trailer)
+participant_list = unique(all_participants_wide$Participant)
+
+# Iterate through each participant.
+for (sub_id in participant_list)
+{
+
+    # Get current sub dataframe.
+    current_sub_df <- filter(all_participants_wide, Participant == sub_id)
+    
+    # Create empty vectors to store the locations of the peaks. 
+    NAcc_peaks1_id <- c()
+    AIns_peaks1_id <- c()
+    Amyg_peaks1_id <- c()
+    MPFC_peaks1_id <- c()
+    
+    NAcc_peaks2_id <- c()
+    AIns_peaks2_id <- c()
+    Amyg_peaks2_id <- c()
+    MPFC_peaks2_id <- c()
+      
+    # Iterate through each trailer, for the current participant, obtain the TR position for the peak1 and peak2. 
+    for (trailer_id in trailer_list)  
+    {
+      
+      NAcc_timeseries_df <- filter(current_sub_df, Trailer == trailer_id) %>%
+          select(NAcc_TR1, NAcc_TR2, NAcc_TR3, NAcc_TR4, NAcc_TR5,
+          NAcc_TR6, NAcc_TR7, NAcc_TR8, NAcc_TR9, NAcc_TR10,
+          NAcc_TR11, NAcc_TR12, NAcc_TR13, NAcc_TR14, NAcc_TR15)
+      
+      AIns_timeseries_df <- filter(current_sub_df, Trailer == trailer_id) %>%
+          select(AIns_TR1, AIns_TR2, AIns_TR3, AIns_TR4, AIns_TR5,
+               AIns_TR6, AIns_TR7, AIns_TR8, AIns_TR9, AIns_TR10,
+               AIns_TR11, AIns_TR12, AIns_TR13, AIns_TR14, AIns_TR15)
+      
+      Amyg_timeseries_df <- filter(current_sub_df, Trailer == trailer_id) %>%
+        select(Amyg_TR1, Amyg_TR2, Amyg_TR3, Amyg_TR4, Amyg_TR5,
+               Amyg_TR6, Amyg_TR7, Amyg_TR8, Amyg_TR9, Amyg_TR10,
+               Amyg_TR11, Amyg_TR12, Amyg_TR13, Amyg_TR14, Amyg_TR15)
+      
+      MPFC_timeseries_df <- filter(current_sub_df, Trailer == trailer_id) %>%
+        select(MPFC_TR1, MPFC_TR2, MPFC_TR3, MPFC_TR4, MPFC_TR5,
+               MPFC_TR6, MPFC_TR7, MPFC_TR8, MPFC_TR9, MPFC_TR10,
+               MPFC_TR11, MPFC_TR12, MPFC_TR13, MPFC_TR14, MPFC_TR15)
+
+      # Flatten the selected data frame to a vector
+      NAcc_timeseries <- unlist(NAcc_timeseries_df, use.names = FALSE)
+      AIns_timeseries <- unlist(AIns_timeseries_df, use.names = FALSE)
+      Amyg_timeseries <- unlist(Amyg_timeseries_df, use.names = FALSE)
+      MPFC_timeseries <- unlist(MPFC_timeseries_df, use.names = FALSE)
+      
+      # Calculate first and second peaks locations. 
+      Current_NAcc_peak1_id <- get_peak1_id(NAcc_timeseries)
+      Current_AIns_peak1_id <- get_peak1_id(AIns_timeseries)
+      Current_Amyg_peak1_id <- get_peak1_id(Amyg_timeseries)
+      Current_MPFC_peak1_id <- get_peak1_id(MPFC_timeseries)
+      
+      Current_NAcc_peak2_id <- get_peak2_id(NAcc_timeseries)
+      Current_AIns_peak2_id <- get_peak2_id(AIns_timeseries)
+      Current_Amyg_peak2_id <- get_peak2_id(Amyg_timeseries)
+      Current_MPFC_peak2_id <- get_peak2_id(MPFC_timeseries)
+      
+      # Append peaks ids to vector.
+      NAcc_peaks1_id[[length(NAcc_peaks1_id)+1]] = Current_NAcc_peak1_id[1]
+      AIns_peaks1_id[[length(AIns_peaks1_id)+1]] = Current_AIns_peak1_id[1]
+      Amyg_peaks1_id[[length(Amyg_peaks1_id)+1]] = Current_Amyg_peak1_id[1]
+      MPFC_peaks1_id[[length(MPFC_peaks1_id)+1]] = Current_MPFC_peak1_id[1]
+      
+      NAcc_peaks2_id[[length(NAcc_peaks2_id)+1]] = Current_NAcc_peak2_id[1]
+      AIns_peaks2_id[[length(AIns_peaks2_id)+1]] = Current_AIns_peak2_id[1]
+      Amyg_peaks2_id[[length(Amyg_peaks2_id)+1]] = Current_Amyg_peak2_id[1]
+      MPFC_peaks2_id[[length(MPFC_peaks2_id)+1]] = Current_MPFC_peak2_id[1]
+
+    }
+    
+    # Add new columns to current participant dataframe. 
+    current_sub_df$NAcc_peak1_id <- NAcc_peaks1_id
+    current_sub_df$AIns_peak1_id <- AIns_peaks1_id
+    current_sub_df$Amyg_peak1_id <- Amyg_peaks1_id
+    current_sub_df$MPFC_peak1_id <- MPFC_peaks1_id
+    
+    current_sub_df$NAcc_peak2_id <- NAcc_peaks2_id
+    current_sub_df$AIns_peak2_id <- AIns_peaks2_id
+    current_sub_df$Amyg_peak2_id <- Amyg_peaks2_id
+    current_sub_df$MPFC_peak2_id <- MPFC_peaks2_id
+    
+    # Add current subject df to main df. 
+    all_participants_peaks_ids <- bind_rows(all_participants_peaks_ids, current_sub_df)
+      
+}
+# Note, in the case that there is 2 maximum values, this argmax function I'm using 
+# will return the location of the first R value in the array. 
+
+```
+
+
+
+```{r}
+
+# Create empty dataframe. 
+#peak_info_df <- data.frame() 
+peak_info_df <- data.frame(TrailerID = integer(), NAcc_DP = integer(), 
+                           AIns_DP = integer(), Amyg_DP = integer(), MPFC_DP = integer(), 
+                           stringsAsFactors = FALSE) 
+
+# Function to calculate the mode
+Mode <- function(x) {
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+# Loop through each trailer. 
+for (trailer_id in trailer_list)  {
+  
+ 
+  # Get current trailer df. 
+  current_trailer_df <- filter(all_participants_peaks_ids, Trailer == trailer_id)
+
+  # Pool max 1 and max 2 to select democratic peak
+  NAcc_array_ids <- c(current_trailer_df$NAcc_peak1_id, current_trailer_df$NAcc_peak2_id)
+  AIns_array_ids <- c(current_trailer_df$AIns_peak1_id, current_trailer_df$AIns_peak2_id)
+  Amyg_array_ids <- c(current_trailer_df$Amyg_peak1_id, current_trailer_df$Amyg_peak2_id)
+  MPFC_array_ids <- c(current_trailer_df$MPFC_peak1_id, current_trailer_df$MPFC_peak2_id)
+  
+  # Find mode for each ROI vector. 
+  NAcc_DP <- Mode(NAcc_array_ids)
+  AIns_DP <- Mode(AIns_array_ids)
+  Amyg_DP <- Mode(Amyg_array_ids)
+  MPFC_DP <- Mode(MPFC_array_ids)
+  
+  # Create a temporary data frame to append
+  temp_df <- data.frame("TrailerID" = trailer_id, "NAcc_DP" = NAcc_DP,
+                        "AIns_DP" = AIns_DP, "Amyg_DP" = Amyg_DP, "MPFC_DP" = MPFC_DP,
+                        stringsAsFactors = FALSE)
+  
+  # Adjust col names to match between data frames.
+  colnames(temp_df) <- colnames(peak_info_df)
+
+  # Append the temporary data frame to the main data frame
+  peak_info_df <- rbind(peak_info_df, temp_df)
+  
+}
+
+
+```
+
+
+```{r}
+# Create empty dataframe. 
+all_participants_final_df <- data.frame() 
+
+# Iterate through each participant.
+for (sub_id in participant_list)
+{
+    # Get current sub dataframe.
+    current_sub_df <- filter(all_participants_wide, Participant == sub_id)
+    
+    # Create empty vectors.
+    NAcc_DP <- c()
+    AIns_DP <- c()
+    Amyg_DP <- c()
+    MPFC_DP <- c()
+    
+    NAcc_DP1 <- c()
+    AIns_DP1 <- c()
+    Amyg_DP1 <- c()
+    MPFC_DP1 <- c()
+    
+    NAcc_DP2 <- c()
+    AIns_DP2 <- c()
+    Amyg_DP2 <- c()
+    MPFC_DP2 <- c()
+    
+    NAcc_DP3 <- c()
+    AIns_DP3 <- c()
+    Amyg_DP3 <- c()
+    MPFC_DP3 <- c()
+      
+    # Iterate through each trailer, for the current participant, obtain the TR position for the peak1 and peak2. 
+    for (trailer_id in trailer_list)  
+    {
+      
+      current_trailer_peak_info <- filter(peak_info_df, TrailerID == trailer_id)
+      
+      # Get id for modal peaks. 
+      current_NAcc_DP_id <- current_trailer_peak_info$NAcc_DP
+      current_AIns_DP_id <- current_trailer_peak_info$AIns_DP
+      current_Amyg_DP_id <- current_trailer_peak_info$Amyg_DP
+      current_MPFC_DP_id <- current_trailer_peak_info$MPFC_DP
+      
+      NAcc_timeseries_df <- filter(current_sub_df, Trailer == trailer_id) %>%
+          select(NAcc_TR1, NAcc_TR2, NAcc_TR3, NAcc_TR4, NAcc_TR5,
+          NAcc_TR6, NAcc_TR7, NAcc_TR8, NAcc_TR9, NAcc_TR10,
+          NAcc_TR11, NAcc_TR12, NAcc_TR13, NAcc_TR14, NAcc_TR15)
+      
+      AIns_timeseries_df <- filter(current_sub_df, Trailer == trailer_id) %>%
+          select(AIns_TR1, AIns_TR2, AIns_TR3, AIns_TR4, AIns_TR5,
+               AIns_TR6, AIns_TR7, AIns_TR8, AIns_TR9, AIns_TR10,
+               AIns_TR11, AIns_TR12, AIns_TR13, AIns_TR14, AIns_TR15)
+      
+      Amyg_timeseries_df <- filter(current_sub_df, Trailer == trailer_id) %>%
+        select(Amyg_TR1, Amyg_TR2, Amyg_TR3, Amyg_TR4, Amyg_TR5,
+               Amyg_TR6, Amyg_TR7, Amyg_TR8, Amyg_TR9, Amyg_TR10,
+               Amyg_TR11, Amyg_TR12, Amyg_TR13, Amyg_TR14, Amyg_TR15)
+      
+      MPFC_timeseries_df <- filter(current_sub_df, Trailer == trailer_id) %>%
+        select(MPFC_TR1, MPFC_TR2, MPFC_TR3, MPFC_TR4, MPFC_TR5,
+               MPFC_TR6, MPFC_TR7, MPFC_TR8, MPFC_TR9, MPFC_TR10,
+               MPFC_TR11, MPFC_TR12, MPFC_TR13, MPFC_TR14, MPFC_TR15)
+
+      # Flatten the selected data frame to a vector
+      NAcc_timeseries <- unlist(NAcc_timeseries_df, use.names = FALSE)
+      AIns_timeseries <- unlist(AIns_timeseries_df, use.names = FALSE)
+      Amyg_timeseries <- unlist(Amyg_timeseries_df, use.names = FALSE)
+      MPFC_timeseries <- unlist(MPFC_timeseries_df, use.names = FALSE)
+      
+      #print(NAcc_timeseries)
+      
+      # Calculate modal peaks.
+      Current_NAcc_DP <- get_MP(NAcc_timeseries, current_NAcc_DP_id, 0)
+      Current_AIns_DP <- get_MP(AIns_timeseries, current_AIns_DP_id, 0)
+      Current_Amyg_DP <- get_MP(Amyg_timeseries, current_Amyg_DP_id, 0)
+      Current_MPFC_DP <- get_MP(MPFC_timeseries, current_MPFC_DP_id, 0)
+      
+      Current_NAcc_DP1 <- get_MP(NAcc_timeseries, current_NAcc_DP_id, 1)
+      Current_AIns_DP1 <- get_MP(AIns_timeseries, current_AIns_DP_id, 1)
+      Current_Amyg_DP1 <- get_MP(Amyg_timeseries, current_Amyg_DP_id, 1)
+      Current_MPFC_DP1 <- get_MP(MPFC_timeseries, current_MPFC_DP_id, 1)
+      
+      Current_NAcc_DP2 <- get_MP(NAcc_timeseries, current_NAcc_DP_id, 2)
+      Current_AIns_DP2 <- get_MP(AIns_timeseries, current_AIns_DP_id, 2)
+      Current_Amyg_DP2 <- get_MP(Amyg_timeseries, current_Amyg_DP_id, 2)
+      Current_MPFC_DP2 <- get_MP(MPFC_timeseries, current_MPFC_DP_id, 2)
+      
+      Current_NAcc_DP3 <- get_MP(NAcc_timeseries, current_NAcc_DP_id, 3)
+      Current_AIns_DP3 <- get_MP(AIns_timeseries, current_AIns_DP_id, 3)
+      Current_Amyg_DP3 <- get_MP(Amyg_timeseries, current_Amyg_DP_id, 3)
+      Current_MPFC_DP3 <- get_MP(MPFC_timeseries, current_MPFC_DP_id, 3)
+      
+      
+      # Append peaks ids to vector.
+      NAcc_DP[[length(NAcc_DP)+1]] = Current_NAcc_DP[1]
+      AIns_DP[[length(AIns_DP)+1]] = Current_AIns_DP[1]
+      Amyg_DP[[length(Amyg_DP)+1]] = Current_Amyg_DP[1]
+      MPFC_DP[[length(MPFC_DP)+1]] = Current_MPFC_DP[1]
+      
+      NAcc_DP1[[length(NAcc_DP1)+1]] = Current_NAcc_DP1[1]
+      AIns_DP1[[length(AIns_DP1)+1]] = Current_AIns_DP1[1]
+      Amyg_DP1[[length(Amyg_DP1)+1]] = Current_Amyg_DP1[1]
+      MPFC_DP1[[length(MPFC_DP1)+1]] = Current_MPFC_DP1[1]
+      
+      NAcc_DP2[[length(NAcc_DP2)+1]] = Current_NAcc_DP2[1]
+      AIns_DP2[[length(AIns_DP2)+1]] = Current_AIns_DP2[1]
+      Amyg_DP2[[length(Amyg_DP2)+1]] = Current_Amyg_DP2[1]
+      MPFC_DP2[[length(MPFC_DP2)+1]] = Current_MPFC_DP2[1]
+      
+      NAcc_DP3[[length(NAcc_DP3)+1]] = Current_NAcc_DP3[1]
+      AIns_DP3[[length(AIns_DP3)+1]] = Current_AIns_DP3[1]
+      Amyg_DP3[[length(Amyg_DP3)+1]] = Current_Amyg_DP3[1]
+      MPFC_DP3[[length(MPFC_DP3)+1]] = Current_MPFC_DP3[1]
+
+    }
+    
+    # Add new columns to current participant dataframe. 
+    current_sub_df$NAcc_DP <- NAcc_DP
+    current_sub_df$AIns_DP <- AIns_DP
+    current_sub_df$Amyg_DP <- Amyg_DP
+    current_sub_df$MPFC_DP <- MPFC_DP
+    
+    current_sub_df$NAcc_DP1 <- NAcc_DP1
+    current_sub_df$AIns_DP1 <- AIns_DP1
+    current_sub_df$Amyg_DP1 <- Amyg_DP1
+    current_sub_df$MPFC_DP1 <- MPFC_DP1
+    
+    current_sub_df$NAcc_DP2 <- NAcc_DP2
+    current_sub_df$AIns_DP2 <- AIns_DP2
+    current_sub_df$Amyg_DP2 <- Amyg_DP2
+    current_sub_df$MPFC_DP2 <- MPFC_DP2
+    
+    current_sub_df$NAcc_DP3 <- NAcc_DP3
+    current_sub_df$AIns_DP3 <- AIns_DP3
+    current_sub_df$Amyg_DP3 <- Amyg_DP3
+    current_sub_df$MPFC_DP3 <- MPFC_DP3
+    
+    # Add current subject df to main df. 
+    all_participants_final_df <- bind_rows(all_participants_final_df, current_sub_df)
+      
+}
+
+```
+
+```{r}
+unique(all_participants_final_df$Participant)
+
+# drop hb231201 (14), 
+# missing (15)
+```
+
+```{r}
+all_participants_final_df$NAcc_DP <- as.numeric(as.character(all_participants_final_df$NAcc_DP))
+all_participants_final_df$NAcc_DP1 <- as.numeric(as.character(all_participants_final_df$NAcc_DP1))
+all_participants_final_df$NAcc_DP2 <- as.numeric(as.character(all_participants_final_df$NAcc_DP2))
+all_participants_final_df$NAcc_DP3 <- as.numeric(as.character(all_participants_final_df$NAcc_DP3))
+
+all_participants_final_df$AIns_DP <- as.numeric(as.character(all_participants_final_df$AIns_DP))
+all_participants_final_df$AIns_DP1 <- as.numeric(as.character(all_participants_final_df$AIns_DP1))
+all_participants_final_df$AIns_DP2 <- as.numeric(as.character(all_participants_final_df$AIns_DP2))
+all_participants_final_df$AIns_DP3 <- as.numeric(as.character(all_participants_final_df$AIns_DP3))
+
+all_participants_final_df$Amyg_DP <- as.numeric(as.character(all_participants_final_df$Amyg_DP))
+all_participants_final_df$Amyg_DP1 <- as.numeric(as.character(all_participants_final_df$Amyg_DP1))
+all_participants_final_df$Amyg_DP2 <- as.numeric(as.character(all_participants_final_df$Amyg_DP2))
+all_participants_final_df$Amyg_DP3 <- as.numeric(as.character(all_participants_final_df$Amyg_DP3))
+
+all_participants_final_df$MPFC_DP <- as.numeric(as.character(all_participants_final_df$MPFC_DP))
+all_participants_final_df$MPFC_DP1 <- as.numeric(as.character(all_participants_final_df$MPFC_DP1))
+all_participants_final_df$MPFC_DP2 <- as.numeric(as.character(all_participants_final_df$MPFC_DP2))
+all_participants_final_df$MPFC_DP3 <- as.numeric(as.character(all_participants_final_df$MPFC_DP3))
+
+```
+
+
+
+```{r}
+
+all_participants_final_df$NAcc_DP3 <- as.numeric(as.character(all_participants_final_df$NAcc_DP3))
+all_participants_final_df$W_score_centered <- as.numeric(as.character(all_participants_final_df$W_score_centered))
+
+all_participants_final_df <- all_participants_final_df %>%
+  mutate(Type = ifelse(grepl("c", Trailer), "Comedy",
+                       ifelse(grepl("h", Trailer), "Horror", NA)))
+
+ggplot(all_participants_final_df %>% filter(NAcc_DP3 < 3 & NAcc_DP3 > -3)
+       , aes(x = NAcc_DP3, y = W_score_centered, color=Type)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() #+
+  #geom_text(aes(label = Trailer), vjust = 2)
+
+```
+
+```{r}
+ggpairs(all_participants_final_df[, c("Type", "W_score_centered", "PA_score_centered", "NA_score_centered", "NAcc_TR3", "NAcc_DP", "NAcc_DP1", "NAcc_DP2", "NAcc_DP3")], columns = 2:ncol(all_participants_final_df[, c("Type", "W_score_centered",  "PA_score_centered", "NA_score_centered", "NAcc_TR3", "NAcc_DP", "NAcc_DP1", "NAcc_DP2", "NAcc_DP3")]), 
+        aes(color = Type)) 
+```
+
+
+
+```{r}
+
+
+Aggregate_BothTrailers_df <- read.csv('/Users/la/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuralActivation_Aggregate_Combined_filtered.csv') %>% mutate(Type = factor(Type, levels = c("comedy", "horror")))
+
+Aggregate_metrics <- select(Aggregate_BothTrailers_df, Trailer, Type, DG_WK1_U, DG_WK2_U, DG_WK3_U, DG_WK4_U, Gross_US_M1, Gross_M1_updated, Gross_M1_updated_log)
+
+```
+
+
+```{r}
+
+all_aggregate <- group_by(all_participants_final_df, Trailer) %>%
+                                summarise_all(mean, na.rm = TRUE)
+
+#all_aggregate <- all_aggregate %>%
+#  mutate(Type = ifelse(grepl("c", Trailer), "Comedy",
+#                       ifelse(grepl("h", Trailer), "Horror", NA)))
+
+
+
+all_aggregate_combined <- merge(all_aggregate, Aggregate_metrics,by="Trailer")
+all_aggregate_combined
+
+```
+
+```{r}
+ggplot(all_aggregate_combined, aes(x = NAcc_DP2, y = log(Gross_M1_updated), color=Type.y)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+```
+
+```{r}
+ggpairs(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "NAcc_TR3", "NAcc_DP", "NAcc_DP1", "NAcc_DP2", "NAcc_DP3")], columns = 2:ncol(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "NAcc_TR3", "NAcc_DP", "NAcc_DP1", "NAcc_DP2", "NAcc_DP3")]), 
+        aes(color = Type.y)) 
+```
+
+```{r}
+
+# Comedy Agg -> TR3=0.50*; DP=0.26; DP1=0.65*; DP2=0.75*; DP3=0.48
+
+ggpairs(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "AIns_TR3", "AIns_DP", "AIns_DP1", "AIns_DP2", "AIns_DP3")], columns = 2:ncol(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "AIns_TR3", "AIns_DP", "AIns_DP1", "AIns_DP2", "AIns_DP3")]), 
+        aes(color = Type.y)) 
+```
+
+
+```{r}
+ggpairs(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "MPFC_TR3", "MPFC_DP", "MPFC_DP1", "MPFC_DP2", "MPFC_DP3")], columns = 2:ncol(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "MPFC_TR3", "MPFC_DP", "MPFC_DP1", "MPFC_DP2", "MPFC_DP3")]), 
+        aes(color = Type.y)) 
+```
+
+```{r}
+ggpairs(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "Amyg_TR3", "Amyg_DP", "Amyg_DP1", "Amyg_DP2", "Amyg_DP3")], columns = 2:ncol(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "Amyg_TR3", "Amyg_DP", "Amyg_DP1", "Amyg_DP2", "Amyg_DP3")]), 
+        aes(color = Type.y)) 
+```
+
