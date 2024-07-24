@@ -616,6 +616,15 @@ ggpairs(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "NAcc_TR3",
 ```
 
 ```{r}
+ggplot(all_aggregate_combined, aes(x = AIns_DP, y = log(Gross_M1_updated), )) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+```
+
+
+```{r}
 
 # Comedy Agg -> TR3=0.50*; DP=0.26; DP1=0.65*; DP2=0.75*; DP3=0.48
 
@@ -630,7 +639,24 @@ ggpairs(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "MPFC_TR3",
 ```
 
 ```{r}
+ggplot(all_aggregate_combined, aes(x = Amyg_DP2, y = log(Gross_M1_updated), color=Type.y)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+
+```
+
+
+```{r}
 ggpairs(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "Amyg_TR3", "Amyg_DP", "Amyg_DP1", "Amyg_DP2", "Amyg_DP3")], columns = 2:ncol(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "Amyg_TR3", "Amyg_DP", "Amyg_DP1", "Amyg_DP2", "Amyg_DP3")]), 
         aes(color = Type.y)) 
 ```
+
+```{r}
+ggpairs(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "NAcc_DP2", "AIns_DP2", "MPFC_DP2", "Amyg_DP2")], columns = 2:ncol(all_aggregate_combined[, c("Type.y", "Gross_M1_updated_log", "NAcc_DP2", "AIns_DP2", "MPFC_DP2", "Amyg_DP2")]), 
+        aes(color = Type.y)) 
+```
+
+
 

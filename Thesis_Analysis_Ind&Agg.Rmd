@@ -1,0 +1,1040 @@
+---
+title: "RM Thesis: Individual & Aggregate Choice Analysis."
+author: "Luis A."
+date: "2024-05-07"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Loading libraries
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+library(rmdformats)
+library(ggplot2)
+library(ggpubr)
+library(GGally)
+library(car)
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library("MuMIn")
+library(lmtest)
+library(boot)
+library(modelsummary)
+library(pandoc)
+library(tinytable)
+library(cowplot)
+library(sjPlot)
+library(patchwork)
+library(magick)
+```
+
+
+```{r, echo=FALSE}
+
+Individual_BothTrailers_df <- read.csv('/Users/la/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuroTS_GLM_ISC.csv') %>% mutate(Type = factor(Type, levels = c("Comedy", "Horror")))
+
+Aggregate_BothTrailers_df <- read.csv('/Users/la/Documents/GitHub/RM_Thesis_Neuroforecasting/ProcessedData/AllSubs_NeuroTS_GLM_ISC_AGG.csv') %>% mutate(Type = factor(Type, levels = c("comedy", "horror")))
+
+```
+
+# Invididual Choice.
+## IndBoth: Fixed time series models.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+contrasts(Individual_BothTrailers_df$Type) <- rbind(1, -1)
+colnames(contrasts(Individual_BothTrailers_df$Type)) <- levels(Individual_BothTrailers_df$Type)[2]
+
+# Create affect only model. 
+IndBoth_Affect <- lmer(scale(W_score) ~ 
+                        Type +
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        Type:scale(Pos_arousal_scaled) +
+                        Type:scale(Neg_arousal_scaled) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df) 
+
+# Create neuro sequence only model.
+IndBoth_SeqNeuro <- lmer(scale(W_score) ~
+                        Type +   
+                        scale(NAcc_seg2) + 
+                        scale(AIns_seg3) + 
+                        scale(MPFC_seg5) +
+                        Type:scale(NAcc_seg2) + 
+                        Type:scale(AIns_seg3) + 
+                        Type:scale(MPFC_seg5) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df) 
+
+# Create affect and neuro sequence model.
+IndBoth_Affect_and_SeqNeuro <- lmer(scale(W_score) ~
+                        Type +              
+                        scale(Pos_arousal_scaled) +
+                        scale(Neg_arousal_scaled) +
+                        scale(NAcc_seg2) + 
+                        scale(AIns_seg3) + 
+                        scale(MPFC_seg5) +
+                        Type:scale(Pos_arousal_scaled) +
+                        Type:scale(Neg_arousal_scaled) +
+                        Type:scale(NAcc_seg2) +
+                        Type:scale(AIns_seg3) +
+                        Type*scale(MPFC_seg5) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df) 
+
+#summary(IndBoth_Affect_and_SeqNeuro) 
+# Create list with all models.
+IndBoth_Seq_list <- list(
+  "Affect" = IndBoth_Affect, 
+  "Neuro seq" = IndBoth_SeqNeuro, 
+  "Affect & Neuro seq" = IndBoth_Affect_and_SeqNeuro)
+
+# Make table with all models. 
+IndBoth_Seq_models <- modelsummary(IndBoth_Seq_list, stars=TRUE, 
+                           #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           #estimate  = "{estimate} ({std.error}) {stars}",
+                           estimate = c("b={estimate}; t={statistic}; s.e.={std.error}; p-val={p.value}"),
+                           statistic = NULL,
+                           #output = "html",
+                           #output="Thesis_LMM_Outputs/Thesis_FMRIP_Ind_FixedTimeSeries.docx", 
+                           output = "dataframe",
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+
+
+print(contrasts(Individual_BothTrailers_df$Type))
+IndBoth_Seq_models
+```
+
+# Trailer preference and affect ratings pairplot.
+```{r}
+ggpairs(Individual_BothTrailers_df[, c("Type", "W_score_scaled", "Pos_arousal_scaled", "Neg_arousal_scaled")], columns = 2:ncol(Individual_BothTrailers_df[, c("Type", "W_score_scaled", "Pos_arousal_scaled", "Neg_arousal_scaled")]), 
+        aes(color = Type)) 
+```
+
+
+```{r, echo=FALSE}
+#ggpairs(IndBoth_Affect_and_SeqNeuro[, c("Type", "W_score_scaled", "Pos_arousal_scaled", "Neg_arousal_scaled", "NAcc_seg2", "AIns_seg3", "MPFC_seg5")], columns = 2:ncol(IndBoth_Affect_and_SeqNeuro[, c("Type", "W_score_scaled", "Pos_arousal_scaled", "Neg_arousal_scaled", "NAcc_seg2", "AIns_seg3", "MPFC_seg5")]), 
+#        aes(color = Type)) 
+
+```
+
+## IndBoth: Modal peak models.
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+IndBoth_MPNeuro <- lmer(scale(W_score) ~
+                        Type +   
+                        scale(NAcc_DP2) +
+                        scale(AIns_DP2) +
+                        scale(MPFC_DP2) +
+                        Type:scale(NAcc_DP2) + 
+                        Type:scale(AIns_DP2) + 
+                        Type:scale(MPFC_DP2) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df) 
+
+# Create affect and neuro sequence model.
+IndBoth_Affect_and_MPNeuro <- lmer(scale(W_score) ~
+                        Type +              
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        scale(NAcc_DP2) +
+                        scale(AIns_DP2) +
+                        scale(MPFC_DP2) +
+                        Type:scale(Pos_arousal_scaled) +
+                        Type:scale(Neg_arousal_scaled) +
+                        Type:scale(NAcc_DP2) + 
+                        Type:scale(AIns_DP2) + 
+                        Type:scale(MPFC_DP2) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df)
+
+# Create list with all models.
+IndBoth_MP_list <- list(
+  "Affect" = IndBoth_Affect, 
+  "Neuro seq" = IndBoth_MPNeuro, 
+  "Affect & Neuro seq" = IndBoth_Affect_and_MPNeuro)
+
+# Make table with all models. 
+IndBoth_MP_models <- modelsummary(IndBoth_MP_list, stars=TRUE, 
+                           #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           #estimate  = "{estimate} ({std.error}) {stars}",
+                           estimate = c("ß={estimate}; t={statistic}; s.e.={std.error}; p-val={p.value}{stars}"),
+                           statistic = NULL,
+                           #output = "html",
+                           output = "dataframe",
+                           #output="Thesis_LMM_Outputs/Thesis_FMRIP_Ind_ModalPeak.docx", 
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+
+print(contrasts(Individual_BothTrailers_df$Type))
+IndBoth_MP_models
+```
+### What is AIns modal peak capturing? 
+```{r}
+# AIns modal peak is slightly correlated with arousal, but barely. 
+
+Individual_BothTrailers_Horror_df <- filter(Individual_BothTrailers_df, Type=="Horror")
+
+ggpairs(Individual_BothTrailers_df[, c("Type", "W_score", "Pos_arousal_scaled", "Neg_arousal_scaled", "A_score", "F_score", "AIns_DP1", "AIns_DP2")], columns = 2:ncol(Individual_BothTrailers_df[, c("Type", "W_score", "Pos_arousal_scaled", "Neg_arousal_scaled", "A_score", "F_score", "AIns_DP1", "AIns_DP2")]), 
+        aes(color = Type)) 
+
+#ggplot(Individual_BothTrailers_Horror_df, aes(x = (AIns_DP2), y = (W_score), color=H_preference)) +
+#  geom_point() +
+#  geom_smooth(method = "lm") +
+#  stat_cor() 
+
+```
+
+
+# IndBoth: Peak models
+```{r}
+# What if, I try mean(peak: peak+2) ???
+IndBoth_PNeuro <- lmer(scale(W_score) ~
+                        Type +   
+                        scale(NAcc_ind_peaks_pos) +
+                        scale(AIns_ind_peaks_pos) +
+                        scale(MPFC_ind_peaks_pos) +
+                        Type:scale(NAcc_ind_peaks_pos) + 
+                        Type:scale(AIns_ind_peaks_pos) + 
+                        Type:scale(MPFC_ind_peaks_pos) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df) 
+
+# Create affect and neuro sequence model.
+IndBoth_Affect_and_PNeuro <- lmer(scale(W_score) ~
+                        Type +              
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        scale(NAcc_ind_peaks_pos) +
+                        scale(AIns_ind_peaks_pos) +
+                        scale(MPFC_ind_peaks_pos) +
+                        Type:scale(Pos_arousal_scaled) +
+                        Type:scale(Neg_arousal_scaled) +
+                        Type:scale(NAcc_ind_peaks_pos) + 
+                        Type:scale(AIns_ind_peaks_pos) + 
+                        Type:scale(MPFC_ind_peaks_pos) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df)
+
+# Create list with all models.
+IndBoth_P_list <- list(
+  "Affect" = IndBoth_Affect, 
+  "Neuro IP" = IndBoth_PNeuro, 
+  "Affect & Neuro IP" = IndBoth_Affect_and_PNeuro)
+
+# Make table with all models. 
+IndBoth_P_models <- modelsummary(IndBoth_P_list, stars=TRUE, 
+                           #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           #estimate  = "{estimate} ({std.error}){stars}",
+                           estimate = c("ß={estimate}; t={statistic}; s.e.={std.error}; p-val={p.value}{stars}"),
+                           statistic = NULL,
+                           #output = "html",
+                           output = "dataframe",
+                           #output="Thesis_LMM_Outputs/Thesis_FMRIP_Ind_IndPeak.docx", 
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+
+print(contrasts(Individual_BothTrailers_df$Type))
+IndBoth_P_models
+```
+
+```{r}
+ggpairs(Individual_BothTrailers_df[, c("Type", "W_score", "NAcc_ind_peaks_pos", "AIns_ind_peaks_pos", "MPFC_ind_peaks_pos")], columns = 2:ncol(Individual_BothTrailers_df[, c("Type", "W_score", "AIns_ind_peaks_pos", "MPFC_ind_peaks_pos")]), aes(color = Type)) 
+
+
+```
+
+
+## IndBoth: GLM whole models.
+```{r}
+# Create GLM whole model (only including neural data).
+IndBoth_GLMw_Neuro <- lmer(scale(W_score) ~
+                        Type +   
+                        scale(NAcc_GLM_long) +
+                        scale(AIns_GLM_long) +
+                        scale(vmPFC_GLM_long) +
+                        Type:scale(NAcc_GLM_long) + 
+                        Type:scale(AIns_GLM_long) + 
+                        Type:scale(vmPFC_GLM_long) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df) 
+
+# Create affect and GLM whole model.
+IndBoth_Affect_and_GLMw <- lmer(scale(W_score) ~
+                        Type +              
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        scale(NAcc_GLM_long) +
+                        scale(AIns_GLM_long) +
+                        scale(vmPFC_GLM_long) +
+                        Type:scale(Pos_arousal_scaled) +
+                        Type:scale(Neg_arousal_scaled) +
+                        Type:scale(NAcc_GLM_long) + 
+                        Type:scale(AIns_GLM_long) + 
+                        Type:scale(vmPFC_GLM_long) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df)
+
+# Create list with all models.
+IndBoth_GLMw_list <- list(
+  "Affect" = IndBoth_Affect, 
+  "Neuro GLM whole" = IndBoth_GLMw_Neuro, 
+  "Affect & GLM whole" = IndBoth_Affect_and_GLMw)
+
+# Make table with all models. 
+IndBoth_GLMw_models <- modelsummary(IndBoth_GLMw_list, stars=TRUE, 
+                           #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           #estimate  = "{estimate} ({std.error}) {stars}",
+                           estimate = c("ß={estimate}; t={statistic}; s.e.={std.error}; p-val={p.value}{stars}"),
+                           statistic = NULL,
+                           #output = "html",
+                           output = "dataframe",
+                           #output="Thesis_LMM_Outputs/Thesis_FMRIP_Ind_GLM_whole.docx", 
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+
+print(contrasts(Individual_BothTrailers_df$Type))
+IndBoth_GLMw_models
+```
+
+## IndBoth: GLM onset models.
+```{r}
+# Create GLM onset model (only including neural data).
+IndBoth_GLMo_Neuro <- lmer(scale(W_score) ~
+                        Type +   
+                        scale(NAcc_GLM_short) +
+                        scale(AIns_GLM_short) +
+                        scale(vmPFC_GLM_short) +
+                        Type:scale(NAcc_GLM_short) + 
+                        Type:scale(AIns_GLM_short) + 
+                        Type:scale(vmPFC_GLM_short) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df) 
+
+# Create affect and GLM onset model.
+IndBoth_Affect_and_GLMo <- lmer(scale(W_score) ~
+                        Type +              
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        scale(NAcc_GLM_short) +
+                        scale(AIns_GLM_short) +
+                        scale(vmPFC_GLM_short) +
+                        Type:scale(Pos_arousal_scaled) +
+                        Type:scale(Neg_arousal_scaled) +
+                        Type:scale(NAcc_GLM_short) + 
+                        Type:scale(AIns_GLM_short) + 
+                        Type:scale(vmPFC_GLM_short) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df)
+
+# Create list with all models.
+IndBoth_GLMo_list <- list(
+  "Affect" = IndBoth_Affect, 
+  "Neuro GLM onset" = IndBoth_GLMo_Neuro, 
+  "Affect & GLM onset" = IndBoth_Affect_and_GLMo)
+
+# Make table with all models. 
+IndBoth_GLMo_models <- modelsummary(IndBoth_GLMo_list, stars=TRUE, 
+                           #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           #estimate  = "{estimate} ({std.error}) {stars}",
+                           estimate = c("ß={estimate}, t = {statistic}, s.e. = {std.error}, p-val = {p.value}"),
+                           statistic = NULL,
+                           #output = "html",
+                           output = "dataframe",
+                           #output="Thesis_LMM_Outputs/Thesis_FMRIP_Ind_GLM_onset.docx", 
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+
+print(contrasts(Individual_BothTrailers_df$Type))
+IndBoth_GLMo_models
+```
+
+## IndBoth: Inter-subject correlation (ISC) models.
+```{r}
+# Create ISC model (only including neural data).
+IndBoth_ISC_Neuro <- lmer(scale(W_score) ~
+                        Type +   
+                        scale(NAcc_ISC) +
+                        scale(AIns_ISC) +
+                        scale(MPFC_ISC) +
+                        Type:scale(NAcc_ISC) + 
+                        Type:scale(AIns_ISC) + 
+                        Type:scale(MPFC_ISC) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df) 
+
+# Create affect and ISC model.
+IndBoth_Affect_and_ISC <- (scale(W_score) ~
+                        Type +              
+                        scale(Pos_arousal_scaled) + 
+                        scale(Neg_arousal_scaled) + 
+                        scale(NAcc_ISC) +
+                        scale(AIns_ISC) +
+                        scale(MPFC_ISC) +
+                        Type:scale(Pos_arousal_scaled) +
+                        Type:scale(Neg_arousal_scaled) +
+                        Type:scale(NAcc_ISC) + 
+                        Type:scale(AIns_ISC) + 
+                        Type:scale(MPFC_ISC) +
+                        (1|Participant) + (1|Trailer), 
+                        data = Individual_BothTrailers_df)
+
+# Create list with all models.
+IndBoth_ISC_list <- list(
+  "Affect" = IndBoth_Affect, 
+  "Neuro ISC" = IndBoth_ISC_Neuro, 
+  "Affect & ISC" = IndBoth_Affect_and_ISC)
+
+# Make table with all models. 
+IndBoth_ISC_models <- modelsummary(IndBoth_ISC_list, stars=TRUE, 
+                           #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           #estimate  = "{estimate} ({std.error}) {stars}",
+                           estimate = c("ß={estimate}, t = {statistic}, s.e. = {std.error}, p-val = {p.value}"),
+                           statistic = NULL,
+                           #output = "html",
+                           #output = "dataframe",
+                           output="Thesis_LMM_Outputs/Thesis_FMRIP_Ind_ISC.docx",
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") #%>% select(-part, -statistic)
+
+print(contrasts(Individual_BothTrailers_df$Type))
+IndBoth_ISC_models
+```
+
+
+# Aggregate Results Both Trailers. 
+
+### What is the correlation between Positive arousal and Watch choice at the aggregate level?
+```{r}
+
+Agg_PA_W_corr <- cor.test(Aggregate_BothTrailers_df$Pos_arousal_scaled, Aggregate_BothTrailers_df$W_score, method = "pearson")
+
+print("At the aggregate level, positive arousal and w_score have the following correlation: ")
+Agg_PA_W_corr
+
+```
+
+
+## AggBoth: Seq Models.
+```{r, echo=FALSE}
+Aggregate_BothTrailers_df <- mutate(Aggregate_BothTrailers_df, Type = factor(Type, levels = c("comedy", "horror")))
+contrasts(Aggregate_BothTrailers_df$Type) <- rbind(1, -1)
+colnames(contrasts(Aggregate_BothTrailers_df$Type)) <- levels(Aggregate_BothTrailers_df$Type)[2]
+
+# Create aggregate model for first month gross (log).
+AggBoth_Affect_M1 <-lm(log(Gross_M1_updated) ~ 
+         + Type                      
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+            , data = Aggregate_BothTrailers_df)
+
+AggBoth_Choice_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type
+         + scale(W_score) 
+         + Type:scale(W_score)  
+            , data = Aggregate_BothTrailers_df)
+
+AggBoth_Seq_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type
+         + scale(NAcc_seg1) 
+         #+ scale(AIns_seg3)
+         #+ scale(MPFC_seg5)
+         + Type:scale(NAcc_seg1)
+         #+ Type:scale(AIns_seg3)
+         #+ Type:scale(MPFC_seg5)
+            , data = Aggregate_BothTrailers_df)
+
+AggBoth_SeqAffect_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                        
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_seg1) 
+         #+ scale(AIns_seg3)
+         #+ scale(MPFC_seg5)
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+         + Type:scale(NAcc_seg1)
+         #+ Type:scale(AIns_seg3)
+         #+ Type:scale(MPFC_seg5)
+            , data = Aggregate_BothTrailers_df) 
+
+
+AggBoth_ChoiceSeq_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                        
+         + scale(W_score) 
+         + scale(NAcc_seg1) 
+         #+ scale(AIns_seg3)
+         #+ scale(MPFC_seg5)
+         + Type:scale(W_score) 
+         + Type:scale(NAcc_seg1)
+         #+ Type:scale(AIns_seg3)
+         #+ Type:scale(MPFC_seg5)
+            , data = Aggregate_BothTrailers_df) 
+
+AggBoth_Seq_list = list(
+  #"Affect GM1" = AggBoth_Affect_M1, 
+  "Choice GM1" = AggBoth_Choice_M1,
+  "Neuro Seq GM1" = AggBoth_Seq_M1,
+  #"Affect Neuro Seq GM1" = AggBoth_SeqAffect_M1,
+  "Choice Neuro Seq GM1" = AggBoth_ChoiceSeq_M1)
+
+AggBoth_Seq_models <- modelsummary(AggBoth_Seq_list, stars=TRUE, 
+                               #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                               #estimate  = "{estimate} ({std.error}) {stars}",
+                               estimate = c("ß={estimate}; t={statistic}; s.e.={std.error}; p-val={p.value}{stars}"),
+                               statistic = NULL,
+                               output="dataframe",
+                               #output="html",
+                               #output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_FixedTimeSeries.docx",
+                               gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+
+print(contrasts(Aggregate_BothTrailers_df$Type))
+AggBoth_Seq_models
+
+```
+
+```{r}
+ggpairs(Aggregate_BothTrailers_df[, c("Type", "Gross_M1_updated_log", "W_score", "Pos_arousal_scaled", "Neg_arousal_scaled")], columns = 2:ncol(Aggregate_BothTrailers_df[, c("Type", "Gross_M1_updated_log", "W_score", "Pos_arousal_scaled", "Neg_arousal_scaled")]), 
+        aes(color = Type)) 
+```
+
+
+```{r, echo=FALSE}
+ggplot(Aggregate_BothTrailers_df, aes(x = (NAcc_DP2), y = log(Gross_M1_updated), color=Type)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() +
+  geom_text(aes(label = Trailer), vjust = 2)
+```
+
+## AggBoth: Individual Peak (IP) Models.
+```{r}
+
+AggBoth_IP_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type
+         + scale(NAcc_ind_peaks_pos) 
+         + scale(AIns_ind_peaks_pos) 
+         + scale(MPFC_ind_peaks_pos) 
+         + Type:scale(NAcc_ind_peaks_pos) 
+         + Type:scale(AIns_ind_peaks_pos)
+         + Type:scale(MPFC_ind_peaks_pos)
+            , data = Aggregate_BothTrailers_df )
+
+AggBoth_IP_Affect_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                        
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_ind_peaks_pos) 
+         + scale(AIns_ind_peaks_pos) 
+         + scale(MPFC_ind_peaks_pos) 
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+         + Type:scale(NAcc_ind_peaks_pos) 
+         + Type:scale(AIns_ind_peaks_pos)
+         + Type:scale(MPFC_ind_peaks_pos)
+            , data = Aggregate_BothTrailers_df)
+
+AggBoth_IP_Choice_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                        
+         + scale(W_score) 
+         + scale(NAcc_ind_peaks_pos) 
+         + scale(AIns_ind_peaks_pos) 
+         + scale(MPFC_ind_peaks_pos) 
+         + Type:scale(W_score) 
+         + Type:scale(NAcc_ind_peaks_pos) 
+         + Type:scale(AIns_ind_peaks_pos)
+         + Type:scale(MPFC_ind_peaks_pos)
+            , data = Aggregate_BothTrailers_df) 
+
+AggBoth_IP_list = list(
+  #"Affect GM1" = AggBoth_Affect_M1, 
+  "Choice GM1" = AggBoth_Choice_M1,
+  "Neuro MP GM1" = AggBoth_IP_M1,
+  #"Affect Neuro IP" = AggBoth_MPAffect_M1,
+  "Choice Neuro IP" = AggBoth_IP_Choice_M1)
+
+AggBoth_IP_models <- modelsummary(AggBoth_IP_list, stars=TRUE, 
+                               #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                               #statistic = c("({std.error})"),
+                               #estimate  = "{estimate} ({std.error}){stars}",
+                               estimate = c("ß={estimate}; t={statistic}; s.e.={std.error}; p-val={p.value}{stars}"),
+                               statistic = NULL,
+                               output="dataframe",
+                               #output="html",
+                               #output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_IndPeak.docx",
+                               gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+
+print(contrasts(Aggregate_BothTrailers_df$Type))
+AggBoth_IP_models
+
+
+```
+
+
+
+
+## AggBoth: Modal Peak (MP) Models.
+```{r, echo=FALSE}
+
+Aggregate_BothTrailers_df <- mutate(Aggregate_BothTrailers_df, Type = factor(Type, levels = c("horror", "comedy")))
+contrasts(Aggregate_BothTrailers_df$Type) <- rbind(-1, 1)
+colnames(contrasts(Aggregate_BothTrailers_df$Type)) <- levels(Aggregate_BothTrailers_df$Type)[2]
+
+AggBoth_Affect_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                      
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+            , data = Aggregate_BothTrailers_df)
+
+AggBoth_Choice_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type
+         + scale(W_score) 
+         + Type:scale(W_score)  
+            , data = Aggregate_BothTrailers_df)
+
+AggBoth_MP_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type
+         + scale(NAcc_DP2) 
+         + scale(AIns_DP2) 
+         + scale(MPFC_DP2) 
+         + Type:scale(NAcc_DP2) 
+         + Type:scale(AIns_DP2)
+         + Type:scale(MPFC_DP2)
+            , data = Aggregate_BothTrailers_df )
+
+AggBoth_MPAffect_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                        
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_DP2) 
+         + scale(AIns_DP2) 
+         + scale(MPFC_DP2) 
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+         + Type:scale(NAcc_DP2) 
+         + Type:scale(AIns_DP2)
+         + Type:scale(MPFC_DP2)
+            , data = Aggregate_BothTrailers_df)
+
+AggBoth_ChoiceMPA_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                        
+         + scale(W_score) 
+         + scale(NAcc_DP2) 
+         + scale(AIns_DP2) 
+         + scale(MPFC_DP2) 
+         + Type:scale(W_score) 
+         + Type:scale(NAcc_DP2) 
+         + Type:scale(AIns_DP2)
+         + Type:scale(MPFC_DP2)
+            , data = Aggregate_BothTrailers_df) 
+
+AggBoth_MP_list = list(
+  #"Affect GM1" = AggBoth_Affect_M1, 
+  "Choice GM1" = AggBoth_Choice_M1,
+  "Neuro MP GM1" = AggBoth_MP_M1,
+  #"Affect Neuro MP GM1" = AggBoth_MPAffect_M1,
+  "Choice Neuro MP GM1" = AggBoth_ChoiceMPA_M1)
+
+AggBoth_MP_models <- modelsummary(AggBoth_MP_list, stars=TRUE, 
+                               #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                               #statistic = c("({std.error})"),
+                               #estimate  = "{estimate} ({std.error}) {stars}",
+                               estimate = c("ß={estimate}; t={statistic}; s.e.={std.error}; p-val={p.value}{stars}"),
+                               statistic = NULL,
+                               output="dataframe",
+                               #output="html",
+                               #output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_ModalPeak.docx",
+                               gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+
+print(contrasts(Aggregate_BothTrailers_df$Type))
+AggBoth_MP_models
+
+```
+## AggBoth: GLM whole models.
+```{r}
+
+AggBoth_GLMw_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type
+         + scale(NAcc_GLM_long) 
+         + scale(AIns_GLM_long) 
+         + scale(vmPFC_GLM_long) 
+         + Type:scale(NAcc_GLM_long) 
+         + Type:scale(AIns_GLM_long)
+         + Type:scale(vmPFC_GLM_long)
+            , data = Aggregate_BothTrailers_df )
+         #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+AggBoth_GLMw_Affect_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                        
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_GLM_long) 
+         + scale(AIns_GLM_long) 
+         + scale(vmPFC_GLM_long) 
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+         + Type:scale(NAcc_GLM_long) 
+         + Type:scale(AIns_GLM_long)
+         + Type:scale(vmPFC_GLM_long)
+            , data = Aggregate_BothTrailers_df)
+          #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+AggBoth_GLMw_Choice_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                        
+         + scale(W_score) 
+         + scale(NAcc_GLM_long) 
+         + scale(AIns_GLM_long) 
+         + scale(vmPFC_GLM_long) 
+         + Type:scale(W_score) 
+         + Type:scale(NAcc_GLM_long) 
+         + Type:scale(AIns_GLM_long)
+         + Type:scale(vmPFC_GLM_long)
+            , data = Aggregate_BothTrailers_df) 
+         #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+AggBoth_GLMw_list = list(
+  #"Affect M1" = AggBoth_Affect_M1, 
+  "Choice M1" = AggBoth_Choice_M1,
+  "GLM whole" = AggBoth_GLMw_M1,
+  #"Affect Neuro MP GM1" = AggBoth_MPAffect_M1,
+  "Choice & GLM whole" = AggBoth_GLMw_Choice_M1)
+
+AggBoth_GLMw_models <- modelsummary(AggBoth_GLMw_list, stars=TRUE, 
+                               #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                               #statistic = c("({std.error})"),
+                               #statistic = c("({std.error})"),
+                               estimate  = "{estimate} ({std.error}) {stars}",
+                               statistic = NULL,
+                               #output="dataframe",
+                               #output="html",
+                               output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_GLM_whole.docx",
+                               gof_omit = "F|RMSE|Log") #%>% select(-part, -statistic)
+
+
+```
+
+
+## AggBoth: GLM onset models.
+```{r}
+AggBoth_GLMo_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type
+         + scale(NAcc_GLM_short) 
+         + scale(AIns_GLM_short) 
+         + scale(vmPFC_GLM_short) 
+         + Type:scale(NAcc_GLM_short) 
+         + Type:scale(AIns_GLM_short)
+         + Type:scale(vmPFC_GLM_short)
+            , data = Aggregate_BothTrailers_df )
+         #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+AggBoth_GLMo_Affect_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                        
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_GLM_short) 
+         + scale(AIns_GLM_short) 
+         + scale(vmPFC_GLM_short) 
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+         + Type:scale(NAcc_GLM_short) 
+         + Type:scale(AIns_GLM_short)
+         + Type:scale(vmPFC_GLM_short)
+            , data = Aggregate_BothTrailers_df)
+          #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+AggBoth_GLMo_Choice_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                        
+         + scale(W_score) 
+         + scale(NAcc_GLM_short) 
+         + scale(AIns_GLM_short) 
+         + scale(vmPFC_GLM_short) 
+         + Type:scale(W_score) 
+         + Type:scale(NAcc_GLM_short) 
+         + Type:scale(AIns_GLM_short)
+         + Type:scale(vmPFC_GLM_short)
+            , data = Aggregate_BothTrailers_df) 
+         #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+AggBoth_GLMo_list = list(
+  #"Affect M1" = AggBoth_Affect_M1, 
+  "Choice M1" = AggBoth_Choice_M1,
+  "GLM onset" = AggBoth_GLMo_M1,
+  #"Affect & GLM onset" = AggBoth_MPAffect_M1,
+  "Choice & GLM onset" = AggBoth_GLMo_Choice_M1)
+
+AggBoth_GLMo_models <- modelsummary(AggBoth_GLMo_list, stars=TRUE, 
+                               #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                               #statistic = c("({std.error})"),
+                               #statistic = c("({std.error})"),
+                               estimate  = "{estimate} ({std.error}){stars}",
+                               statistic = NULL,
+                               #output="dataframe",
+                               #output="html",
+                               output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_GLM_onset.docx",
+                               gof_omit = "F|RMSE|Log") #%>% select(-part, -statistic)
+
+
+```
+
+## AggBoth: Inter-subject correlation.
+```{r}
+
+AggBoth_ISC_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type
+         + scale(NAcc_ISC) 
+         + scale(AIns_ISC) 
+         + scale(MPFC_ISC) 
+         + Type:scale(NAcc_ISC) 
+         + Type:scale(AIns_ISC)
+         + Type:scale(MPFC_ISC)
+            , data = Aggregate_BothTrailers_df )
+         #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+AggBoth_ISC_Affect_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                        
+         + scale(Pos_arousal_scaled) 
+         + scale(Neg_arousal_scaled)
+         + scale(NAcc_ISC) 
+         + scale(AIns_ISC) 
+         + scale(MPFC_ISC) 
+         + Type:scale(Pos_arousal_scaled) 
+         + Type:scale(Neg_arousal_scaled)
+         + Type:scale(NAcc_ISC) 
+         + Type:scale(AIns_ISC)
+         + Type:scale(MPFC_ISC)
+            , data = Aggregate_BothTrailers_df)
+          #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+AggBoth_ISC_Choice_M1 <- lm(log(Gross_M1_updated) ~ 
+         + Type                        
+         + scale(W_score) 
+         + scale(NAcc_ISC) 
+         + scale(AIns_ISC) 
+         + scale(MPFC_ISC) 
+         + Type:scale(W_score) 
+         + Type:scale(NAcc_ISC) 
+         + Type:scale(AIns_ISC)
+         + Type:scale(MPFC_ISC)
+            , data = Aggregate_BothTrailers_df) 
+         #%>% mutate(Type = factor(Type, levels = c("comedy", "horror"))))
+
+AggBoth_ISC_list = list(
+  #"Affect M1" = AggBoth_Affect_M1, 
+  "Choice M1" = AggBoth_Choice_M1,
+  "ISC" = AggBoth_ISC_M1,
+  #"Affect & ISC" = AggBoth_ISC_Affect_M1,
+  "Choice & ISC" = AggBoth_ISC_Choice_M1)
+
+AggBoth_ISC_models <- modelsummary(AggBoth_ISC_list, stars=TRUE, 
+                               #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                               #statistic = c("({std.error})"),
+                               #statistic = c("({std.error})"),
+                               #estimate  = "{estimate} ({std.error}){stars}",
+                               estimate = c("ß={estimate}; t={statistic}; s.e.={std.error}; p-val={p.value}{stars}"),
+                               statistic = NULL,
+                               output="dataframe",
+                               #output="html",
+                               #output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_ISC.docx",
+                               gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+
+AggBoth_ISC_models
+```
+
+# Making Figures
+# Individual Choice: NAcc Invididual peak and choice rating.
+```{r}
+IndBoth_PNeuro
+plot_model(IndBoth_PNeuro, type = "pred", terms = "NAcc_ind_peaks_pos", show.values = TRUE)
+
+
+```
+
+
+```{r}
+Individual_BothTrailers_rm_nans_df = select(Individual_BothTrailers_df, "Type", "AIns_DP2", "NAcc_ind_peaks_pos", "W_score") %>%
+  na.omit(Individual_BothTrailers_df)
+
+ggplot(Individual_BothTrailers_rm_nans_df, aes(x = (NAcc_ind_peaks_pos), y = (W_score))) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() 
+  #geom_text(aes(label = Trailer), vjust = 2)
+```
+
+
+```{r}
+
+
+ggplot(Individual_BothTrailers_rm_nans_df, aes(x = (NAcc_ind_peaks_pos), y = (W_score),  color=Type)) + #
+  #labs(x="NAcc Modal Peak", y="First Moth Gross (Log)") +
+  geom_point(aes(color=Type,)) +  
+  geom_smooth(method = "lm") +
+  #geom_smooth(method = "lm", fill="gray", colour="black") +
+  #scale_color_manual(name="Genre", labels=c('Horror', 'Comedy'), values = c("comedy" = "blue", "horror" = "red")) +
+  stat_cor() 
+  #geom_text(aes(label = Trailer, color=Type), vjust = 2, show_guide  = FALSE) 
+```
+
+
+# Aggregate Choice: NAcc Modal peak & First Month Box Office
+```{r}
+NAcc_MP_Both_Agg_fig <- ggplot(Aggregate_BothTrailers_df, aes(x = (NAcc_DP2), y = log(Gross_M1_updated))) +
+  labs(x="NAcc Modal Peak", y="First Moth Gross (Log)") +
+  geom_point(aes(color=Type,)) +  
+  geom_smooth(method = "lm", fill="gray", colour="black") +
+  scale_color_manual(name="Genre", labels=c('Horror', 'Comedy'), values = c("comedy" = "blue", "horror" = "red")) +
+  stat_cor() +
+  geom_text(aes(label = Trailer, color=Type), vjust = 2, show_guide=FALSE) 
+  #theme(legend.position="none")
+
+
+NAcc_MP_Both_Agg_fig + theme(legend.position="none")
+
+```
+# Aggregate Choice: NAcc Modal peak & First Month Box Office By Genre
+```{r}
+Aggregate_ComedyTrailers_df <- filter(Aggregate_BothTrailers_df, Type=="comedy")
+
+NAcc_MP_BothSep_Agg_fig <- ggplot(Aggregate_BothTrailers_df, aes(x = (NAcc_DP2), y = log(Gross_M1_updated), color=Type)) +
+  labs(x="NAcc Modal Peak", y="First Moth Gross (Log)") +
+  geom_point(aes(color=Type),) +  
+  geom_smooth(aes(group=Type), method="lm", color="black") +
+  scale_color_manual(name="Genre", labels=c('Horror', 'Comedy'), values=c("comedy"="blue", "horror"= "red")) +
+  stat_cor(show.legend=FALSE) +
+  geom_text(aes(label = Trailer, color=Type), vjust = 2, show_guide=FALSE) 
+  #theme_cowplot(12)
+NAcc_MP_BothSep_Agg_fig
+
+# Get scaled of figure. 
+#layer_scales(NAcc_MP_BothSep_Agg_fig)$y$range$range
+
+```
+
+```{r}
+
+# Define the individual plots
+plot1 <- ggplot(Aggregate_BothTrailers_df, aes(x = NAcc_DP2, y = log(Gross_M1_updated))) +
+  labs(x = "NAcc Modal Peak", y = "First Month Gross (Log)") +
+  geom_point(aes(color = Type)) +  
+  geom_smooth(method = "lm", fill = "gray", colour = "black") +
+  scale_color_manual(name = "Genre", labels = c('Horror', 'Comedy'), values = c("comedy" = "blue", "horror" = "red")) +
+  stat_cor() +
+  geom_text(aes(label = Trailer, color = Type), vjust = 2, show.legend = FALSE) +
+  ylim(15.09155, 19.255) +
+  theme(legend.position = "none")
+
+plot2 <- ggplot(Aggregate_BothTrailers_df, aes(x = NAcc_DP2, y = log(Gross_M1_updated), color = Type)) +
+  labs(x = "NAcc Modal Peak", y = "First Month Gross (Log)") +
+  geom_point(aes(color = Type)) +  
+  geom_smooth(aes(group = Type), method = "lm", color = "black") +
+  scale_color_manual(name = "Genre", labels = c('Horror', 'Comedy'), values = c("comedy" = "blue", "horror" = "red")) +
+  stat_cor(show.legend = FALSE) +
+  geom_text(aes(label = Trailer, color = Type), vjust = 2, show.legend = FALSE) + 
+  ylim(15.09155, 19.255) +
+  ylab(NULL)  
+
+# Combine the plots
+prow <- ggarrange(
+  plot1,
+  plot2,
+  labels = c("A", "B"),
+  nrow = 1,
+  align = 'v',
+  legend="right",
+  common.legend=TRUE,
+  widths = 1,
+  heights = 1
+)
+
+print(prow)
+ggsave(
+  "NAcc_ModalPeal_Aggregate.png",
+  plot = prow,
+  scale = 1,
+  width = 9,
+  height = 4.5)
+
+```
+```{r}
+prow <- plot_grid(
+  ggplot(Aggregate_BothTrailers_df, aes(x = NAcc_DP2, y = log(Gross_M1_updated))) +
+    labs(x="NAcc Modal Peak", y="First Month Gross (Log)") +
+    geom_point(aes(color=Type)) +  
+    geom_smooth(method = "lm", fill="gray", colour="black") +
+    scale_color_manual(name="Genre", labels=c('Horror', 'Comedy'), values=c("comedy" = "blue", "horror" = "red")) +
+    stat_cor() +
+    geom_text(aes(label = Trailer, color=Type), vjust = 2, show.legend=FALSE) +
+    theme(legend.position="none"),
+  
+  ggplot(Aggregate_BothTrailers_df, aes(x = NAcc_DP2, y = log(Gross_M1_updated), color=Type)) +
+    labs(x="NAcc Modal Peak", y="First Month Gross (Log)") +
+    geom_point(aes(color=Type)) +  
+    geom_smooth(aes(group=Type), method="lm", color="black") +
+    scale_color_manual(name="Genre", labels=c('Horror', 'Comedy'), values=c("comedy"="blue", "horror"="red")) +
+    stat_cor(show.legend=FALSE) +
+    geom_text(aes(label = Trailer, color=Type), vjust = 2, show.legend=FALSE) + 
+    ylab(NULL) + 
+    theme(legend.position="none"),
+  
+  align = 'vh',
+  labels = c("A", "B"),
+  hjust = -1,
+  nrow = 1
+)
+
+print(prow)
+```
+
+
+
+
+# Make Task and ROIs figures.
+```{r,  echo=FALSE}
+
+
+NAcc_mask_fig <- ggdraw() +
+  draw_image("Figures/Thesis/NAccMask_Fig.png", scale = 1) 
+  
+
+AIns_mask_fig <- ggdraw() +
+  draw_image("Figures/Thesis/AInsMask_Fig.png", scale = 1)
+
+MPFC_mask_fig <- ggdraw() +
+  draw_image("Figures/Thesis/MPFCMask_Fig.png", scale = 1)
+
+Task_fig <- ggdraw() +
+  draw_image("Figures/Thesis/MovieTrask_fig.png", scale = 1)
+
+#ggarrange(Task_fig, NAcc_mask_fig, AIns_mask_fig, MPFC_mask_fig,
+#          labels = c("A", "B", "C", "D"),
+#          ncol = 3, nrow = 2)
+
+Task_ROI_fig <- ggarrange(ggarrange(Task_fig, ncol = 1, labels = c("A")) , 
+          ggarrange(NAcc_mask_fig, AIns_mask_fig, MPFC_mask_fig,
+          labels = c("B", "C", "D"), ncol = 3),
+          labels = c("", ""), 
+          nrow = 2) + bgcolor("white") 
+         
+
+
+ggsave(
+  "Task_ROI_fig.png",
+  plot = Task_ROI_fig,
+  scale = 1,
+  width = 9,
+  height = 4.5)
+    
+Task_ROI_fig
+```
+
+
+
+
+
+
