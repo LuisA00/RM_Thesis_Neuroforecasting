@@ -32,6 +32,7 @@ library(cowplot)
 library(sjPlot)
 library(patchwork)
 library(magick)
+library(ppcor)
 ```
 
 
@@ -44,6 +45,27 @@ Aggregate_BothTrailers_df <- read.csv('/Users/la/Documents/GitHub/RM_Thesis_Neur
 ```
 
 # Invididual Choice.
+
+## Preference per genre.
+```{r}
+
+Ind_Genre_preference <- Individual_BothTrailers_df %>% group_by(Type) %>% 
+  summarise(Mean_W=mean(W_score), SD_W=sd(W_score), 
+            Mean_W_scaled=mean(W_score_scaled), SD_W_score_scaled=sd(W_score_scaled))
+
+Ind_Comedy_df <- filter(Individual_BothTrailers_df, Type=="Comedy")
+Ind_Horror_df <- filter(Individual_BothTrailers_df, Type=="Horror")
+
+# Perform the paired sample t-test ->. Can't do, samples are unequal.
+#t_test_result <- t.test(Ind_Comedy_df$W_score, Ind_Horror_df$W_score,, paired = TRUE)
+genre_model <- lmer(W_score ~ Type + (1 | Participant), data = Individual_BothTrailers_df)
+
+Ind_Genre_preference
+summary(genre_model)
+print(contrasts(Individual_BothTrailers_df$Type))
+```
+
+
 ## IndBoth: Fixed time series models.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
@@ -105,7 +127,7 @@ IndBoth_Seq_models <- modelsummary(IndBoth_Seq_list, stars=TRUE,
                            #output = "html",
                            #output="Thesis_LMM_Outputs/Thesis_FMRIP_Ind_FixedTimeSeries.docx", 
                            output = "dataframe",
-                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% dplyr::select(-part, -statistic)
 
 
 print(contrasts(Individual_BothTrailers_df$Type))
@@ -170,7 +192,7 @@ IndBoth_MP_models <- modelsummary(IndBoth_MP_list, stars=TRUE,
                            #output = "html",
                            output = "dataframe",
                            #output="Thesis_LMM_Outputs/Thesis_FMRIP_Ind_ModalPeak.docx", 
-                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% dplyr::select(-part, -statistic)
 
 print(contrasts(Individual_BothTrailers_df$Type))
 IndBoth_MP_models
@@ -181,13 +203,9 @@ IndBoth_MP_models
 
 Individual_BothTrailers_Horror_df <- filter(Individual_BothTrailers_df, Type=="Horror")
 
-ggpairs(Individual_BothTrailers_df[, c("Type", "W_score", "Pos_arousal_scaled", "Neg_arousal_scaled", "A_score", "F_score", "AIns_DP1", "AIns_DP2")], columns = 2:ncol(Individual_BothTrailers_df[, c("Type", "W_score", "Pos_arousal_scaled", "Neg_arousal_scaled", "A_score", "F_score", "AIns_DP1", "AIns_DP2")]), 
+ggpairs(Individual_BothTrailers_df[, c("Type", "W_score", "Pos_arousal_scaled", "Neg_arousal_scaled", "A_score", "F_score", "AIns_DP1", "AIns_DP2", "NAcc_DP2", "MPFC_DP2")], columns = 2:ncol(Individual_BothTrailers_df[, c("Type", "W_score", "Pos_arousal_scaled", "Neg_arousal_scaled", "A_score", "F_score", "AIns_DP1", "AIns_DP2", "NAcc_DP2", "MPFC_DP2")]), 
         aes(color = Type)) 
 
-#ggplot(Individual_BothTrailers_Horror_df, aes(x = (AIns_DP2), y = (W_score), color=H_preference)) +
-#  geom_point() +
-#  geom_smooth(method = "lm") +
-#  stat_cor() 
 
 ```
 
@@ -199,10 +217,10 @@ IndBoth_PNeuro <- lmer(scale(W_score) ~
                         Type +   
                         scale(NAcc_ind_peaks_pos) +
                         scale(AIns_ind_peaks_pos) +
-                        scale(MPFC_ind_peaks_pos) +
+                        #scale(MPFC_ind_peaks_pos) +
                         Type:scale(NAcc_ind_peaks_pos) + 
                         Type:scale(AIns_ind_peaks_pos) + 
-                        Type:scale(MPFC_ind_peaks_pos) +
+                        #Type:scale(MPFC_ind_peaks_pos) +
                         (1|Participant) + (1|Trailer), 
                         data = Individual_BothTrailers_df) 
 
@@ -213,12 +231,12 @@ IndBoth_Affect_and_PNeuro <- lmer(scale(W_score) ~
                         scale(Neg_arousal_scaled) + 
                         scale(NAcc_ind_peaks_pos) +
                         scale(AIns_ind_peaks_pos) +
-                        scale(MPFC_ind_peaks_pos) +
+                        #scale(MPFC_ind_peaks_pos) +
                         Type:scale(Pos_arousal_scaled) +
                         Type:scale(Neg_arousal_scaled) +
                         Type:scale(NAcc_ind_peaks_pos) + 
                         Type:scale(AIns_ind_peaks_pos) + 
-                        Type:scale(MPFC_ind_peaks_pos) +
+                        #Type:scale(MPFC_ind_peaks_pos) +
                         (1|Participant) + (1|Trailer), 
                         data = Individual_BothTrailers_df)
 
@@ -237,14 +255,14 @@ IndBoth_P_models <- modelsummary(IndBoth_P_list, stars=TRUE,
                            #output = "html",
                            output = "dataframe",
                            #output="Thesis_LMM_Outputs/Thesis_FMRIP_Ind_IndPeak.docx", 
-                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% dplyr::select(-part, -statistic)
 
 print(contrasts(Individual_BothTrailers_df$Type))
 IndBoth_P_models
 ```
 
 ```{r}
-ggpairs(Individual_BothTrailers_df[, c("Type", "W_score", "NAcc_ind_peaks_pos", "AIns_ind_peaks_pos", "MPFC_ind_peaks_pos")], columns = 2:ncol(Individual_BothTrailers_df[, c("Type", "W_score", "AIns_ind_peaks_pos", "MPFC_ind_peaks_pos")]), aes(color = Type)) 
+ggpairs(Individual_BothTrailers_df[, c("Type", "W_score", "NAcc_ind_peaks_pos", "AIns_ind_peaks_pos", "MPFC_ind_peaks_pos")], columns = 2:ncol(Individual_BothTrailers_df[, c("Type", "W_score", "NAcc_ind_peaks_pos", "AIns_ind_peaks_pos", "MPFC_ind_peaks_pos")]), aes(color = Type)) 
 
 
 ```
@@ -295,7 +313,7 @@ IndBoth_GLMw_models <- modelsummary(IndBoth_GLMw_list, stars=TRUE,
                            #output = "html",
                            output = "dataframe",
                            #output="Thesis_LMM_Outputs/Thesis_FMRIP_Ind_GLM_whole.docx", 
-                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% dplyr::select(-part, -statistic)
 
 print(contrasts(Individual_BothTrailers_df$Type))
 IndBoth_GLMw_models
@@ -346,7 +364,7 @@ IndBoth_GLMo_models <- modelsummary(IndBoth_GLMo_list, stars=TRUE,
                            #output = "html",
                            output = "dataframe",
                            #output="Thesis_LMM_Outputs/Thesis_FMRIP_Ind_GLM_onset.docx", 
-                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% dplyr::select(-part, -statistic)
 
 print(contrasts(Individual_BothTrailers_df$Type))
 IndBoth_GLMo_models
@@ -380,7 +398,7 @@ IndBoth_Affect_and_ISC <- (scale(W_score) ~
                         Type:scale(AIns_ISC) + 
                         Type:scale(MPFC_ISC) +
                         (1|Participant) + (1|Trailer), 
-                        data = Individual_BothTrailers_df)
+                        data = Individual_BothTrailers_df) 
 
 # Create list with all models.
 IndBoth_ISC_list <- list(
@@ -397,7 +415,7 @@ IndBoth_ISC_models <- modelsummary(IndBoth_ISC_list, stars=TRUE,
                            #output = "html",
                            #output = "dataframe",
                            output="Thesis_LMM_Outputs/Thesis_FMRIP_Ind_ISC.docx",
-                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") #%>% select(-part, -statistic)
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% dplyr::select(-part, -statistic)
 
 print(contrasts(Individual_BothTrailers_df$Type))
 IndBoth_ISC_models
@@ -490,7 +508,7 @@ AggBoth_Seq_models <- modelsummary(AggBoth_Seq_list, stars=TRUE,
                                output="dataframe",
                                #output="html",
                                #output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_FixedTimeSeries.docx",
-                               gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+                               gof_omit = "F|RMSE|Log") %>% dplyr::select(-part, -statistic)
 
 print(contrasts(Aggregate_BothTrailers_df$Type))
 AggBoth_Seq_models
@@ -566,7 +584,7 @@ AggBoth_IP_models <- modelsummary(AggBoth_IP_list, stars=TRUE,
                                output="dataframe",
                                #output="html",
                                #output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_IndPeak.docx",
-                               gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+                               gof_omit = "F|RMSE|Log") %>% dplyr::select(-part, -statistic)
 
 print(contrasts(Aggregate_BothTrailers_df$Type))
 AggBoth_IP_models
@@ -650,7 +668,7 @@ AggBoth_MP_models <- modelsummary(AggBoth_MP_list, stars=TRUE,
                                output="dataframe",
                                #output="html",
                                #output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_ModalPeak.docx",
-                               gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+                               gof_omit = "F|RMSE|Log") %>% dplyr::select(-part, -statistic)
 
 print(contrasts(Aggregate_BothTrailers_df$Type))
 AggBoth_MP_models
@@ -711,10 +729,10 @@ AggBoth_GLMw_models <- modelsummary(AggBoth_GLMw_list, stars=TRUE,
                                #statistic = c("({std.error})"),
                                estimate  = "{estimate} ({std.error}) {stars}",
                                statistic = NULL,
-                               #output="dataframe",
+                               output="dataframe",
                                #output="html",
-                               output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_GLM_whole.docx",
-                               gof_omit = "F|RMSE|Log") #%>% select(-part, -statistic)
+                               #output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_GLM_whole.docx",
+                               gof_omit = "F|RMSE|Log") #%>% dplyr::select(-part, -statistic)
 
 
 ```
@@ -776,8 +794,8 @@ AggBoth_GLMo_models <- modelsummary(AggBoth_GLMo_list, stars=TRUE,
                                statistic = NULL,
                                #output="dataframe",
                                #output="html",
-                               output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_GLM_onset.docx",
-                               gof_omit = "F|RMSE|Log") #%>% select(-part, -statistic)
+                               #output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_GLM_onset.docx",
+                               gof_omit = "F|RMSE|Log") %>% dplyr::select(-part, -statistic)
 
 
 ```
@@ -841,44 +859,250 @@ AggBoth_ISC_models <- modelsummary(AggBoth_ISC_list, stars=TRUE,
                                output="dataframe",
                                #output="html",
                                #output="Thesis_LMM_Outputs/Thesis_FMRIP_Agg_ISC.docx",
-                               gof_omit = "F|RMSE|Log") %>% select(-part, -statistic)
+                               gof_omit = "F|RMSE|Log") %>% dplyr::select(-part, -statistic)
 
 AggBoth_ISC_models
 ```
 
 # Making Figures
-# Individual Choice: NAcc Invididual peak and choice rating.
-```{r}
-IndBoth_PNeuro
-plot_model(IndBoth_PNeuro, type = "pred", terms = "NAcc_ind_peaks_pos", show.values = TRUE)
 
-
-```
-
-
-```{r}
-Individual_BothTrailers_rm_nans_df = select(Individual_BothTrailers_df, "Type", "AIns_DP2", "NAcc_ind_peaks_pos", "W_score") %>%
-  na.omit(Individual_BothTrailers_df)
-
-ggplot(Individual_BothTrailers_rm_nans_df, aes(x = (NAcc_ind_peaks_pos), y = (W_score))) +
-  geom_point() +
-  geom_smooth(method = "lm") +
-  stat_cor() 
-  #geom_text(aes(label = Trailer), vjust = 2)
-```
-
-
+# Individual Choice: Affective ratings and choice ratings.
 ```{r}
 
+Individual_BothTrailers_df
 
-ggplot(Individual_BothTrailers_rm_nans_df, aes(x = (NAcc_ind_peaks_pos), y = (W_score),  color=Type)) + #
-  #labs(x="NAcc Modal Peak", y="First Moth Gross (Log)") +
+PA_W_Both_Ind_fig <- ggplot(filter(Individual_BothTrailers_df, Type=="Comedy" | Type=="Horror")
+                            , aes(x = (Pos_arousal_scaled), y = (W_score))) +
+  labs(x="Positive Arousal", y="Watch Choice") +
   geom_point(aes(color=Type,)) +  
-  geom_smooth(method = "lm") +
-  #geom_smooth(method = "lm", fill="gray", colour="black") +
-  #scale_color_manual(name="Genre", labels=c('Horror', 'Comedy'), values = c("comedy" = "blue", "horror" = "red")) +
+  geom_smooth(method = "lm", fill="gray", colour="black") +
+  scale_color_manual(name="Genre", labels=c('Comedy', 'Horror'), values = c("Comedy" = "blue", "Horror" = "red")) +
+  stat_cor() +
+  ylim(1, 4)
+
+  #geom_text(aes(label = Trailer, color=Type), vjust = 2, show_guide=FALSE) 
+  #theme(legend.position="none")
+
+NA_W_Both_Ind_fig <- ggplot(filter(Individual_BothTrailers_df, Type=="Comedy" | Type=="Horror")
+                            , aes(x = (Neg_arousal_scaled), y = (W_score))) +
+  labs(x="Negative Arousal", y="Watch Choice") +
+  geom_point(aes(color=Type,)) +  
+  geom_smooth(method = "lm", fill="gray", colour="black") +
+  scale_color_manual(name="Genre", labels=c('Comedy', 'Horror'), values = c("Comedy" = "blue", "Horror" = "red")) +
+  stat_cor() +
+  ylim(1, 4)
+
+PA_W_Separate_Ind_fig <- ggplot(filter(Individual_BothTrailers_df, Type=="Comedy" | Type=="Horror")
+                            , aes(x = (Pos_arousal_scaled), y = (W_score), color=Type)) +
+  labs(x="Positive Arousal", y="Watch Choice") +
+  geom_point(aes(color=Type,)) +  
+  geom_smooth(aes(group=Type), method = "lm", fill="gray", colour="black") +
+  scale_color_manual(name="Genre", labels=c('Comedy', 'Horror'), values = c("Comedy" = "blue", "Horror" = "red")) +
+  stat_cor(show.legend = FALSE) +
+  ylim(1, 4)
+
+NA_W_Separate_Ind_fig <- ggplot(filter(Individual_BothTrailers_df, Type=="Comedy" | Type=="Horror")
+                            , aes(x = (Neg_arousal_scaled), y = (W_score), color=Type)) +
+  labs(x="Negative Arousal", y="Watch Choice") +
+  geom_point(aes(color=Type,)) +  
+  geom_smooth(aes(group=Type), method = "lm", fill="gray", colour="black") +
+  scale_color_manual(name="Genre", labels=c('Comedy', 'Horror'), values = c("Comedy" = "blue", "Horror" = "red")) +
+  stat_cor(show.legend = FALSE) +
+  ylim(1, 4)
+
+# Arrange and save PA_W and NA_W Both.
+AffectiveRatings_WScore_Ind_fig <- ggarrange(
+  PA_W_Both_Ind_fig,
+  NA_W_Both_Ind_fig+ylab(NULL),
+  labels = c("A", "B"),
+  nrow = 1,
+  align = 'v',
+  legend="right",
+  common.legend=TRUE,
+  widths = 1,
+  heights = 1
+)
+
+ggsave(
+  "AffectiveRatings_WScore_Ind_fig.png",
+  plot = AffectiveRatings_WScore_Ind_fig,
+  scale = 1,
+  width = 9,
+  height = 4.5)
+
+AffectiveRatings_WScore_Ind_fig
+```
+
+# Individual Choice: Compute partial correlations for NAcc peak (NAcc_IP).
+```{r}
+# Select specified cols specified cols.
+# Decide whether of not to remove peaks with values less than zero.
+Individual_ComedyTrailers_rm_nans_df <- dplyr::select(Individual_BothTrailers_df, NAcc_ind_peaks_pos, AIns_ind_peaks_pos, MPFC_ind_peaks_pos, W_score, Type, Participant, Trailer) %>%
+  filter(Type=="Comedy", W_score >0, NAcc_ind_peaks_pos>0, AIns_ind_peaks_pos>0, MPFC_ind_peaks_pos>0)
+
+Individual_HorrorTrailers_rm_nans_df <- dplyr::select(Individual_BothTrailers_df, NAcc_ind_peaks_pos, AIns_ind_peaks_pos, MPFC_ind_peaks_pos, W_score, Type, Participant, Trailer) %>%
+  filter(Type=="Horror", W_score >0, NAcc_ind_peaks_pos>0, AIns_ind_peaks_pos>0, MPFC_ind_peaks_pos>0)
+
+
+# Remove nan's from dataframes.  
+Individual_ComedyTrailers_rm_nans_df <- na.omit(Individual_ComedyTrailers_rm_nans_df)
+Individual_HorrorTrailers_rm_nans_df <- na.omit(Individual_HorrorTrailers_rm_nans_df)
+
+#Individual_ComedyTrailers_rm_nans_df <- filter(Individual_BothTrailers_df, Type=="Comedy")
+#Individual_HorrorTrailers_rm_nans_df <- filter(Individual_BothTrailers_df, Type=="Horror")
+
+# Obtain residuals for Comedy df.
+NAcc_Comedy_residuals <- residuals(lmer(NAcc_ind_peaks_pos ~ 
+                        (1|Participant) + (1|Trailer), , 
+                      data = Individual_ComedyTrailers_rm_nans_df) )
+
+AIns_Comedy_residuals <- residuals(lmer(AIns_ind_peaks_pos ~ 
+
+                        (1|Participant) + (1|Trailer), , 
+                      data = Individual_ComedyTrailers_rm_nans_df) )
+
+W_Comedy_residuals <- residuals(lmer(W_score ~ 
+                        (1|Participant) + (1|Trailer), , 
+                      data = Individual_ComedyTrailers_rm_nans_df) )
+
+#Obtains residuals from Horror df. 
+NAcc_Horror_residuals <- residuals(lmer(NAcc_ind_peaks_pos ~ 
+                        (1|Participant) + (1|Trailer), , 
+                      data = Individual_HorrorTrailers_rm_nans_df) )
+
+AIns_Horror_residuals <- residuals(lmer(AIns_ind_peaks_pos ~ 
+
+                        (1|Participant) + (1|Trailer), , 
+                      data = Individual_HorrorTrailers_rm_nans_df) )
+
+W_Horror_residuals <- residuals(lmer(W_score ~ 
+                        (1|Participant) + (1|Trailer), #(1|Participant) + (1|Trailer), 
+                      data = Individual_HorrorTrailers_rm_nans_df) )
+
+
+# Create a data frame with residuals
+Comedy_residuals_data <- data.frame("NAcc_residuals"=NAcc_Comedy_residuals, 
+                                    "W_residuals"=W_Comedy_residuals)
+Comedy_residuals_data$Type = "Comedy"
+Horror_residuals_data <- data.frame("NAcc_residuals"=NAcc_Horror_residuals, 
+                                    "W_residuals"=W_Horror_residuals)
+Horror_residuals_data$Type = "Horror"
+
+# Merge dataframes. 
+Both_residuals_data <- rbind(Comedy_residuals_data, Horror_residuals_data)
+
+# Plot partial correlation using ggplot2
+Ind_BothT_NAccIP_WScore_PartialCor_fig <- ggplot(Both_residuals_data, aes(x = NAcc_residuals, y = W_residuals)) +
+  geom_point(aes(color=Type)) +
+  geom_smooth( method = "lm", fill="gray", colour="black") +
+  scale_color_manual(name="Genre", labels=c('Comedy', 'Horror'), values = c("Comedy" = "blue", "Horror" = "red")) +
+  xlab("NAcc_IP ~ (1|Participant) + (1|Trailer)") +
+  ylab("W_score ~ (1|Participant) + (1|Trailer)") +
   stat_cor() 
-  #geom_text(aes(label = Trailer, color=Type), vjust = 2, show_guide  = FALSE) 
+
+Ind_SepT_NAccIP_WScore_PartialCor_fig <- ggplot(Both_residuals_data, aes(x = NAcc_residuals, y = W_residuals, color=Type)) +
+  xlab("NAcc_IP ~ (1|Participant) + (1|Trailer)") +
+  ylab("W_score ~ (1|Participant) + (1|Trailer)") +
+  geom_point(aes(color=Type)) +
+  geom_smooth(aes(group=Type), method="lm", color="black") + #+
+  stat_cor(show.legend=FALSE) +
+  scale_color_manual(name="Genre", labels=c('Comedy', 'Horror'), values = c("Comedy" = "blue", "Horror" = "red")) 
+
+# Arrange and save plots.
+NAccIP_WScore_fig <- ggarrange(
+  Ind_BothT_NAccIP_WScore_PartialCor_fig,
+  Ind_SepT_NAccIP_WScore_PartialCor_fig+ylab(NULL),
+  labels = c("A", "B"),
+  nrow = 1,
+  align = 'v',
+  legend="right",
+  common.legend=TRUE,
+  widths = 1,
+  heights = 1
+)
+
+ggsave(
+  "NAccIP_WScore_Ind_fig.png",
+  plot = NAccIP_WScore_fig,
+  scale = 1,
+  width = 9,
+  height = 4.5)
+
+NAccIP_WScore_fig
+```
+
+# Individual Choice: Compute partial correlations for AIns modal peak (AIns_MP).
+```{r}
+Individual_ComedyTrailers_df <- filter(Individual_BothTrailers_df, Type=="Comedy", W_score >0, !is.na(AIns_DP2))
+Individual_HorrorTrailers_df <- filter(Individual_BothTrailers_df, Type=="Horror", W_score >0, !is.na(AIns_DP2))
+
+# Obtain AIns Comedy residuals.
+AInsMP_Comedy_residuals <- residuals(lmer(AIns_DP2 ~ 
+                        (1|Participant) + (1|Trailer), , 
+                      data = Individual_ComedyTrailers_df) )
+
+W_Comedy_residuals <- residuals(lmer(W_score ~ 
+                        (1|Participant) + (1|Trailer), , 
+                      data = Individual_ComedyTrailers_df) )
+
+# Obtain AIns Horror residuals. 
+AInsMP_Horror_residuals <- residuals(lmer(AIns_DP2 ~ 
+                        (1|Participant) + (1|Trailer), , 
+                      data = Individual_HorrorTrailers_df) )
+
+W_Horror_residuals <- residuals(lmer(W_score ~ 
+                        (1|Participant) + (1|Trailer), , 
+                      data = Individual_HorrorTrailers_df) )
+
+# Create a data frame with residuals
+Comedy_residuals_data <- data.frame("AInsMP_residuals"=AInsMP_Comedy_residuals, 
+                                    "W_residuals"=W_Comedy_residuals)
+Comedy_residuals_data$Type = "Comedy"
+Horror_residuals_data <- data.frame("AInsMP_residuals"=AInsMP_Horror_residuals, 
+                                    "W_residuals"=W_Horror_residuals)
+Horror_residuals_data$Type = "Horror"
+
+# Merge dataframes. 
+Both_residuals_AInsMP_data <- rbind(Comedy_residuals_data, Horror_residuals_data)
+
+# Plot partial correlation using ggplot2
+Ind_BothT_AInsMP_WScore_PartialCor_fig <- ggplot(Both_residuals_AInsMP_data, aes(x = AInsMP_residuals, y = W_residuals)) +
+  geom_point(aes(color=Type)) +
+  geom_smooth( method = "lm", fill="gray", colour="black") +
+  scale_color_manual(name="Genre", labels=c('Comedy', 'Horror'), values = c("Comedy" = "blue", "Horror" = "red")) +
+  xlab("AIns MP ~ (1|Participant) + (1|Trailer)") +
+  ylab("W_score ~ (1|Participant) + (1|Trailer)") +
+  stat_cor() 
+
+Ind_SepT_AInsMP_WScore_PartialCor_fig <- ggplot(Both_residuals_AInsMP_data, aes(x=AInsMP_residuals, y = W_residuals, color=Type)) +
+  xlab("AIns MP ~ (1|Participant) + (1|Trailer)") +
+  ylab("W_score ~ (1|Participant) + (1|Trailer)") +
+  geom_point(aes(color=Type)) +
+  geom_smooth(aes(group=Type), method="lm", color="black") + #+
+  stat_cor(show.legend=FALSE) +
+  scale_color_manual(name="Genre", labels=c('Comedy', 'Horror'), values = c("Comedy" = "blue", "Horror" = "red")) 
+
+# Arrange and save plots.
+AIndMP_WScore_fig <- ggarrange(
+  Ind_BothT_AInsMP_WScore_PartialCor_fig,
+  Ind_SepT_AInsMP_WScore_PartialCor_fig+ylab(NULL),
+  labels = c("A", "B"),
+  nrow = 1,
+  align = 'v',
+  legend="right",
+  common.legend=TRUE,
+  widths = 1,
+  heights = 1
+)
+
+ggsave(
+  "AInsMP_WScore_Ind_fig.png",
+  plot = AIndMP_WScore_fig,
+  scale = 1,
+  width = 9,
+  height = 4.5)
+
+AIndMP_WScore_fig
 ```
 
 

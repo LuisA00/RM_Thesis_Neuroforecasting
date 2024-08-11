@@ -14,12 +14,13 @@ library(ggpubr)
 library(GGally)
 library(car)
 library(tidyverse)
+library(lme4)
 #library(lme4)
 #library(lmerTest)
 #library("MuMIn")
 #library(lmtest)
 #library(boot)
-#library(modelsummary)
+library(modelsummary)
 #library(pandoc)
 #library(tinytable)
 #library(cowplot)
@@ -385,7 +386,7 @@ for (sub_id in participant_list)
     # Get current sub dataframe.
     current_sub_df <- filter(all_participants_wide, Participant == sub_id)
     
-    # Create empty vectors.
+    # Create empty vectors for modal peak.
     NAcc_DP <- c()
     AIns_DP <- c()
     Amyg_DP <- c()
@@ -405,6 +406,27 @@ for (sub_id in participant_list)
     AIns_DP3 <- c()
     Amyg_DP3 <- c()
     MPFC_DP3 <- c()
+    
+    # Create empty vectors for individual peak.
+    NAcc_IP <- c()
+    AIns_IP <- c()
+    Amyg_IP <- c()
+    MPFC_IP <- c()
+    
+    NAcc_IP1 <- c()
+    AIns_IP1 <- c()
+    Amyg_IP1 <- c()
+    MPFC_IP1 <- c()
+    
+    NAcc_IP2 <- c()
+    AIns_IP2 <- c()
+    Amyg_IP2 <- c()
+    MPFC_IP2 <- c()
+    
+    NAcc_IP3 <- c()
+    AIns_IP3 <- c()
+    Amyg_IP3 <- c()
+    MPFC_IP3 <- c()
       
     # Iterate through each trailer, for the current participant, obtain the TR position for the peak1 and peak2. 
     for (trailer_id in trailer_list)  
@@ -467,8 +489,33 @@ for (sub_id in participant_list)
       Current_Amyg_DP3 <- get_MP(Amyg_timeseries, current_Amyg_DP_id, 3)
       Current_MPFC_DP3 <- get_MP(MPFC_timeseries, current_MPFC_DP_id, 3)
       
+      # Calculate individual peaks.
+      current_NAcc_IP_id <- which.max(NAcc_timeseries)
+      current_AIns_IP_id <- which.max(AIns_timeseries)
+      current_Amyg_IP_id <- which.max(Amyg_timeseries)
+      current_MPFC_IP_id <- which.max(MPFC_timeseries)
       
-      # Append peaks ids to vector.
+      Current_NAcc_IP <- get_MP(NAcc_timeseries, current_NAcc_IP_id, 0)
+      Current_AIns_IP <- get_MP(AIns_timeseries, current_AIns_IP_id, 0)
+      Current_Amyg_IP <- get_MP(Amyg_timeseries, current_Amyg_IP_id, 0)
+      Current_MPFC_IP <- get_MP(MPFC_timeseries, current_MPFC_IP_id, 0)
+      
+      Current_NAcc_IP1 <- get_MP(NAcc_timeseries, current_NAcc_IP_id, 1)
+      Current_AIns_IP1 <- get_MP(AIns_timeseries, current_AIns_IP_id, 1)
+      Current_Amyg_IP1 <- get_MP(Amyg_timeseries, current_Amyg_IP_id, 1)
+      Current_MPFC_IP1 <- get_MP(MPFC_timeseries, current_MPFC_IP_id, 1)
+      
+      Current_NAcc_IP2 <- get_MP(NAcc_timeseries, current_NAcc_IP_id, 2)
+      Current_AIns_IP2 <- get_MP(AIns_timeseries, current_AIns_IP_id, 2)
+      Current_Amyg_IP2 <- get_MP(Amyg_timeseries, current_Amyg_IP_id, 2)
+      Current_MPFC_IP2 <- get_MP(MPFC_timeseries, current_MPFC_IP_id, 2)
+      
+      Current_NAcc_IP3 <- get_MP(NAcc_timeseries, current_NAcc_IP_id, 3)
+      Current_AIns_IP3 <- get_MP(AIns_timeseries, current_AIns_IP_id, 3)
+      Current_Amyg_IP3 <- get_MP(Amyg_timeseries, current_Amyg_IP_id, 3)
+      Current_MPFC_IP3 <- get_MP(MPFC_timeseries, current_MPFC_IP_id, 3)
+      
+      # Append modal peaks to vector.
       NAcc_DP[[length(NAcc_DP)+1]] = Current_NAcc_DP[1]
       AIns_DP[[length(AIns_DP)+1]] = Current_AIns_DP[1]
       Amyg_DP[[length(Amyg_DP)+1]] = Current_Amyg_DP[1]
@@ -488,7 +535,28 @@ for (sub_id in participant_list)
       AIns_DP3[[length(AIns_DP3)+1]] = Current_AIns_DP3[1]
       Amyg_DP3[[length(Amyg_DP3)+1]] = Current_Amyg_DP3[1]
       MPFC_DP3[[length(MPFC_DP3)+1]] = Current_MPFC_DP3[1]
+      
+      # Append individual peaks to vector.
+      NAcc_IP[[length(NAcc_IP)+1]] = Current_NAcc_IP[1]
+      AIns_IP[[length(AIns_IP)+1]] = Current_AIns_IP[1]
+      Amyg_IP[[length(Amyg_IP)+1]] = Current_Amyg_IP[1]
+      MPFC_IP[[length(MPFC_IP)+1]] = Current_MPFC_IP[1]
 
+      NAcc_IP1[[length(NAcc_IP1)+1]] = Current_NAcc_IP1[1]
+      AIns_IP1[[length(AIns_IP1)+1]] = Current_AIns_IP1[1]
+      Amyg_IP1[[length(Amyg_IP1)+1]] = Current_Amyg_IP1[1]
+      MPFC_IP1[[length(MPFC_IP1)+1]] = Current_MPFC_IP1[1]
+      
+      NAcc_IP2[[length(NAcc_IP2)+1]] = Current_NAcc_IP2[1]
+      AIns_IP2[[length(AIns_IP2)+1]] = Current_AIns_IP2[1]
+      Amyg_IP2[[length(Amyg_IP2)+1]] = Current_Amyg_IP2[1]
+      MPFC_IP2[[length(MPFC_IP2)+1]] = Current_MPFC_IP2[1]
+      
+      NAcc_IP3[[length(NAcc_IP3)+1]] = Current_NAcc_IP3[1]
+      AIns_IP3[[length(AIns_IP3)+1]] = Current_AIns_IP3[1]
+      Amyg_IP3[[length(Amyg_IP3)+1]] = Current_Amyg_IP3[1]
+      MPFC_IP3[[length(MPFC_IP3)+1]] = Current_MPFC_IP3[1]
+      
     }
     
     # Add new columns to current participant dataframe. 
@@ -511,6 +579,26 @@ for (sub_id in participant_list)
     current_sub_df$AIns_DP3 <- AIns_DP3
     current_sub_df$Amyg_DP3 <- Amyg_DP3
     current_sub_df$MPFC_DP3 <- MPFC_DP3
+    
+    current_sub_df$NAcc_IP <- NAcc_IP
+    current_sub_df$AIns_IP <- AIns_IP
+    current_sub_df$Amyg_IP <- Amyg_IP
+    current_sub_df$MPFC_IP <- MPFC_IP
+    
+    current_sub_df$NAcc_IP1 <- NAcc_IP1
+    current_sub_df$AIns_IP1 <- AIns_IP1
+    current_sub_df$Amyg_IP1 <- Amyg_IP1
+    current_sub_df$MPFC_IP1 <- MPFC_IP1
+    
+    current_sub_df$NAcc_IP2 <- NAcc_IP2
+    current_sub_df$AIns_IP2 <- AIns_IP2
+    current_sub_df$Amyg_IP2 <- Amyg_IP2
+    current_sub_df$MPFC_IP2 <- MPFC_IP2
+    
+    current_sub_df$NAcc_IP3 <- NAcc_IP3
+    current_sub_df$AIns_IP3 <- AIns_IP3
+    current_sub_df$Amyg_IP3 <- Amyg_IP3
+    current_sub_df$MPFC_IP3 <- MPFC_IP3
     
     # Add current subject df to main df. 
     all_participants_final_df <- bind_rows(all_participants_final_df, current_sub_df)
@@ -547,8 +635,80 @@ all_participants_final_df$MPFC_DP1 <- as.numeric(as.character(all_participants_f
 all_participants_final_df$MPFC_DP2 <- as.numeric(as.character(all_participants_final_df$MPFC_DP2))
 all_participants_final_df$MPFC_DP3 <- as.numeric(as.character(all_participants_final_df$MPFC_DP3))
 
+all_participants_final_df$NAcc_IP <- as.numeric(as.character(all_participants_final_df$NAcc_IP))
+all_participants_final_df$NAcc_IP1 <- as.numeric(as.character(all_participants_final_df$NAcc_IP1))
+all_participants_final_df$NAcc_IP2 <- as.numeric(as.character(all_participants_final_df$NAcc_IP2))
+all_participants_final_df$NAcc_IP3 <- as.numeric(as.character(all_participants_final_df$NAcc_IP3))
+
+all_participants_final_df$AIns_IP <- as.numeric(as.character(all_participants_final_df$AIns_IP))
+all_participants_final_df$AIns_IP1 <- as.numeric(as.character(all_participants_final_df$AIns_IP1))
+all_participants_final_df$AIns_IP2 <- as.numeric(as.character(all_participants_final_df$AIns_IP2))
+all_participants_final_df$AIns_IP3 <- as.numeric(as.character(all_participants_final_df$AIns_IP3))
+
+all_participants_final_df$Amyg_IP <- as.numeric(as.character(all_participants_final_df$Amyg_IP))
+all_participants_final_df$Amyg_IP1 <- as.numeric(as.character(all_participants_final_df$Amyg_IP1))
+all_participants_final_df$Amyg_IP2 <- as.numeric(as.character(all_participants_final_df$Amyg_IP2))
+all_participants_final_df$Amyg_IP3 <- as.numeric(as.character(all_participants_final_df$Amyg_IP3))
+
+all_participants_final_df$MPFC_IP <- as.numeric(as.character(all_participants_final_df$MPFC_IP))
+all_participants_final_df$MPFC_IP1 <- as.numeric(as.character(all_participants_final_df$MPFC_IP1))
+all_participants_final_df$MPFC_IP2 <- as.numeric(as.character(all_participants_final_df$MPFC_IP2))
+all_participants_final_df$MPFC_IP3 <- as.numeric(as.character(all_participants_final_df$MPFC_IP3))
+
 ```
 
+
+
+```{r}
+IndBoth_PNeuro <- lmer(scale(W_score) ~
+                        Type +   
+                        scale(NAcc_IP) +
+                        #scale(AIns_IP) +
+                        #scale(Amyg_IP) + 
+                        #scale(MPFC_IP) +
+                        Type:scale(NAcc_IP) + 
+                        #Type:scale(AIns_IP) +
+                        #Type:scale(Amyg_IP) +
+                        #Type:scale(MPFC_IP) +
+                        (1|Participant) + (1|Trailer), 
+                        data = all_participants_final_df) 
+
+# Create affect and neuro sequence model.
+IndBoth_Affect_and_PNeuro <- lmer(scale(W_score) ~
+                        Type +              
+                        scale(PA_score_centered) + 
+                        scale(NA_score_centered) + 
+                        scale(NAcc_IP) +
+                        #scale(AIns_IP) +
+                        #scale(Amyg_IP) + 
+                        #scale(MPFC_IP) +
+                        Type:scale(PA_score_centered) +
+                        Type:scale(NA_score_centered) +
+                        Type:scale(NAcc_IP) + 
+                        #Type:scale(AIns_IP) +
+                        #Type:scale(Amyg_IP) +
+                        #Type:scale(MPFC_IP) +
+                        (1|Participant) + (1|Trailer), 
+                        data = all_participants_final_df)
+
+# Create list with all models.
+IndBoth_P_list <- list(
+  #"Affect" = IndBoth_Affect, 
+  "Neuro IP" = IndBoth_PNeuro, 
+  "Affect & Neuro IP" = IndBoth_Affect_and_PNeuro)
+
+# Make table with all models. 
+IndBoth_P_models <- modelsummary(IndBoth_P_list, stars=TRUE, 
+                           #statistic = c("t = {statistic}", "s.e. = {std.error}, p-val = {p.value}"),
+                           #estimate  = "{estimate} ({std.error}){stars}",
+                           estimate = c("ß={estimate}; t={statistic}; s.e.={std.error}; p-val={p.value}{stars}"),
+                           statistic = NULL,
+                           #output = "html",
+                           output = "dataframe",
+                           gof_omit="F|RMSE|Log|Num.Obs.|SD (Observations)") %>% select(-part, -statistic)
+
+IndBoth_P_models
+```
 
 
 ```{r}
@@ -568,6 +728,23 @@ ggplot(all_participants_final_df %>% filter(NAcc_DP3 < 3 & NAcc_DP3 > -3)
   #geom_text(aes(label = Trailer), vjust = 2)
 
 ```
+
+```{r}
+ggplot(all_participants_final_df, aes(x = Amyg_IP, y = W_score, color=Type)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  stat_cor() 
+```
+
+
+```{r}
+
+
+ggpairs(all_participants_final_df[, c("Type", "W_score", "PA_score_centered", "NA_score_centered", "NAcc_IP", "AIns_IP", "Amyg_IP", "MPFC_IP")], columns = 2:ncol(all_participants_final_df[, c("Type", "W_score",  "PA_score_centered", "NA_score_centered","NAcc_IP", "AIns_IP", "Amyg_IP", "MPFC_IP")]), 
+        aes(color = Type))
+
+```
+
 
 ```{r}
 ggpairs(all_participants_final_df[, c("Type", "W_score_centered", "PA_score_centered", "NA_score_centered", "NAcc_TR3", "NAcc_DP", "NAcc_DP1", "NAcc_DP2", "NAcc_DP3")], columns = 2:ncol(all_participants_final_df[, c("Type", "W_score_centered",  "PA_score_centered", "NA_score_centered", "NAcc_TR3", "NAcc_DP", "NAcc_DP1", "NAcc_DP2", "NAcc_DP3")]), 
